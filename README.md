@@ -1,5 +1,5 @@
 
-##Under Development 🔨
+# Under Development 🔨
 # SuperSlot
 
 SuperSlot is a full-stack booking platform built using the MERN (MongoDB, Express, React, Node.js) stack. Inspired by Noona, this platform is designed to streamline appointment booking for salons, barbers, and other service-based businesses. SuperSlot helps users book appointments, manage schedules, and track services with ease.
