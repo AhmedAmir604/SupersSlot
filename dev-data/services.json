@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Premium Haircut",
+    "shopName": "Elite Barber Shop",
+    "description": "A premium haircut experience with expert barbers.",
+    "serviceType": "barber",
+    "priceRange": "$30 - $50",
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "coordinates": [-73.935242, 40.73061]
+    },
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 150,
+    "phoneNumber": "(123) 456-7890",
+    "openingHours": "Mon-Fri: 9 AM - 7 PM",
+    "images": ["https://example.com/images/haircut1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834620"
+  },
+  {
+    "name": "Classic Shave",
+    "shopName": "Downtown Barber",
+    "description": "A relaxing shave with hot towel service.",
+    "serviceType": "barber",
+    "priceRange": "$20 - $40",
+    "address": {
+      "street": "456 Elm Street",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90001",
+      "coordinates": [-118.243683, 34.052235]
+    },
+    "ratingsAverage": 4.6,
+    "ratingsQuantity": 100,
+    "phoneNumber": "(987) 654-3210",
+    "openingHours": "Tue-Sat: 10 AM - 6 PM",
+    "images": ["https://example.com/images/shave1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834621"
+  },
+  {
+    "name": "Deluxe Facial Treatment",
+    "shopName": "Glow Salon",
+    "description": "Revitalize your skin with our deluxe facial treatment.",
+    "serviceType": "salon",
+    "priceRange": "$50 - $80",
+    "address": {
+      "street": "789 Pine Street",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94108",
+      "coordinates": [-122.419418, 37.774929]
+    },
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 120,
+    "phoneNumber": "(555) 789-1234",
+    "openingHours": "Mon-Sun: 9 AM - 8 PM",
+    "images": ["https://example.com/images/facial1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834622"
+  },
+  {
+    "name": "Full Body Massage",
+    "shopName": "Tranquil Spa",
+    "description": "Relax and unwind with our full-body massage.",
+    "serviceType": "massage",
+    "priceRange": "$60 - $100",
+    "address": {
+      "street": "321 Oak Street",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33101",
+      "coordinates": [-80.19179, 25.76168]
+    },
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 200,
+    "phoneNumber": "(321) 654-0987",
+    "openingHours": "Mon-Sun: 10 AM - 9 PM",
+    "images": ["https://example.com/images/massage1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834623"
+  },
+  {
+    "name": "Relaxing Foot Massage",
+    "shopName": "Zen Massage Center",
+    "description": "Soothing foot massage to relieve stress and tension.",
+    "serviceType": "massage",
+    "priceRange": "$25 - $45",
+    "address": {
+      "street": "654 Maple Street",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60601",
+      "coordinates": [-87.623177, 41.881832]
+    },
+    "ratingsAverage": 4.5,
+    "ratingsQuantity": 75,
+    "phoneNumber": "(876) 543-2109",
+    "openingHours": "Tue-Sat: 11 AM - 7 PM",
+    "images": ["https://example.com/images/footmassage1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834624"
+  },
+  {
+    "name": "Hair Coloring",
+    "shopName": "Color Me Salon",
+    "description": "Professional hair coloring with natural products.",
+    "serviceType": "salon",
+    "priceRange": "$80 - $120",
+    "address": {
+      "street": "987 Cedar Avenue",
+      "city": "Houston",
+      "state": "TX",
+      "zipCode": "77002",
+      "coordinates": [-95.369804, 29.760427]
+    },
+    "ratingsAverage": 4.4,
+    "ratingsQuantity": 90,
+    "phoneNumber": "(345) 678-9101",
+    "openingHours": "Wed-Sun: 10 AM - 6 PM",
+    "images": ["https://example.com/images/haircolor1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834625"
+  },
+  {
+    "name": "Swedish Massage",
+    "shopName": "Relaxation Spa",
+    "description": "A gentle full-body massage for relaxation.",
+    "serviceType": "massage",
+    "priceRange": "$50 - $90",
+    "address": {
+      "street": "111 Birch Road",
+      "city": "Dallas",
+      "state": "TX",
+      "zipCode": "75201",
+      "coordinates": [-96.797, 32.7767]
+    },
+    "ratingsAverage": 4.3,
+    "ratingsQuantity": 65,
+    "phoneNumber": "(231) 456-7890",
+    "openingHours": "Mon-Sat: 9 AM - 8 PM",
+    "images": ["https://example.com/images/swedishmassage1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834626"
+  },
+  {
+    "name": "Manicure and Pedicure",
+    "shopName": "Nail Art Studio",
+    "description": "Get a stylish manicure and pedicure by our experts.",
+    "serviceType": "salon",
+    "priceRange": "$30 - $60",
+    "address": {
+      "street": "222 Willow Drive",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zipCode": "85001",
+      "coordinates": [-112.074036, 33.448376]
+    },
+    "ratingsAverage": 4.6,
+    "ratingsQuantity": 85,
+    "phoneNumber": "(654) 321-9876",
+    "openingHours": "Mon-Fri: 10 AM - 7 PM",
+    "images": ["https://example.com/images/manicure1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834627"
+  },
+  {
+    "name": "Hair Styling",
+    "shopName": "Modern Style Salon",
+    "description": "Get a chic hairstyle with our professional stylists.",
+    "serviceType": "salon",
+    "priceRange": "$50 - $100",
+    "address": {
+      "street": "333 Palm Lane",
+      "city": "Orlando",
+      "state": "FL",
+      "zipCode": "32801",
+      "coordinates": [-81.379234, 28.538336]
+    },
+    "ratingsAverage": 4.5,
+    "ratingsQuantity": 110,
+    "phoneNumber": "(789) 654-1230",
+    "openingHours": "Tue-Sat: 11 AM - 8 PM",
+    "images": ["https://example.com/images/hairstyle1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834628"
+  },
+  {
+    "name": "Hot Stone Massage",
+    "shopName": "Serenity Spa",
+    "description": "Rejuvenate with a hot stone massage to relieve muscle tension.",
+    "serviceType": "massage",
+    "priceRange": "$70 - $120",
+    "address": {
+      "street": "444 Ocean Drive",
+      "city": "San Diego",
+      "state": "CA",
+      "zipCode": "92101",
+      "coordinates": [-117.161087, 32.715736]
+    },
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 250,
+    "phoneNumber": "(432) 987-6543",
+    "openingHours": "Mon-Sun: 9 AM - 9 PM",
+    "images": ["https://example.com/images/hotstone1.jpg"],
+    "owner": "60d5b2f25b3a4b5d9f834629"
+  }
+]
