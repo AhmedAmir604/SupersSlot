@@ -94,7 +94,7 @@ userSchema.methods.verifyPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.passwordChangeToken = async function () {
+userSchema.methods.passwordChangeToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   //added 10 min expiry for reset Token
   this.passwordResetTokenExpiry = new Date() + 600000;

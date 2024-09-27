@@ -60,7 +60,7 @@ export const protect = catchAsync(async (req, res, next) => {
 export const isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     const decode = await authService.verifyToken(req.cookies.jwt);
-    const user = await authService.getUserFromId(decode.id);
+    const user = await authService.findById(decode.id);
 
     if (!user || authService.isPasswordChanged(user, decode.iat)) {
       res.status(200).json({
@@ -82,7 +82,12 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
 
 export const signUp = async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
-  const doc = await User.create({ name, email, password, confirmPassword });
+  const doc = await authService.createUser({
+    name,
+    email,
+    password,
+    confirmPassword,
+  });
   res.status(201).json({
     status: "success",
     data: doc,
@@ -91,11 +96,12 @@ export const signUp = async (req, res, next) => {
 
 export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email }).select("+password");
+  const user = await authService.findOne({ email: email }, "password");
+  console.log(user);
   if (!user) {
     return next(new ErrorHandler("Cannot find User with this email!", 404));
   }
-  if (!(await user.verifyPassword(password, user.password))) {
+  if (!(await authService.verifyPassword(password, user.password))) {
     return next(new ErrorHandler("Please provide valid credentials!", 500));
   }
   req.user = user;
@@ -116,11 +122,12 @@ export const logout = catchAsync(async (req, res) => {
 });
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
-  const token = await user.passwordChangeToken();
-  await user.save({ validateBeforeSave: false });
+  const user = await authService.findOne({ email: req.body.email });
+
+  const token = await authService.generatePasswordResetToken(user);
+  // await user.save({ validateBeforeSave: false });
   const url = `${req.protocol}://${
-    process.env.NODE_ENV === "developemnt" ? "localhost:5173" : req.get("host")
+    process.env.NODE_ENV === "development" ? "localhost:5173" : req.get("host")
   }/users/reset-password/${token}`;
 
   res.status(200).json({
@@ -130,20 +137,16 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 export const resetPassword = catchAsync(async (req, res, next) => {
-  const token = crypto.createHash("sha256").update(req.params.id).digest("hex");
-  const user = await User.findOne({
-    passwordResetToken: token,
-    passwordResetTokenExpiry: { $gt: Date.now() },
-  });
+  const token = authService.hashToken(req.params.id);
+  const user = await authService.findByToken(token);
   if (!user) {
     next(new ErrorHandler("Token Invalid or Expired try again later!", 500));
   }
   if (req.body.password !== req.body.confirmPassword) {
     return next(new ErrorHandler("Passwords do not match!", 400));
   }
-
   // If passwords match, reset the password
-  if (!(await user.resetPassword(req.body.password))) {
+  if (!(await authService.resetPassword(user, req.body.password))) {
     return next(
       new ErrorHandler("We got into some trouble, please try again later!", 400)
     );
