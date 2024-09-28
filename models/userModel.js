@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import crypto from "crypto";
 
-const userSchema = new mongoose.Schema(
+export const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -73,6 +73,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+//Will keep them though dont need them just for nostalgia :)
 userSchema.pre("save", async function (next) {
   // isModified method run validators so that we dont get into trouble of defining this.confirmPassword undefined
   if (!this.isModified("password")) return next();

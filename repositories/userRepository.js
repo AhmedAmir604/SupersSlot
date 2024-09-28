@@ -1,57 +1,27 @@
-import User from "../models/userModel.js";
-import { authService } from "../services/authService.js";
+// userRepository.js
+import User from "../models/userModel.js"; // assuming userModel is the file with your mongoose schema
 
-class UserRepository {
-  async createUser(user) {
-    return await User.create({
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      confirmPassword: user.confirmPassword,
-    });
-  }
+export const UserRepository = {
+  createUser: async (userData) => {
+    const user = new User(userData);
+    return await user.save();
+  },
 
-  async findById(userId) {
-    return await User.findById(userId);
-  }
+  findUserByEmail: async (email) => {
+    return await User.findOne({ email }).select("+password");
+  },
 
-  async findOne(identifyer, selections = "") {
-    return await User.findOne(identifyer).select(selections);
-  }
+  findUserById: async (id) => {
+    return await User.findById(id);
+  },
 
-  isPasswordChanged(user, tokenTime) {
-    if (user.passwordChangeTime) {
-      const passwordChangedTimeInSec = parseInt(
-        user.passwordChangeTime.getTime() / 1000,
-        10
-      );
-      return passwordChangedTimeInSec > tokenTime;
-    }
-    return false;
-  }
+  updateUser: async (id, updateData) => {
+    return await User.findByIdAndUpdate(id, updateData, { new: true });
+  },
 
-  async generatePasswordResetToken(user, resetToken) {
-    user.passwordResetTokenExpiry = new Date() + 600000;
-    user.passwordResetToken = authService.hashToken(resetToken);
-    await user.save({ validationBeforeSave: false });
-    return;
-  }
+  deleteUser: async (id) => {
+    return await User.findByIdAndDelete(id);
+  },
 
-  async resetPassword(user, newPassword) {
-    user.password = newPassword;
-    user.passwordConfirm = newPassword;
-    user.passwordResetToken = undefined;
-    user.passwordResetTokenExpiry = undefined;
-    await user.save();
-    return true;
-  }
-
-  async findByToken(token) {
-    return await User.findOne({
-      passwordResetToken: token,
-      passwordResetTokenExpiry: { $gt: Date.now() },
-    });
-  }
-}
-
-export const userRepository = new UserRepository();
+  // Other methods as needed...
+};
