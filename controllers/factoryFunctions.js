@@ -1,7 +1,7 @@
 import APIFeatures from "../utils/apiFeatures.js";
 import { catchAsync } from "./errorController.js";
 
-export const getAll = (Model) => {
+export const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const query = new APIFeatures(Model.find(), req.query)
       .filter()
@@ -14,11 +14,10 @@ export const getAll = (Model) => {
       data: docs,
     });
   });
-};
 
-export const getOne = (Model, populateOptions) => {
+export const getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    const query = Model.findOneById(req.params.id);
+    const query = Model.findById(req.params.id);
     if (populateOptions) query = query.populate(populateOptions);
     const doc = await query;
     if (!doc) {
@@ -29,9 +28,8 @@ export const getOne = (Model, populateOptions) => {
       data: doc,
     });
   });
-};
 
-export const createOne = (Model) => {
+export const createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
     res.status(201).json({
@@ -39,9 +37,8 @@ export const createOne = (Model) => {
       data: doc,
     });
   });
-};
 
-export const updateOne = (Model) => {
+export const updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -55,9 +52,8 @@ export const updateOne = (Model) => {
       data: doc,
     });
   });
-};
 
-export const deleteOne = (Model) => {
+export const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     if (!(await Model.findOneById(req.params.id))) {
       return next(new ErrorHandler("Cannot find a document with such ID", 404));
@@ -67,4 +63,3 @@ export const deleteOne = (Model) => {
       data: null,
     });
   });
-};

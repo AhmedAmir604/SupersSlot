@@ -41,8 +41,8 @@ const printUser = fixedUsers.forEach((element) => {
 
 const importData = async () => {
   try {
-    // await Service.create(services, { validationBeforeSave: false });
-    await User.create(fixedUsers, { validationBeforeSave: false });
+    await Service.create(services, { validationBeforeSave: false });
+    // await User.create(fixedUsers, { validationBeforeSave: false });
     console.log("Imported!");
   } catch (err) {
     console.log(err);
@@ -52,8 +52,8 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
-    // await Service.deleteMany();
-    await User.deleteMany();
+    await Service.deleteMany();
+    // await User.deleteMany();
     console.log("Deleted!");
   } catch (err) {
     console.log(err);

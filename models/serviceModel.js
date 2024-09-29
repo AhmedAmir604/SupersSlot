@@ -76,11 +76,11 @@ const serviceSchema = new mongoose.Schema(
 );
 
 // Virtual populate for referencing appointments related to this service
-serviceSchema.virtual("appointments", {
-  ref: "Appointment",
-  foreignField: "service",
-  localField: "_id",
-});
+// serviceSchema.virtual("Bookings", {
+//   ref: "Booking",
+//   foreignField: "service",
+//   localField: "_id",
+// });
 
 const Service = mongoose.model("Service", serviceSchema);
 

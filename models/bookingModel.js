@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const appointmentSchema = new mongoose.Schema(
+const bookingSchema = new mongoose.Schema(
   {
     serviceName: {
       type: String,
@@ -64,6 +64,6 @@ const appointmentSchema = new mongoose.Schema(
 //   localField: "_id",
 // });
 
-const Appointment = mongoose.model("Appointment", appointmentSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
-export default Appointment;
+export default Booking;
