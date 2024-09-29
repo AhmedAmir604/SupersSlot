@@ -107,6 +107,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
 export const protect = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
+    console.log(req.cookies.jwt);
     const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     const user = await authService.findById(decode.id);
 

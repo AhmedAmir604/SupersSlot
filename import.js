@@ -25,7 +25,6 @@ const users = JSON.parse(
 
 //added suitable roles for noona app using tourtales users :D
 const fixedUsers = users.map((el, index) => {
-  console.log(el.role, index);
   return {
     ...el,
     role: `${
@@ -34,14 +33,24 @@ const fixedUsers = users.map((el, index) => {
   };
 });
 
-//just for checking purposes
-const printUser = fixedUsers.forEach((element) => {
-  console.log(element.role);
+const fixedServices = services.map((service) => {
+  const pr = service.priceRange.split("-");
+  const fnf = pr[1].split("$");
+  return {
+    ...service,
+    price: `${Number(fnf[1])}`,
+    priceRange: undefined,
+  };
 });
+
+//just for checking purposes
+// const printUser = fixedServices.forEach((element) => {
+//   console.log(element);
+// });
 
 const importData = async () => {
   try {
-    await Service.create(services, { validationBeforeSave: false });
+    await Service.create(fixedServices, { validationBeforeSave: false });
     // await User.create(fixedUsers, { validationBeforeSave: false });
     console.log("Imported!");
   } catch (err) {

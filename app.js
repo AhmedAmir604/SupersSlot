@@ -3,6 +3,7 @@ import servicesRotue from "./routes/servicesRoute.js";
 import userRoute from "./routes/userRoute.js";
 import { errorHandler } from "./controllers/errorController.js";
 import cookieParser from "cookie-parser";
+import bookingRoute from "./routes/bookingRoute.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 //Routes
 app.use("/api/v1/services", servicesRotue);
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/bookings", bookingRoute);
 
 //Use for listening error all error even made by my class ErrorHandler provided by default express js
 app.use(errorHandler);

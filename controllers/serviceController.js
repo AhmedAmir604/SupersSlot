@@ -1,6 +1,4 @@
 import Service from "../models/serviceModel.js";
-import APIFeatures from "../utils/apiFeatures.js";
-import { catchAsync } from "./errorController.js";
 import {
   createOne,
   deleteOne,
