@@ -1,4 +1,5 @@
 import APIFeatures from "../utils/apiFeatures.js";
+import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
 
 export const getAll = (Model) =>
@@ -15,9 +16,18 @@ export const getAll = (Model) =>
     });
   });
 
+export const getMy = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.find({ user: req.user.id });
+    res.status(200).json({
+      status: "success",
+      doc,
+    });
+  });
+
 export const getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    const query = Model.findById(req.params.id);
+    let query = Model.findById(req.params.id);
     if (populateOptions) query = query.populate(populateOptions);
     const doc = await query;
     if (!doc) {
@@ -55,7 +65,7 @@ export const updateOne = (Model) =>
 
 export const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (!(await Model.findOneById(req.params.id))) {
+    if (!(await Model.findByIdAndDelete(req.params.id))) {
       return next(new ErrorHandler("Cannot find a document with such ID", 404));
     }
     res.status(204).json({

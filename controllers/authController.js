@@ -86,8 +86,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 export const resetPassword = catchAsync(async (req, res, next) => {
-  const token = req.params.id;
-  const user = await authService.findByToken(token);
+  const user = await authService.findByToken(req.params.id);
 
   if (!user) {
     return next(
@@ -107,7 +106,6 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
 export const protect = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
-    console.log(req.cookies.jwt);
     const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
     const user = await authService.findById(decode.id);
 
@@ -139,3 +137,15 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
     return res.status(200).json({ status: "success" });
   }
 });
+
+export const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      console.log(req.user.role);
+      return next(
+        new ErrorHandler("You are not allowed to access this :(", 500)
+      );
+    }
+    next();
+  };
+};

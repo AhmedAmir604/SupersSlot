@@ -1,4 +1,4 @@
-import Service from "../models/serviceModel.js";
+import Service from "../schemas/serviceSchema.js";
 import {
   createOne,
   deleteOne,

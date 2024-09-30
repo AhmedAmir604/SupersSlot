@@ -1,18 +1,18 @@
-import { UserRepository } from "../repositories/userRepository.js";
+import { UserModel } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
 export const authService = {
   async createUser(userData) {
-    return await UserRepository.createUser(userData);
+    return await UserModel.createUser(userData);
   },
 
   async findUserByEmail(email) {
-    return await UserRepository.findUserByEmail(email);
+    return await UserModel.findUserByEmail(email);
   },
 
   async findById(id) {
-    return await UserRepository.findUserById(id);
+    return await UserModel.findUserById(id);
   },
 
   async verifyPassword(password, userPassword) {
@@ -28,6 +28,12 @@ export const authService = {
       .digest("hex");
     await user.save();
     return resetToken;
+  },
+
+  async findByToken(resetToken) {
+    return await UserModel.findUserByToken(
+      crypto.createHash("sha256").update(resetToken).digest("hex")
+    );
   },
 
   async resetPassword(user, newPassword) {

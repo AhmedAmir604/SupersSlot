@@ -1,32 +1,26 @@
-import Booking from "../models/bookingModel.js";
+import Booking from "../schemas/bookingSchema.js";
+import { bookingService } from "../services/bookingService.js";
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
-import { getAll } from "./factoryFunctions.js";
+import { deleteOne, getAll, getMy, updateOne } from "./factoryFunctions.js";
 
 export const createBooking = catchAsync(async (req, res, next) => {
-  const { startTime, endTime, serviceProvider } = req.body;
-  const existingBooking = await Booking.findOne({
-    serviceProvider,
-    startTime: { $lt: startTime },
-    endTime: { $gt: endTime },
-    status: { $nin: ["cancelled", "completed"] },
-  });
+  const existingBooking = await bookingService.verifyBooking(req.body);
   if (existingBooking) {
     return next(new ErrorHandler("This slot is already booked!", 400));
   }
-  req.body.customer = req.user.id;
-  const booking = await Booking.create(req.body);
-
+  req.body.user = req.user.id;
+  const booking = await bookingService.createBooking(req.body);
   res.status(200).json({
     status: "success",
     booking,
   });
 });
 
-export const getAllBookings = catchAsync(async (req, res, next) => {
-  const bookings = await Booking.find({ customer: req.user.id });
-  res.status(200).json({
-    status: "success",
-    bookings,
-  });
-});
+export const getMyBookings = getMy(Booking);
+
+export const getAllBookings = getAll(Booking);
+
+export const updateBooking = updateOne(Booking);
+
+export const deleteBooking = deleteOne(Booking);

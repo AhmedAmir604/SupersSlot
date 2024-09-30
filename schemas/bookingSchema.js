@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Schema({
-  serviceProvider: {
+export const bookingSchema = new mongoose.Schema({
+  service: {
     type: mongoose.Schema.ObjectId,
-    ref: "User", // Service provider (e.g., barber)
-    required: [true, "A booking must have a service provider"],
+    ref: "Service", // Service provider (e.g., barber)
+    required: [true, "A booking must have a service!"],
   },
-  customer: {
+  user: {
     type: mongoose.Schema.ObjectId,
     ref: "User", // Customer booking the service
-    required: [true, "A booking must have a customer"],
+    required: [true, "A booking must have a User"],
   },
   startTime: {
     type: Date,
@@ -28,15 +28,6 @@ const bookingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
-
-// Ensure combination of service provider and time slot is unique
-// bookingSchema.index({ serviceProvider: 1, startTime: 1 }, { unique: true });
-
-bookingSchema.pre("save", async function (next) {
-  this.startTime = new Date(this.startTime).toISOString();
-  this.endTime = new Date(this.endTime).toISOString();
-  next();
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
