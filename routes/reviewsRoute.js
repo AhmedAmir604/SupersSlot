@@ -4,18 +4,18 @@ import {
   addUserServiceId,
   createReview,
   deleteReview,
-  getMyReview,
-  getAllReview,
+  getMyReviews,
+  getAllReviews,
   getReview,
   updateReview,
 } from "../controllers/reviewsController.js";
 
 const reviewsRoute = express.Router({ mergeParams: true });
 
-reviewsRoute.route("/").get(getAllReview);
+reviewsRoute.route("/").get(getAllReviews);
 
 reviewsRoute.use(protect);
-reviewsRoute.route("/my-reviews").get(getMyReview);
+reviewsRoute.route("/my-reviews").get(getMyReviews);
 
 reviewsRoute.route("/").post(addUserServiceId, createReview);
 

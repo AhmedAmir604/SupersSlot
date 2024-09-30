@@ -17,10 +17,47 @@ export const createBooking = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getMyBookings = getMy(Booking);
+export const getMyBookings = catchAsync(async (req, res, next) => {
+  const bookings = await bookingService.getMyBookings(req.user.id);
+  res.status(200).json({
+    status: "success",
+    length: bookings.length,
+    bookings,
+  });
+});
 
-export const getAllBookings = getAll(Booking);
+export const getAllBookings = catchAsync(async (req, res, next) => {
+  const bookings = await bookingService.getAllBookings();
+  res.status(200).json({
+    status: "success",
+    results: bookings.length,
+    bookings,
+  });
+});
 
-export const updateBooking = updateOne(Booking);
+// Update a booking
+export const updateBooking = catchAsync(async (req, res, next) => {
+  const updatedBooking = await bookingService.updateBooking(
+    req.params.id,
+    req.body
+  );
+  if (!updatedBooking) {
+    return next(new ErrorHandler("Booking not found!", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    booking: updatedBooking,
+  });
+});
 
-export const deleteBooking = deleteOne(Booking);
+// Delete a booking
+export const deleteBooking = catchAsync(async (req, res, next) => {
+  const deletedBooking = await bookingService.deleteBooking(req.params.id);
+  if (!deletedBooking) {
+    return next(new ErrorHandler("Booking not found!", 404));
+  }
+  res.status(204).json({
+    status: "success",
+    message: "Booking deleted successfully",
+  });
+});

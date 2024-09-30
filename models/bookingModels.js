@@ -28,6 +28,22 @@ class BookingModel {
   async createBooking(object) {
     return await Booking.create(object);
   }
+
+  async getMyBookings(user) {
+    return await Booking.find({ user: user });
+  }
+
+  async getAll() {
+    return await Booking.find();
+  }
+
+  async updateOne(id, data) {
+    return await Booking.findByIdAndUpdate(id, data, { new: true });
+  }
+
+  async deleteOne(id) {
+    return await Booking.findByIdAndDelete(id);
+  }
 }
 
 export const bookingModel = new BookingModel();

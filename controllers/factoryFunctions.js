@@ -21,6 +21,7 @@ export const getMy = (Model) =>
     const doc = await Model.find({ user: req.user.id });
     res.status(200).json({
       status: "success",
+      count: doc.length,
       doc,
     });
   });
