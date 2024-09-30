@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  addAService,
-  deleteAService,
-  findAService,
+  createService,
+  deleteService,
+  getService,
   getAllServices,
-  updateAService,
+  updateService,
 } from "../controllers/serviceController.js";
 import reviewsRoute from "./reviewsRoute.js";
 
@@ -12,11 +12,11 @@ const servicesRotue = express.Router();
 
 servicesRotue.use("/:id/reviews", reviewsRoute);
 
-servicesRotue.route("/").get(getAllServices).post(addAService);
+servicesRotue.route("/").get(getAllServices).post(createService);
 servicesRotue
   .route("/:id")
-  .get(findAService)
-  .delete(deleteAService)
-  .patch(updateAService);
+  .get(getService)
+  .delete(deleteService)
+  .patch(updateService);
 
 export default servicesRotue;

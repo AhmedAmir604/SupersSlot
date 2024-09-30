@@ -141,7 +141,6 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
 export const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      console.log(req.user.role);
       return next(
         new ErrorHandler("You are not allowed to access this :(", 500)
       );

@@ -4,6 +4,7 @@ const serviceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "A service must have a name"],
+    unique: [true, "Name Should not be identical!"],
   },
   serviceType: {
     type: String,
