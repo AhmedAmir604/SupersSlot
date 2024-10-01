@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const bookingSchema = new mongoose.Schema({
+const bookingSchema = new mongoose.Schema({
   service: {
     type: mongoose.Schema.ObjectId,
     ref: "Service", // Service provider (e.g., barber)
@@ -18,6 +18,16 @@ export const bookingSchema = new mongoose.Schema({
   endTime: {
     type: Date,
     required: [true, "A booking must have an end time"],
+    validate: {
+      validator: function (endTime) {
+        return this.startTime < endTime;
+      },
+      message: "Start Time cannot be less then End Time!",
+    },
+  },
+  price: {
+    type: Number,
+    required: [true, "A Booking must have a price!"],
   },
   status: {
     type: String,
@@ -30,6 +40,4 @@ export const bookingSchema = new mongoose.Schema({
   },
 });
 
-const Booking = mongoose.model("Booking", bookingSchema);
-
-export default Booking;
+export default bookingSchema;

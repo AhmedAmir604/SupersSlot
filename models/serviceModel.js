@@ -13,8 +13,8 @@ class ServiceModel {
     return await Service.find({ user: id });
   }
 
-  async getOne(id) {
-    return await Service.findById(id);
+  async getOne(id, selections = "") {
+    return await Service.findById(id).select(selections);
   }
 
   async deleteService(id) {
