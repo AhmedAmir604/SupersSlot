@@ -1,4 +1,4 @@
-import Booking from "../schemas/bookingSchema.js";
+// import Booking from "../schemas/bookingSchema.js";
 import { bookingService } from "../services/bookingService.js";
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";

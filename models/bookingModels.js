@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bookingSchema from "../schemas/bookingSchema.js";
 import moment from "moment-timezone";
 import serviceModel from "./serviceModel.js";
+import ErrorHandler from "../utils/appError.js";
 
 // Ensure combination of service provider and time slot is unique
 // bookingSchema.index({ serviceProvider: 1, startTime: 1 }, { unique: true });
@@ -61,10 +62,11 @@ class BookingModel {
   }
 
   async deleteOne(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) return false;
     return await this.Model.findByIdAndDelete(id);
   }
 }
 
-const Booking = mongoose.model("Booking", bookingSchema);
+export const Booking = mongoose.model("Booking", bookingSchema);
 
 export const bookingModel = new BookingModel(Booking);
