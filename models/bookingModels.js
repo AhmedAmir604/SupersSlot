@@ -37,7 +37,6 @@ class BookingModel {
   }
 
   async unConfirmedBookings(filter, operation) {
-    // console.log(condition, docs);
     return await this.Model.updateMany(filter, operation);
   }
 
