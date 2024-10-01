@@ -39,6 +39,7 @@ class BookingService {
       service: booking.service,
       user: booking.user,
       status: booking.status,
+      price: booking.price,
     }));
   }
 
