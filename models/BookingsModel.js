@@ -13,6 +13,24 @@ bookingSchema.pre("save", async function (next) {
   next();
 });
 
+class BookingModel extends Model {
+  constructor(mongooseModel) {
+    super(mongooseModel);
+  }
+
+  async verifyBooking(body) {
+    const { startTime, endTime, service } = body;
+    return await this.Model.findOne({
+      service,
+      startTime: { $lte: endTime }, // Existing booking starts before the new booking ends
+      endTime: { $gte: startTime }, // Existing booking ends after the new booking starts
+      status: { $nin: ["cancelled", "completed"] },
+    });
+  }
+}
+
 const Booking = mongoose.model("Booking", bookingSchema);
 
-const bookingModel = new Model(Booking);
+const bookingModel = new BookingModel(Booking);
+
+export default bookingModel;

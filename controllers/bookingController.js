@@ -1,5 +1,5 @@
 // import Booking from "../schemas/bookingSchema.js";
-import { bookingService } from "../services/bookingService.js";
+import bookingService from "../services/BookingsService.js";
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
 import { deleteOne, getAll, getMy, updateOne } from "./factoryFunctions.js";
