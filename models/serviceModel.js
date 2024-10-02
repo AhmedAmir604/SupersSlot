@@ -1,12 +1,21 @@
-import Service from "../schemas/serviceSchema.js";
+import serviceSchema from "../schemas/serviceSchema.js";
+import mongoose from "mongoose";
+import APIFeatures from "../utils/apiFeatures.js";
+
+const Service = mongoose.model("Service", serviceSchema);
 
 class ServiceModel {
   async createService(data) {
     return await Service.create(data);
   }
 
-  async getAllServies() {
-    return await Service.find();
+  async getAllServies(req) {
+    const query = new APIFeatures(Service.find(), req.query)
+      .filter()
+      .sort()
+      .fields()
+      .limit();
+    return await query.query;
   }
 
   async getMyServices(id) {

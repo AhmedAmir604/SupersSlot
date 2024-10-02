@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import serviceModel from "../models/serviceModel.js";
 
 class ServicesService {
@@ -9,8 +10,8 @@ class ServicesService {
     return await this.serviceModel.createService(data);
   }
 
-  async getAllServies() {
-    return await this.serviceModel.getAllServies();
+  async getAllServies(req) {
+    return await this.serviceModel.getAllServies(req);
   }
 
   async getMyServices(userId) {
@@ -18,6 +19,7 @@ class ServicesService {
   }
 
   async getOne(id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) return false;
     return await this.serviceModel.getOne(id);
   }
 
@@ -31,3 +33,5 @@ class ServicesService {
 }
 
 const servicesService = new ServicesService(serviceModel);
+
+export default servicesService;
