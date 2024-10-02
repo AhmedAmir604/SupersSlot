@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//Main Model all crud ops will be done from here meanwhile other ops will be done form the extended classes :)
 class Model {
   constructor(mongooseModel) {
     this.mongooseModel = mongooseModel;
