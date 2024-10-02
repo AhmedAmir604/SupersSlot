@@ -1,38 +1,37 @@
-import Service from "./Service.js"; // Import the generic service class
-import bookingModel from "../models/BookingsModel.js"; // Import your booking model
-import moment from "moment-timezone"; // Moment for date manipulation
-import cron from "node-cron"; // Cron for scheduling tasks
+import Service from "./Service.js";
+import bookingModel from "../models/BookingsModel.js";
+import cron from "node-cron";
+import moment from "moment-timezone";
+import { Booking } from "../models/bookingModels.js";
 
 class BookingService extends Service {
   constructor(model) {
-    super(model); // Call the constructor of the parent Service class
-    this.unConfirmedBookings(); // Start the unconfirmed bookings process
+    super(model);
+    this.unConfirmedBookings();
   }
 
-  // Verify if a booking overlaps with existing bookings
   async verifyBooking(body) {
     const booking = await this.model.verifyBooking(body);
     return booking;
   }
 
-  // Schedule job to cancel unconfirmed bookings
   async unConfirmedBookings() {
+    //This will run every 59 seconds*/59 * * * * *
     cron.schedule("* */10 * * *", async () => {
       const currentTime = moment().tz("Asia/Karachi").add(1, "hours").format();
       console.log(currentTime);
-      await this.updateMany(
+      const bookings = await this.model.filterUpdateMany(
         {
-          startTime: { $lte: currentTime }, // Filter for bookings starting before the current time
-          status: "pending", // Only consider pending bookings
+          startTime: { $lte: currentTime }, // Filter condition
+          status: "pending", // Filter condition
         },
         {
-          $set: { status: "cancelled" }, // Update to set status as cancelled
+          $set: { status: "cancelled" }, // Update operation: set the status to "cancelled"
         }
       );
     });
   }
 
-  // Format bookings for output
   formatBookings(bookings) {
     return bookings.map((booking) => ({
       ...booking._doc, // Spread the original booking properties
@@ -47,37 +46,33 @@ class BookingService extends Service {
     }));
   }
 
-  // Create a new booking
   async createBooking(object) {
-    const booking = await this.create(object); // Use the create method from the parent class
-    return this.formatBookings([booking]); // Format and return the booking
+    const booking = await this.model.create(object);
+    return this.formatBookings([booking]);
   }
 
-  // Get all bookings for a specific user
   async getMyBookings(user) {
-    const bookings = await this.model.getMyBookings(user); // Assuming getMyBookings method exists in model
-    return this.formatBookings(bookings); // Format and return the bookings
+    const bookings = await this.model.getAll({ user: user });
+    return this.formatBookings(bookings);
   }
 
-  // Get all bookings
   async getAllBookings() {
-    const bookings = await this.getAll(); // Use the getAll method from the parent class
-    return this.formatBookings(bookings); // Format and return the bookings
+    const bookings = await this.model.getAll();
+    return this.formatBookings(bookings);
   }
 
-  // Update a specific booking
   async updateBooking(id, data) {
-    const booking = await this.updateOne(id, data); // Use the updateOne method from the parent class
-    return this.formatBookings([booking]); // Format and return the updated booking
+    // Additional business logic can be added here
+    const booking = await this.model.findByIdAndUpdate(id, data);
+    return this.formatBookings([booking]);
   }
 
-  // Delete a specific booking
   async deleteBooking(id) {
-    return await this.deleteOne(id); // Use the deleteOne method from the parent class
+    // Additional business logic can be added here
+    return await this.model.findByIdAndDelete(id);
   }
 }
 
-// Create an instance of BookingService with the booking model
 const bookingService = new BookingService(bookingModel);
 
 export default bookingService;

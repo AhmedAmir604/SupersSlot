@@ -1,6 +1,7 @@
 import Model from "./Models.js";
 import bookingSchema from "../schemas/bookingSchema.js";
 import mongoose from "mongoose";
+import serviceModel from "./ServicesModel.js";
 
 bookingSchema.pre("save", async function (next) {
   this.startTime = new Date(this.startTime).toISOString();
@@ -9,7 +10,7 @@ bookingSchema.pre("save", async function (next) {
 });
 
 bookingSchema.pre("save", async function (next) {
-  this.price = (await serviceModel.getOne(this.service, "price")).price;
+  this.price = (await serviceModel.findOne(this.service, "price")).price;
   next();
 });
 
@@ -20,7 +21,7 @@ class BookingModel extends Model {
 
   async verifyBooking(body) {
     const { startTime, endTime, service } = body;
-    return await this.Model.findOne({
+    return await this.mongooseModel.findOne({
       service,
       startTime: { $lte: endTime }, // Existing booking starts before the new booking ends
       endTime: { $gte: startTime }, // Existing booking ends after the new booking starts

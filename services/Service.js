@@ -8,13 +8,17 @@ class Service {
     return await this.model.create(data);
   }
 
-  async getAll(req) {
+  async find(req) {
     const query = new APIFeatures(this.model.mongooseModel.find(), req.query)
       .filter()
       .sort()
       .fields()
       .limit();
-    return await this.model.find(query);
+    return await this.model.find();
+  }
+
+  async getAll() {
+    return this.model.find();
   }
 
   async getMy(userId) {

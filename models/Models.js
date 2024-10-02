@@ -13,8 +13,12 @@ class Model {
     return await query.query;
   }
 
-  async findOne(filter) {
-    return await this.mongooseModel.findOne(filter);
+  async getAll(filter = {}) {
+    return await this.mongooseModel.find(filter);
+  }
+
+  async findOne(id, selections = "") {
+    return await this.mongooseModel.findById(id).select(selections);
   }
 
   async findById(id) {
