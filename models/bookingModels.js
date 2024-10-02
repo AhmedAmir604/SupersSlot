@@ -37,7 +37,8 @@ class BookingModel {
     });
   }
 
-  async unConfirmedBookings(filter, operation) {
+  //unConfirmedBookings
+  async filterUpdateMany(filter, operation) {
     return await this.Model.updateMany(filter, operation);
   }
 

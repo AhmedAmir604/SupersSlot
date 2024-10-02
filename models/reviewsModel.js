@@ -21,7 +21,6 @@ reviewsSchema.post("save", async function (doc) {
     $set: { ratingsAverage: newRatingsAvg }, // Update ratingsAverage
     $inc: { ratingsQuantity: 1 }, // Increment ratingsQuantity by 1
   });
-  console.log("done");
 });
 
 // reviewsSchema.pre("save", async function(next){

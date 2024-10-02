@@ -17,7 +17,7 @@ class BookingService {
     cron.schedule("* */10 * * *", async () => {
       const currentTime = moment().tz("Asia/Karachi").add(1, "hours").format();
       console.log(currentTime);
-      const bookings = await this.bookingModel.unConfirmedBookings(
+      const bookings = await this.bookingModel.filterUpdateMany(
         {
           startTime: { $lte: currentTime }, // Filter condition
           status: "pending", // Filter condition
