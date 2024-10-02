@@ -5,16 +5,15 @@ import APIFeatures from "../utils/apiFeatures.js";
 const Service = mongoose.model("Service", serviceSchema);
 
 class ServiceModel {
+  constructor(Model) {
+    this.Model = Model;
+  }
+
   async createService(data) {
     return await Service.create(data);
   }
 
-  async getAllServies(req) {
-    const query = new APIFeatures(Service.find(), req.query)
-      .filter()
-      .sort()
-      .fields()
-      .limit();
+  async getAllServies(query) {
     return await query.query;
   }
 
@@ -35,6 +34,6 @@ class ServiceModel {
   }
 }
 
-const serviceModel = new ServiceModel();
+const serviceModel = new ServiceModel(Service);
 
 export default serviceModel;

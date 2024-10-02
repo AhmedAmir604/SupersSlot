@@ -1,6 +1,6 @@
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
-import servicesService from "../services/serviceService.js";
+import servicesService from "../services/ServicesService.js";
 
 //Middlewares
 export const aliasTop5Services = (req, res, next) => {
@@ -10,7 +10,7 @@ export const aliasTop5Services = (req, res, next) => {
 };
 
 export const createService = catchAsync(async (req, res, next) => {
-  const service = await servicesService.createService(req.body);
+  const service = await servicesService.create(req.body);
   res.status(201).json({
     status: "success",
     service,
@@ -18,7 +18,7 @@ export const createService = catchAsync(async (req, res, next) => {
 });
 
 export const getAllServices = catchAsync(async (req, res, next) => {
-  const services = await servicesService.getAllServies(req);
+  const services = await servicesService.getAll(req);
   res.status(200).json({
     status: "success",
     results: services.length,
@@ -27,7 +27,7 @@ export const getAllServices = catchAsync(async (req, res, next) => {
 });
 
 export const getMyServices = catchAsync(async (req, res, next) => {
-  const services = await servicesService.getMyServices(req.user.id);
+  const services = await servicesService.getMy(req.user.id);
   res.status(200).json({
     status: "success",
     results: services.length,
@@ -48,7 +48,7 @@ export const getService = catchAsync(async (req, res, next) => {
 });
 
 export const updateService = catchAsync(async (req, res, next) => {
-  const updatedService = await servicesService.updateService(
+  const updatedService = await servicesService.updateOne(
     req.params.id,
     req.body
   );
@@ -62,7 +62,7 @@ export const updateService = catchAsync(async (req, res, next) => {
 });
 
 export const deleteService = catchAsync(async (req, res, next) => {
-  const deletedService = await servicesService.deleteService(req.params.id);
+  const deletedService = await servicesService.deleteOne(req.params.id);
   if (!deletedService) {
     return next(new ErrorHandler("Service not found!", 404));
   }
