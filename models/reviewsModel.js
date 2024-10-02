@@ -1,4 +1,5 @@
-import Review, { reviewsSchema } from "../schemas/reviewsSchema.js";
+import reviewsSchema from "../schemas/reviewsSchema.js";
+import mongoose from "mongoose";
 
 //For allowing user to give on review each service :)
 // reviewsSchema.index({ user: 1, service: 1 }, { unique: true });
@@ -41,5 +42,7 @@ class ReviewModel {
     return await Review.findByIdAndDelete(id);
   }
 }
+
+const Review = mongoose.model("Review", reviewsSchema);
 
 export const reviewModel = new ReviewModel();
