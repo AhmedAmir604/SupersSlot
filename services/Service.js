@@ -1,5 +1,5 @@
 import APIFeatures from "../utils/apiFeatures.js";
-
+//This service contains all curd operations
 class Service {
   constructor(model) {
     this.model = model;
