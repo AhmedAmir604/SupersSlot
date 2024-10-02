@@ -21,8 +21,8 @@ class Service {
     return this.model.find();
   }
 
-  async getMy(userId) {
-    return await this.model.findOne(userId);
+  async getMy(filter) {
+    return await this.model.getMy(filter);
   }
 
   async getOne(id) {

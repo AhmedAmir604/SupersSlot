@@ -1,5 +1,5 @@
 import Review from "../schemas/reviewsSchema.js";
-import reviewService from "../services/reviewServices.js";
+import reviewService from "../services/ReviewService.js";
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
 import {
@@ -18,7 +18,7 @@ export const addUserServiceId = (req, res, next) => {
 };
 
 export const getAllReviews = catchAsync(async (req, res, next) => {
-  const reviews = await reviewService.getAllReviews();
+  const reviews = await reviewService.getAll();
   res.status(200).json({
     status: "success",
     results: reviews.length,
@@ -28,7 +28,7 @@ export const getAllReviews = catchAsync(async (req, res, next) => {
 
 // Get my reviews
 export const getMyReviews = catchAsync(async (req, res, next) => {
-  const reviews = await reviewService.getMyReviews(req.user.id);
+  const reviews = await reviewService.getMy({ user: req.user.id });
   res.status(200).json({
     status: "success",
     results: reviews.length,
@@ -38,7 +38,7 @@ export const getMyReviews = catchAsync(async (req, res, next) => {
 
 // Get a single review
 export const getReview = catchAsync(async (req, res, next) => {
-  const review = await reviewService.getReview(req.params.id);
+  const review = await reviewService.getOne(req.params.id);
   if (!review) {
     return next(new ErrorHandler("Review not found!", 404));
   }
@@ -56,7 +56,7 @@ export const createReview = catchAsync(async (req, res, next) => {
   // if (verify.length > 0) {
   //   return next(new ErrorHandler("You have already published a review!", 400));
   // }
-  const review = await reviewService.createReview({
+  const review = await reviewService.create({
     ...req.body,
     user: req.user.id,
   });
@@ -67,10 +67,7 @@ export const createReview = catchAsync(async (req, res, next) => {
 });
 
 export const updateReview = catchAsync(async (req, res, next) => {
-  const updatedReview = await reviewService.updateReview(
-    req.params.id,
-    req.body
-  );
+  const updatedReview = await reviewService.updateOne(req.params.id, req.body);
   if (!updatedReview) {
     return next(new ErrorHandler("Review not found!", 404));
   }
@@ -82,7 +79,7 @@ export const updateReview = catchAsync(async (req, res, next) => {
 
 // Delete a review
 export const deleteReview = catchAsync(async (req, res, next) => {
-  const deletedReview = await reviewService.deleteReview(req.params.id);
+  const deletedReview = await reviewService.deleteOne(req.params.id);
   if (!deletedReview) {
     return next(new ErrorHandler("Review not found!", 404));
   }

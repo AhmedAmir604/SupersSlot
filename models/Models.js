@@ -17,14 +17,19 @@ class Model {
     return await this.mongooseModel.find(filter);
   }
 
-  async findOne(id, selections = "") {
-    return await this.mongooseModel.findById(id).select(selections);
+  //Changed this from findById to find only specifically
+  async getMy(filter, selections = "") {
+    return await this.mongooseModel.find(filter).select(selections);
   }
 
   async findById(id) {
     if (!mongoose.Types.ObjectId.isValid(id)) return false;
     return await this.mongooseModel.findById(id);
   }
+
+  // async getMy(filter, selections = "") {
+  //   return await this.mongooseModel.find(filter).select(selections);
+  // }
 
   async findByIdAndUpdate(id, data, options = { new: true }) {
     if (!mongoose.Types.ObjectId.isValid(id)) return false;
