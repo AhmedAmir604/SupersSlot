@@ -42,8 +42,9 @@ export const getService = catchAsync(async (req, res, next) => {
       status: "success",
       service,
     });
+  } else {
+    next(new ErrorHandler("cannot find with this id service!", 404));
   }
-  next(new ErrorHandler("cannot find with this id service!", 404));
 });
 
 export const updateService = catchAsync(async (req, res, next) => {

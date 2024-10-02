@@ -1,13 +1,34 @@
 import reviewsSchema from "../schemas/reviewsSchema.js";
 import mongoose from "mongoose";
+import serviceModel from "./serviceModel.js";
+import servicesService from "../services/serviceService.js";
 
 //For allowing user to give on review each service :)
 // reviewsSchema.index({ user: 1, service: 1 }, { unique: true });
 
-reviewsSchema.pre(/^find/, function (next) {
-  this.populate(["user", "service"]);
-  next();
+// reviewsSchema.pre(/^find/, function (next) {
+//   this.populate(["user", "service"]);
+//   next();
+// });
+
+reviewsSchema.post("save", async function (doc) {
+  const reviews = await Review.find({ service: this.service }).select("rating");
+  const newRatingsAvg = parseFloat(
+    reviews.reduce((acc, obj) => acc + obj.rating, 0) / reviews.length,
+    1
+  );
+  await servicesService.updateService(this.service, {
+    $set: { ratingsAverage: newRatingsAvg }, // Update ratingsAverage
+    $inc: { ratingsQuantity: 1 }, // Increment ratingsQuantity by 1
+  });
+  console.log("done");
 });
+
+// reviewsSchema.pre("save", async function(next){
+//   const service = await serviceModel.getOne(this.service, "ratingsAverage ratingsQauntity");
+// })
+
+const Review = mongoose.model("Review", reviewsSchema);
 
 class ReviewModel {
   async getAll() {
@@ -42,7 +63,5 @@ class ReviewModel {
     return await Review.findByIdAndDelete(id);
   }
 }
-
-const Review = mongoose.model("Review", reviewsSchema);
 
 export const reviewModel = new ReviewModel();

@@ -49,13 +49,13 @@ export const getReview = catchAsync(async (req, res, next) => {
 });
 
 export const createReview = catchAsync(async (req, res, next) => {
-  const verify = await reviewService.verifyReview({
-    ...req.body,
-    user: req.user.id,
-  });
-  if (verify.length > 0) {
-    return next(new ErrorHandler("You have already published a review!", 400));
-  }
+  // const verify = await reviewService.verifyReview({
+  //   ...req.body,
+  //   user: req.user.id,
+  // });
+  // if (verify.length > 0) {
+  //   return next(new ErrorHandler("You have already published a review!", 400));
+  // }
   const review = await reviewService.createReview({
     ...req.body,
     user: req.user.id,
