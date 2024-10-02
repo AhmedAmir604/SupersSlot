@@ -34,7 +34,7 @@ export const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "Error";
   if (process.env.NODE_ENV === "development") {
-    console.log("errorHandler:::", err);
+    console.log("Express.JS Gloabal Error Listner :: errorHandler ", err);
     errorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
