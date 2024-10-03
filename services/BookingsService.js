@@ -60,7 +60,7 @@ class BookingService extends Service {
   }
 
   async getMy(filter, selections = "") {
-    const bookings = await super.getMy(filter, selections);
+    const bookings = await super.find(filter, selections);
     return this.formatDates(bookings);
   }
 

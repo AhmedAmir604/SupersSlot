@@ -27,7 +27,7 @@ export const getAllServices = catchAsync(async (req, res, next) => {
 });
 
 export const getMyServices = catchAsync(async (req, res, next) => {
-  const services = await servicesService.getMy(req.user.id);
+  const services = await servicesService.find({ user: req.user.id });
   res.status(200).json({
     status: "success",
     results: services.length,

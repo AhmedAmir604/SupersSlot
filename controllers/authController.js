@@ -1,7 +1,8 @@
 import { catchAsync } from "./errorController.js";
 import ErrorHandler from "../utils/appError.js";
 import jwt from "jsonwebtoken";
-import { authService } from "../services/authService.js";
+// import { authService } from "../services/authService.js";
+import authService from "../services/AuthServices.js";
 
 const signToken = (id) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -42,8 +43,7 @@ export const signUp = catchAsync(async (req, res, next) => {
 
 export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await authService.findUserByEmail(email);
-
+  const user = await authService.findOne({ email }, "+password");
   if (!user) {
     return next(new ErrorHandler("Cannot find User with this email!", 404));
   }
@@ -69,11 +69,10 @@ export const logout = catchAsync(async (req, res) => {
 });
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
-  const user = await authService.findUserByEmail(req.body.email);
+  const user = await authService.findOne({ email: req.body.email });
   if (!user) {
     return next(new ErrorHandler("No user found with this email!", 404));
   }
-
   const token = await authService.generatePasswordResetToken(user);
   const url = `${req.protocol}://${req.get(
     "host"
@@ -107,7 +106,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 export const protect = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    const user = await authService.findById(decode.id);
+    const user = await authService.getOne(decode.id);
 
     if (authService.isPasswordChanged(user, decode.iat)) {
       return next(

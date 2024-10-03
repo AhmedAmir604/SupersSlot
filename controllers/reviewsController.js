@@ -28,7 +28,7 @@ export const getAllReviews = catchAsync(async (req, res, next) => {
 
 // Get my reviews
 export const getMyReviews = catchAsync(async (req, res, next) => {
-  const reviews = await reviewService.getMy({ user: req.user.id });
+  const reviews = await reviewService.find({ user: req.user.id });
   res.status(200).json({
     status: "success",
     results: reviews.length,

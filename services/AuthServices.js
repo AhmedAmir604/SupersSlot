@@ -1,11 +1,12 @@
 import Service from "./Service.js";
 import userModel from "../models/UsersModel.js";
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import ErrorHandler from "../utils/appError.js";
 
 class AuthService extends Service {
   constructor(userModel) {
-    this.model = userModel;
+    super(userModel);
   }
 
   async verifyPassword(password, userPassword) {
@@ -24,9 +25,12 @@ class AuthService extends Service {
   }
 
   async findByToken(resetToken) {
-    return await this.model.getMy(
-      crypto.createHash("sha256").update(resetToken).digest("hex")
-    );
+    return await this.model.findOne({
+      passwordResetToken: crypto
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex"),
+    });
   }
 
   async resetPassword(user, newPassword) {
@@ -36,9 +40,21 @@ class AuthService extends Service {
     await user.save();
   }
 
+  //   async findAndVerify(email, candidatePassword) {
+  //     const user = await this.model.getMy(email, "+password");
+  //     console.log(candidatePassword, user[0].password);
+  //     if (!(await bcrypt.compare(user[0].password, candidatePassword))) {
+  //       return new ErrorHandler("Please Provide Valid credentials!", 400);
+  //     } else {
+  //       return true;
+  //     }
+  //   }
+
   isPasswordChanged(user, tokenTime) {
     return user.isPasswordChanged(tokenTime);
   }
 }
 
 const authService = new AuthService(userModel);
+
+export default authService;

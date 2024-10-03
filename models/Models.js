@@ -14,8 +14,15 @@ class Model {
   }
 
   //Changed this from findById to find only specifically
-  async getMy(filter, selections) {
-    return await this.mongooseModel.find(filter).select(selections);
+  async find(filter, selections = "", populateOptions) {
+    let query = this.mongooseModel.find(filter).select(selections);
+    if (populateOptions) query = query.populate(populateOptions);
+    return await query;
+  }
+
+  //Custom search for docs
+  async findOne(filter, selections = "") {
+    return await this.mongooseModel.findOne(filter).select(selections);
   }
 
   async findById(id) {

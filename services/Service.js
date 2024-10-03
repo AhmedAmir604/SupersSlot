@@ -17,10 +17,13 @@ class Service {
     return await this.model.getAll(query);
   }
 
-  async getMy(filter, selections = "") {
-    return await this.model.getMy(filter);
+  async find(filter, selections, populateOptions) {
+    return await this.model.find(filter, selections);
   }
 
+  async findOne(filter, populateOptions) {
+    return await this.model.findOne(filter, populateOptions);
+  }
   async getOne(id) {
     return await this.model.findById(id);
   }
