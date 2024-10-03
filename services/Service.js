@@ -8,20 +8,16 @@ class Service {
     return await this.model.create(data);
   }
 
-  async find(req) {
+  async getAll(req) {
     const query = new APIFeatures(this.model.mongooseModel.find(), req.query)
       .filter()
       .sort()
       .fields()
       .limit();
-    return await this.model.find();
+    return await this.model.getAll(query);
   }
 
-  async getAll() {
-    return this.model.find();
-  }
-
-  async getMy(filter) {
+  async getMy(filter, selections = "") {
     return await this.model.getMy(filter);
   }
 
@@ -38,6 +34,10 @@ class Service {
   }
   async findByIdAndDelete(id) {
     return await this.model.findByIdAndDelete(id);
+  }
+
+  async findByIdAndUpdate(id) {
+    return await this.model.findByIdAndUpdate(id);
   }
 
   async updateMany(filter, operation) {

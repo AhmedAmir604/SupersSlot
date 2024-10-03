@@ -18,7 +18,7 @@ export const addUserServiceId = (req, res, next) => {
 };
 
 export const getAllReviews = catchAsync(async (req, res, next) => {
-  const reviews = await reviewService.getAll();
+  const reviews = await reviewService.getAll(req);
   res.status(200).json({
     status: "success",
     results: reviews.length,

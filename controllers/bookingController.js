@@ -1,4 +1,3 @@
-// import Booking from "../schemas/bookingSchema.js";
 import bookingService from "../services/BookingsService.js";
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
@@ -6,12 +5,11 @@ import { deleteOne, getAll, getMy, updateOne } from "./factoryFunctions.js";
 import moment from "moment-timezone";
 
 export const createBooking = catchAsync(async (req, res, next) => {
-  const existingBooking = await bookingService.verifyBooking(req.body);
-  if (existingBooking) {
+  if (await bookingService.verifyBooking(req.body)) {
     return next(new ErrorHandler("This slot is already booked!", 400));
   }
   req.body.user = req.user.id;
-  const booking = await bookingService.createBooking(req.body);
+  const booking = await bookingService.create(req.body);
   res.status(200).json({
     status: "success",
     booking,
@@ -19,17 +17,17 @@ export const createBooking = catchAsync(async (req, res, next) => {
 });
 
 export const getMyBookings = catchAsync(async (req, res, next) => {
-  const bookings = await bookingService.getMyBookings(req.user.id);
-  const formattedBookings = bookingService.formatBookings(bookings);
+  const bookings = await bookingService.getMy({ user: req.user.id });
+  // const formattedBookings = bookingService.formatBookings(bookings);
   res.status(200).json({
     status: "success",
     length: bookings.length,
-    bookings: formattedBookings,
+    bookings,
   });
 });
 
 export const getAllBookings = catchAsync(async (req, res, next) => {
-  const bookings = await bookingService.getAllBookings();
+  const bookings = await bookingService.getAll(req);
   res.status(200).json({
     status: "success",
     results: bookings.length,
@@ -39,7 +37,7 @@ export const getAllBookings = catchAsync(async (req, res, next) => {
 
 // Update a booking
 export const updateBooking = catchAsync(async (req, res, next) => {
-  const updatedBooking = await bookingService.updateBooking(
+  const updatedBooking = await bookingService.updateOne(
     req.params.id,
     req.body
   );
@@ -54,7 +52,7 @@ export const updateBooking = catchAsync(async (req, res, next) => {
 
 // Delete a booking
 export const deleteBooking = catchAsync(async (req, res, next) => {
-  const deletedBooking = await bookingService.deleteBooking(req.params.id);
+  const deletedBooking = await bookingService.deleteOne(req.params.id);
   if (!deletedBooking) {
     return next(new ErrorHandler("Booking not found!", 404));
   }

@@ -9,16 +9,12 @@ class Model {
     return await this.mongooseModel.create(data);
   }
 
-  async find(query) {
+  async getAll(query) {
     return await query.query;
   }
 
-  async getAll(filter = {}) {
-    return await this.mongooseModel.find(filter);
-  }
-
   //Changed this from findById to find only specifically
-  async getMy(filter, selections = "") {
+  async getMy(filter, selections) {
     return await this.mongooseModel.find(filter).select(selections);
   }
 
