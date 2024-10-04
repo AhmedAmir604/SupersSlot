@@ -77,6 +77,25 @@ class BookingService extends Service {
   async deleteOne(id) {
     return await super.deleteOne(id);
   }
+
+  // async unavailableBookings(service) {
+  //   return await this.model.unavailableBookings(service);
+  // }
+
+  async unavailableBookings(service) {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+    return await this.model.find({
+      service,
+      startTime: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+      status: { $nin: ["cancelled", "completed"] },
+    });
+  }
 }
 
 const bookingService = new BookingService(bookingModel);

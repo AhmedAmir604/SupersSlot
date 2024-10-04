@@ -37,6 +37,9 @@ export const getAllBookings = catchAsync(async (req, res, next) => {
 
 // Update a booking
 export const updateBooking = catchAsync(async (req, res, next) => {
+  if (await bookingService.verifyBooking(req.body)) {
+    return next(new ErrorHandler("This slot is already booked!", 400));
+  }
   const updatedBooking = await bookingService.updateOne(
     req.params.id,
     req.body
@@ -47,6 +50,16 @@ export const updateBooking = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     booking: updatedBooking,
+  });
+});
+
+export const unavailableBookings = catchAsync(async (req, res, next) => {
+  const { service } = req.body;
+  const bookings = await bookingService.unavailableBookings(service);
+  res.status(200).json({
+    status: "success",
+    count: bookings.length,
+    bookings,
   });
 });
 

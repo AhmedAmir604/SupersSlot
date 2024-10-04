@@ -21,13 +21,27 @@ class BookingModel extends Model {
 
   async verifyBooking(body) {
     const { startTime, endTime, service } = body;
-    return await super.getMy({
+    return await super.find({
       service,
       startTime: { $lte: endTime }, // Existing booking starts before the new booking ends
       endTime: { $gte: startTime }, // Existing booking ends after the new booking starts
       status: { $nin: ["cancelled", "completed"] },
     });
   }
+
+  // async unavailableBookings(service) {
+  //   const startOfDay = new Date();
+  //   startOfDay.setHours(0, 0, 0, 0);
+  //   const endOfDay = new Date();
+  //   endOfDay.setHours(23, 59, 59, 999);
+  //   return await this.mongooseModel.find({
+  //     service,
+  //     startTime: {
+  //       $gte: startOfDay,
+  //       $lte: endOfDay,
+  //     },
+  //   });
+  // }
 }
 
 const Booking = mongoose.model("Booking", bookingSchema);

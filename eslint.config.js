@@ -15,7 +15,7 @@ const eslintConfig = [
     rules: {
       "prettier/prettier": "error",
       "spaced-comment": "off",
-      "no-console": "warn",
+      "no-console": "on",
       "consistent-return": "off",
       "func-names": "off",
       "object-shorthand": "off",
