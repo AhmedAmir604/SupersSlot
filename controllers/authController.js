@@ -47,8 +47,12 @@ export const login = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("Cannot find User with this email!", 404));
   }
-
-  if (!(await authService.verifyPassword(password, user.password))) {
+  //Dont need to send welcome email on every login its dumb and expensie :D
+  // const url = `${req.protocol}://${req.get(
+  //   "host"
+  // )}/api/v1/bookings/my-bookings`;
+  //Fix Url when front-end is completed :) right now the url is : http://127.0.0.1:8000/api/v1/bookings/my-bookings
+  if (!(await authService.verifyPassword(password, user))) {
     return next(new ErrorHandler("Please provide valid credentials!", 500));
   }
 
@@ -73,10 +77,8 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("No user found with this email!", 404));
   }
-  const token = await authService.generatePasswordResetToken(user);
-  const url = `${req.protocol}://${req.get(
-    "host"
-  )}/users/reset-password/${token}`;
+  const url = `${req.protocol}://${req.get("host")}/users/resetPassword`;
+  const token = await authService.generatePasswordResetToken(user, url);
 
   res.status(200).json({
     status: "success",

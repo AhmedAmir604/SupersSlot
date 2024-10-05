@@ -14,6 +14,13 @@ bookingSchema.pre("save", async function (next) {
   next();
 });
 
+bookingSchema.post("save", async function (doc) {
+  await doc.populate([
+    { path: "user", select: "name email photo" },
+    { path: "service", select: "name serviceType price" },
+  ]);
+});
+
 class BookingModel extends Model {
   constructor(mongooseModel) {
     super(mongooseModel);
@@ -23,8 +30,7 @@ class BookingModel extends Model {
     const { startTime, endTime, service } = body;
     return await super.find({
       service,
-      startTime: { $lte: endTime }, // Existing booking starts before the new booking ends
-      endTime: { $gte: startTime }, // Existing booking ends after the new booking starts
+      $or: [{ startTime: { $lt: endTime }, endTime: { $gt: startTime } }],
       status: { $nin: ["cancelled", "completed"] },
     });
   }

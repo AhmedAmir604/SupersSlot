@@ -18,7 +18,7 @@ class Service {
   }
 
   async find(filter, selections, populateOptions) {
-    return await this.model.find(filter, selections);
+    return await this.model.find(filter, selections, populateOptions);
   }
 
   async findOne(filter, populateOptions) {

@@ -7,10 +7,10 @@ import Handlebars from "handlebars";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 export default class Email {
-  constructor(user, url) {
+  constructor(user, options) {
     this.from = `Your Service <${process.env.EMAIL_FROM}>`;
     this.to = user.email;
-    this.url = url;
+    this.options = options;
     this.firstName = user.name.split(" ")[0];
   }
 
@@ -55,7 +55,7 @@ export default class Email {
     // Create the final HTML by passing the variables
     const html = template({
       firstName: this.firstName,
-      url: this.url,
+      options: this.options,
     });
 
     // Convert the HTML to plain text for the email body
@@ -72,7 +72,7 @@ export default class Email {
     };
 
     try {
-      await this.newTransporter().sendMail(mailOptions);
+      await this.createTransporter().sendMail(mailOptions);
       console.log("SUCCESS");
       return true;
     } catch (err) {
@@ -85,9 +85,9 @@ export default class Email {
     return this.send("welcomeEmail.html", "Welcome to The Site!");
   }
 
-  passwordResetLink() {
+  sendPasswordResetLink() {
     return this.send(
-      "passwordResetLink.html",
+      "resetPasswordLink.html",
       "Reset Your Password Using this Link!"
     );
   }
@@ -100,9 +100,6 @@ export default class Email {
   }
 
   sendBooking() {
-    return this.send(
-      "booking.html",
-      "Les goo... we got your Booking in Place :)"
-    );
+    return this.send("booking.html", "We Recieved Your Booking Horahh...");
   }
 }

@@ -21,7 +21,7 @@ class BookingService extends Service {
   async unConfirmedBookings() {
     //This will run every 59 seconds*/59 * * * * *
     cron.schedule("* */1 * * *", async () => {
-      const currentTime = moment().tz("Asia/Karachi").add(1, "hours").format();
+      const currentTime = moment().tz("Asia/Karachi").add(2, "hours").format();
       console.log(currentTime);
       const bookings = await this.updateMany(
         {
@@ -31,6 +31,29 @@ class BookingService extends Service {
         {
           $set: { status: "cancelled" }, // Update operation: set the status to "cancelled"
         }
+      );
+    });
+  }
+
+  async bookingConfirmationEmail() {
+    cron.schedule("* */10 * * *", async () => {
+      const currentTime = moment().tz("Asia/Karachi").add(3, "hours").format();
+      console.log(`Email sent 3 hours prior`, currentTime);
+      const bookings = await this.find(
+        {
+          startTime: { $lte: currentTime },
+          status: "pending",
+        },
+        "",
+        "user service"
+      );
+      Promise.all(
+        users.forEach(async (user) => {
+          await new Email(
+            bookings.user,
+            bookings.service
+          ).sendConfirmationEmail();
+        })
       );
     });
   }
@@ -52,7 +75,17 @@ class BookingService extends Service {
   //We can access these curd method from the super class Service which then access from Model or directly from Model of which we have created Object of using thsi constructor :)
   async create(data) {
     const booking = await this.model.create(data);
-    // await new Email()
+    const bookingOptions = {
+      serviceName: booking.service.name,
+      serviceType: booking.service.serviceType,
+      user: booking.user,
+      startTime: booking.startTime,
+      endTime: booking.endTime,
+      price: booking.price,
+      status: booking.status,
+    };
+
+    await new Email(booking.user, bookingOptions).sendBooking();
     return this.formatDates([booking]);
   }
 

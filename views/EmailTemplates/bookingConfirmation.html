@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Important: Your Booking Status</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding-bottom: 25px;
+      }
+      .header h1 {
+        font-size: 26px;
+        color: #d9534f;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .content {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+      }
+      .content h2 {
+        font-size: 20px;
+        color: #d9534f;
+        margin-bottom: 15px;
+      }
+      .content p {
+        margin: 10px 0;
+        text-align: justify;
+      }
+      .footer {
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+        margin-top: 30px;
+      }
+      .footer p {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Booking Alert! ⚠️</h1>
+      </div>
+      <div class="content">
+        <h2>Hi, {{firstName}}!</h2>
+        <p>
+          We want to remind you that your booking for
+          <strong>{{options.service.name}}</strong> on
+          <strong>{{options.startTime}}</strong> is currently
+          <strong>not confirmed</strong>.
+        </p>
+        <p>
+          Please note that if you do not confirm your booking, it will be
+          automatically canceled 2 hours prior to the scheduled time.
+        </p>
+        <p>
+          If you need assistance or wish to confirm your booking, please do not
+          hesitate to reach out to us.
+        </p>
+        <p>
+          Thank you for choosing SuperSlot! We appreciate your understanding and
+          cooperation.
+        </p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2024 SuperSlot. All rights reserved.</p>
+        <p>123 Barber Street, Grooming City, World 12345</p>
+      </div>
+    </div>
+  </body>
+</html>

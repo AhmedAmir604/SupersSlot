@@ -3,17 +3,27 @@ import userModel from "../models/UsersModel.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import ErrorHandler from "../utils/appError.js";
+import Email from "../utils/email.js";
 
 class AuthService extends Service {
   constructor(userModel) {
     super(userModel);
   }
 
-  async verifyPassword(password, userPassword) {
-    return await bcrypt.compare(password, userPassword);
+  async createUser(data) {
+    const user = await super.create(data);
+    await new Email(user, null).sendWelcome();
+    if (!user) {
+      return false;
+    }
+    return user;
   }
 
-  async generatePasswordResetToken(user) {
+  async verifyPassword(password, user) {
+    return await bcrypt.compare(password, user.password);
+  }
+
+  async generatePasswordResetToken(user, url) {
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.passwordResetTokenExpiry = Date.now() + 600000; // 10 minutes
     user.passwordResetToken = crypto
@@ -21,6 +31,9 @@ class AuthService extends Service {
       .update(resetToken)
       .digest("hex");
     await user.save();
+    url += `/${resetToken}`;
+    //Sending email for reset Password with link link will be check with frontend for now :)
+    await new Email(user, url).sendPasswordResetLink();
     return resetToken;
   }
 
