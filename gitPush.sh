@@ -11,3 +11,5 @@ fi
 git add .
 git commit -m "$1"
 git push origin master
+
+echo "Pushed with message "$1" successfully"
