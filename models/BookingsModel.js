@@ -35,6 +35,22 @@ class BookingModel extends Model {
     });
   }
 
+  async findBookings(filter) {
+    const bookings = await this.mongooseModel
+      .find(filter)
+      .select("startTime endTime price status") // Selecting specific fields from the booking
+      .populate({
+        path: "user", // Assuming 'user' is the field to populate
+        select: "name email photo", // Selecting specific fields from the user
+      })
+      .populate({
+        path: "service", // Assuming 'service' is the field to populate
+        select: "name serviceType price", // Selecting specific fields from the service
+      });
+
+    return bookings;
+  }
+
   // async unavailableBookings(service) {
   //   const startOfDay = new Date();
   //   startOfDay.setHours(0, 0, 0, 0);

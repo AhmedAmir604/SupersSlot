@@ -8,6 +8,7 @@ class BookingService extends Service {
   constructor(model) {
     super(model);
     this.unConfirmedBookings();
+    this.bookingConfirmEmail();
   }
 
   async verifyBooking(body) {
@@ -35,19 +36,19 @@ class BookingService extends Service {
     });
   }
 
-  async bookingConfirmationEmail() {
-    cron.schedule("* */10 * * *", async () => {
+  async bookingConfirmEmail() {
+    cron.schedule("* */1 * * *", async () => {
       const currentTime = moment().tz("Asia/Karachi").add(3, "hours").format();
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999);
       console.log(`Email sent 3 hours prior`, currentTime);
-      const bookings = await this.find(
-        {
-          startTime: { $lte: currentTime },
-          status: "pending",
-        },
-        "",
-        "user service"
-      );
-      Promise.all(
+      const bookings = await this.model.findBookings({
+        startTime: { $lte: currentTime },
+        endTime: { $lte: endOfDay },
+        status: "pending",
+      });
+      console.log(bookings);
+      await Promise.all(
         bookings.forEach(async (booking) => {
           await new Email(
             booking.user,

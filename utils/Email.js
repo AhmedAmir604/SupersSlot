@@ -102,4 +102,8 @@ export default class Email {
   sendBooking() {
     return this.send("booking.html", "We Recieved Your Booking Horahh...");
   }
+
+  sendConfirmationEmail() {
+    return this.send("bookingConfirmation.html", "Verify Your Booking!");
+  }
 }
