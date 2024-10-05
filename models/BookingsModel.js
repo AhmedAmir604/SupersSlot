@@ -50,20 +50,6 @@ class BookingModel extends Model {
 
     return bookings;
   }
-
-  // async unavailableBookings(service) {
-  //   const startOfDay = new Date();
-  //   startOfDay.setHours(0, 0, 0, 0);
-  //   const endOfDay = new Date();
-  //   endOfDay.setHours(23, 59, 59, 999);
-  //   return await this.mongooseModel.find({
-  //     service,
-  //     startTime: {
-  //       $gte: startOfDay,
-  //       $lte: endOfDay,
-  //     },
-  //   });
-  // }
 }
 
 const Booking = mongoose.model("Booking", bookingSchema);

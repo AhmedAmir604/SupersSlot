@@ -7,7 +7,7 @@
     <style>
       body {
         font-family: "Helvetica Neue", Arial, sans-serif;
-        background-color: #f9f9f9;
+        background-color: #f0f8ff; /* Light background color */
         margin: 0;
         padding: 0;
         color: #333;
@@ -23,11 +23,12 @@
       .header {
         text-align: center;
         padding-bottom: 25px;
+        border-bottom: 2px solid #d9534f; /* Border for separation */
       }
       .header h1 {
-        font-size: 26px;
+        font-size: 28px;
         color: #d9534f;
-        margin-top: 10px;
+        margin: 10px 0;
         font-weight: bold;
       }
       .content {
@@ -36,7 +37,7 @@
         line-height: 1.6;
       }
       .content h2 {
-        font-size: 20px;
+        font-size: 22px;
         color: #d9534f;
         margin-bottom: 15px;
       }
@@ -44,42 +45,69 @@
         margin: 10px 0;
         text-align: justify;
       }
+      .important {
+        color: #d9534f;
+        font-weight: bold;
+      }
       .footer {
         text-align: center;
         font-size: 14px;
         color: #888;
         margin-top: 30px;
+        border-top: 2px solid #d9534f; /* Border for separation */
+        padding-top: 10px;
       }
       .footer p {
         margin: 8px 0;
+      }
+      .cta-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #d9534f;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+      .cta-button:hover {
+        background-color: #c93a3a;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>Booking Alert! ⚠️</h1>
+        <h1>🌟 Booking Alert! ⚠️</h1>
       </div>
       <div class="content">
-        <h2>Hi, {{firstName}}!</h2>
+        <h2>Hi, {{firstName}}! 👋</h2>
         <p>
           We want to remind you that your booking for
-          <strong>{{options.service.name}}</strong> on
-          <strong>{{options.startTime}}</strong> is currently
-          <strong>not confirmed</strong>.
+          <strong>{{options.serviceType}}</strong>
+          <strong> Service Name </strong>
+          <strong class="important">{{options.serviceName}} </strong>
+          on <strong class="important">{{options.startTime}}</strong> is
+          currently <strong class="important">not confirmed</strong>.
         </p>
         <p>
           Please note that if you do not confirm your booking, it will be
-          automatically canceled 2 hours prior to the scheduled time.
+          automatically canceled
+          <strong class="important">2 hours</strong> prior to the scheduled
+          time.
         </p>
         <p>
           If you need assistance or wish to confirm your booking, please do not
-          hesitate to reach out to us.
+          hesitate to reach out to us. We’re here to help! 🤗
         </p>
         <p>
           Thank you for choosing SuperSlot! We appreciate your understanding and
-          cooperation.
+          cooperation. 🙏
         </p>
+        <a href="your-confirmation-link.com" class="cta-button"
+          >Confirm Your Booking</a
+        >
       </div>
       <div class="footer">
         <p>&copy; 2024 SuperSlot. All rights reserved.</p>

@@ -12,6 +12,7 @@ export default class Email {
     this.to = user.email;
     this.options = options;
     this.firstName = user.name.split(" ")[0];
+    console.log(this.options);
   }
 
   createTransporter() {

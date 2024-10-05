@@ -37,7 +37,7 @@ class BookingService extends Service {
   }
 
   async bookingConfirmEmail() {
-    cron.schedule("* */1 * * *", async () => {
+    cron.schedule("*/10 * * * * *", async () => {
       const currentTime = moment().tz("Asia/Karachi").add(3, "hours").format();
       const endOfDay = new Date();
       endOfDay.setHours(23, 59, 59, 999);
@@ -47,13 +47,14 @@ class BookingService extends Service {
         endTime: { $lte: endOfDay },
         status: "pending",
       });
-      console.log(bookings);
       await Promise.all(
         bookings.forEach(async (booking) => {
-          await new Email(
-            booking.user,
-            booking.service
-          ).sendConfirmationEmail();
+          const options = {
+            serviceName: booking.service.name,
+            serviceType: booking.service.serviceType,
+            startTime: booking.startTime,
+          };
+          await new Email(booking.user, options).sendConfirmationEmail();
         })
       );
     });
