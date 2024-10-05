@@ -2,6 +2,7 @@ import Service from "./Service.js";
 import bookingModel from "../models/BookingsModel.js";
 import cron from "node-cron";
 import moment from "moment-timezone";
+import Email from "../utils/email.js";
 
 class BookingService extends Service {
   constructor(model) {
@@ -51,6 +52,7 @@ class BookingService extends Service {
   //We can access these curd method from the super class Service which then access from Model or directly from Model of which we have created Object of using thsi constructor :)
   async create(data) {
     const booking = await this.model.create(data);
+    // await new Email()
     return this.formatDates([booking]);
   }
 

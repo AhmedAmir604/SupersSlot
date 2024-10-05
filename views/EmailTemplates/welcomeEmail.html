@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to SuperSlot!</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: #f0f4f8;
+        margin: 0;
+        padding: 0;
+        color: #4a4a4a;
+      }
+      .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding-bottom: 25px;
+      }
+      .header img {
+        width: 120px;
+      }
+      .header h1 {
+        font-size: 28px;
+        color: #20214d;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .content {
+        font-size: 16px;
+        color: #555555;
+        line-height: 1.8;
+      }
+      .content h2 {
+        font-size: 22px;
+        color: #1e40af;
+        margin-bottom: 15px;
+      }
+      .content p {
+        margin: 10px 0;
+        text-align: justify;
+      }
+      .cta-button {
+        display: block;
+        text-align: center;
+        margin: 25px 0;
+      }
+      .cta-button a {
+        background-color: #1e40af;
+        color: #ffffff;
+        padding: 14px 28px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+      .cta-button a:hover {
+        background-color: #1b3a8a;
+      }
+      .footer {
+        text-align: center;
+        font-size: 14px;
+        color: #888888;
+        margin-top: 30px;
+      }
+      .footer p {
+        margin: 8px 0;
+      }
+      .icons {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+      }
+      .icons img {
+        width: 40px;
+        margin: 0 12px;
+        filter: grayscale(100%);
+        transition: filter 0.3s ease;
+      }
+      .icons img:hover {
+        filter: grayscale(0%);
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+        .cta-button a {
+          padding: 12px 24px;
+        }
+        .content h2 {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="https://yourlogo.com/logo.png" alt="SuperSlot Logo" />
+        <h1>Welcome to SuperSlot! 🌍</h1>
+      </div>
+      <div class="content">
+        <h2>Hi, {{firstName}}! 👋</h2>
+        <p>
+          We're beyond excited to welcome you to SuperSlot, your new travel
+          partner in discovering amazing journeys across the globe! 🗺️
+        </p>
+        <p>
+          From stunning natural landscapes to adrenaline-pumping adventures and
+          rich cultural experiences, SuperSlot curates the best of the best just
+          for you. 🌟
+        </p>
+        <div class="cta-button">
+          <a href="{{url}}">Start Your Adventure Now 🚀</a>
+        </div>
+        <p>
+          Have any questions? Our friendly support team is always here to guide
+          you every step of the way to make your travel dreams come true! ✈️
+        </p>
+        <p>
+          Safe travels and see you out there!<br />
+          The SuperSlot Team 🧳
+        </p>
+      </div>
+      <div class="icons">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
+          alt="Facebook"
+        />
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/733/733558.png"
+          alt="Twitter"
+        />
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/733/733609.png"
+          alt="Instagram"
+        />
+      </div>
+      <div class="footer">
+        <p>&copy; 2024 SuperSlot. All rights reserved.</p>
+        <p>123 Adventure Road, Wanderlust City, World 12345</p>
+      </div>
+    </div>
+  </body>
+</html>
