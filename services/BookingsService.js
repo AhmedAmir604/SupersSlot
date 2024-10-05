@@ -48,10 +48,10 @@ class BookingService extends Service {
         "user service"
       );
       Promise.all(
-        users.forEach(async (user) => {
+        bookings.forEach(async (booking) => {
           await new Email(
-            bookings.user,
-            bookings.service
+            booking.user,
+            booking.service
           ).sendConfirmationEmail();
         })
       );
