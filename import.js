@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 import fs from "fs";
 import mongoose from "mongoose";
 import * as url from "url";
-import Service from "./schemas/serviceSchema.js";
-import User from "./schemas/userModel.js";
-import Review from "./schemas/reviewsSchema.js";
+import Service from "./models/ServicesModel.js";
+import User from "./models/UsersModel.js";
+import Review from "./models/ReviewModel.js";
 dotenv.config({ path: "./config.env" });
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -33,7 +33,7 @@ const fixedUsers = users.map((el, index) => {
   return {
     ...el,
     role: `${
-      index % 4 === 0 ? "service-provider" : index % 6 === 0 ? "owner" : "user"
+      index % 2 === 0 ? "employee" : index % 3 === 0 ? "owner" : "user"
     }`,
   };
 });
@@ -70,10 +70,10 @@ const Services = async () => {
 
 const importData = async () => {
   try {
-    await Services();
-    await Review.create(fixedReviews, { validationBeforeSave: false });
+    // await Services();
+    // await Review.create(fixedReviews, { validationBeforeSave: false });
     // await Service.create(fixedServices, { validationBeforeSave: false });
-    // await User.create(fixedUsers, { validationBeforeSave: false });
+    await User.create(fixedUsers, { validationBeforeSave: false });
     console.log("Imported!");
   } catch (err) {
     console.log(err);
@@ -84,7 +84,7 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     // await Service.deleteMany();
-    // await User.deleteMany();
+    await User.deleteMany();
     console.log("Deleted!");
   } catch (err) {
     console.log(err);
