@@ -1,7 +1,7 @@
 import reviewsSchema from "../schemas/reviewsSchema.js";
 import mongoose from "mongoose";
-import serviceModel from "./serviceModel.js";
-import servicesService from "../services/serviceService.js";
+import serviceModel from "../models/serviceModel.js";
+import servicesService from "./serviceService.js";
 
 //For allowing user to give on review each service :)
 // reviewsSchema.index({ user: 1, service: 1 }, { unique: true });

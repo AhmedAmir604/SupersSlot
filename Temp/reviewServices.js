@@ -1,4 +1,4 @@
-import { reviewModel } from "../models/reviewsModel.js";
+import { reviewModel } from "./reviewsModel.js";
 
 class ReviewService {
   constructor(Model) {
