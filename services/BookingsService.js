@@ -8,7 +8,8 @@ class BookingService extends Service {
   constructor(model) {
     super(model);
     this.unConfirmedBookings();
-    this.bookingConfirmEmail();
+    //Below method send Email to need to run unecessary as the trial is limited
+    // this.bookingConfirmEmail();
   }
 
   async verifyBooking(body) {
