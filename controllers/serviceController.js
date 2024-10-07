@@ -27,10 +27,10 @@ export const checkUserRoles = (...roles) => {
 };
 
 export const createService = catchAsync(async (req, res, next) => {
-  // const service = await servicesService.create(req.body);
+  const service = await servicesService.create(req.body);
   res.status(201).json({
     status: "success",
-    // service,
+    service,
   });
 });
 
