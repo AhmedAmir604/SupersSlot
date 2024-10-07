@@ -21,7 +21,7 @@ servicesRotue.route("/:id").get(getService);
 servicesRotue.route("/").get(getAllServices);
 
 servicesRotue.use(protect, restrictTo("admin", "service-provider"));
-servicesRotue.post("/", checkUserRoles("service-provider"), createService);
+servicesRotue.post("/", checkUserRoles("service"), createService);
 servicesRotue.route("/:id").delete(deleteService).patch(updateService);
 
 export default servicesRotue;
