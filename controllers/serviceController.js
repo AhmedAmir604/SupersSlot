@@ -1,6 +1,7 @@
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
 import servicesService from "../services/ServicesService.js";
+import userService from "../services/userServices.js";
 
 //Middlewares
 export const aliasTop5Services = (req, res, next) => {
@@ -9,11 +10,27 @@ export const aliasTop5Services = (req, res, next) => {
   next();
 };
 
+export const checkUserRoles = (...roles) => {
+  return catchAsync(async (req, res, next) => {
+    const ids = req.body.employees;
+    const invalidUsers = await userService.verifyUserRole(ids, roles);
+    if (invalidUsers.length > 0) {
+      res.status(400).json({
+        status: "failed",
+        message: "Folllowing Users dont have Employee Role",
+        users: invalidUsers,
+      });
+    } else {
+      next();
+    }
+  });
+};
+
 export const createService = catchAsync(async (req, res, next) => {
-  const service = await servicesService.create(req.body);
+  // const service = await servicesService.create(req.body);
   res.status(201).json({
     status: "success",
-    service,
+    // service,
   });
 });
 

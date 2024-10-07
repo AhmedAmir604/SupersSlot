@@ -20,6 +20,13 @@ const serviceSchema = new mongoose.Schema({
     ref: "User", // Service owner (e.g., shop owner)
     required: [true, "A service must have an owner"],
   },
+  employees: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: [true, "A service Must have Employees!"],
+    },
+  ],
   ratingsAverage: {
     type: Number,
     default: 4.5,

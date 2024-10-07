@@ -6,6 +6,7 @@ import {
   getAllServices,
   updateService,
   aliasTop5Services,
+  checkUserRoles,
 } from "../controllers/serviceController.js";
 import reviewsRoute from "./reviewsRoute.js";
 import { protect, restrictTo } from "../controllers/authController.js";
@@ -20,7 +21,7 @@ servicesRotue.route("/:id").get(getService);
 servicesRotue.route("/").get(getAllServices);
 
 servicesRotue.use(protect, restrictTo("admin", "service-provider"));
-servicesRotue.post("/", createService);
+servicesRotue.post("/", checkUserRoles("service-provider"), createService);
 servicesRotue.route("/:id").delete(deleteService).patch(updateService);
 
 export default servicesRotue;

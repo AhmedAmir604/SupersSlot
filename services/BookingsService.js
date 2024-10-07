@@ -75,7 +75,7 @@ class BookingService extends Service {
     }));
   }
 
-  //We can access these curd method from the super class Service which then access from Model or directly from Model of which we have created Object of using thsi constructor :)
+  //We can access these curd method from the super class Service which then access from Model or directly from Model of which we have created Object of using this constructor :)
   async create(data) {
     const booking = await this.model.create(data);
     const bookingOptions = {
@@ -87,7 +87,6 @@ class BookingService extends Service {
       price: booking.price,
       status: booking.status,
     };
-
     await new Email(booking.user, bookingOptions).sendBooking();
     return this.formatDates([booking]);
   }
