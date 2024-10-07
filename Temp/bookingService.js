@@ -1,4 +1,4 @@
-import { bookingModel } from "../models/bookingModels.js";
+import { bookingModel } from "./bookingModels.js";
 import cron from "node-cron";
 import moment from "moment-timezone";
 
