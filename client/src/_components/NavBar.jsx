@@ -6,7 +6,7 @@ import { IoLocationOutline } from "react-icons/io5";
 
 export default function NavBar() {
   return (
-    <nav className="max-w-screen sticky top-0 border-b z-20 bg-white border-gray-200 py-7 px-20 flex justify-between">
+    <nav className="max-w-screen sticky top-0 border-b z-30 bg-white border-gray-200 py-7 px-20 flex justify-between">
       <a
         href="#"
         className="text-2xl my-auto text-gray-500 hover:text-[#3ba4f5]"

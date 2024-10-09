@@ -60,3 +60,23 @@
 html {
   font-family: "Noto Sans", sans-serif;
 }
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+.float-animation-bg {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 500ms;
+}
