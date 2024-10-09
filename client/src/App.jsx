@@ -1,10 +1,13 @@
 import { ButtonLoading } from "./_components/ButtonLoading.jsx";
+import NavBar from "./_components/NavBar.jsx";
 import "./App.css";
+import LandingPage from "./pages/LandingPage.jsx";
 
 function App() {
   return (
-    <section className="bg-black h-[100vh] w-[100vw]">
-      {/* <ButtonLoading /> */}
+    <section className="h-[140vh]">
+      <NavBar />
+      <LandingPage />
     </section>
   );
 }

@@ -4,7 +4,7 @@ export default {
   darkMode: ["class", "class"],
   theme: {
     fontFamily: {
-      sans: ['Plus Jakarta Sans"', "sans-serif"],
+      noto: ["Noto Sans", "sans-serif"], // Fixed font family name
     },
     extend: {
       borderRadius: {
