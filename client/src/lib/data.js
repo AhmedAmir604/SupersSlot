@@ -30,7 +30,7 @@ export const didYouKnow = [
   {
     imageURL: "/HomePage/liveChatWhole.webp",
     iconURL: "/HomePage/appointment.webp",
-    name: "WIDGETS/CHAT/LANDING",
+    name: "WIDGETS/CHAT",
     description: `Get a <strong>Flexible And Powerful Booking</strong> Software For Your Business. Easy to Use. No Hidden Costs. Modern Website Chat Tool to turn your visitors into Leads and real time Customer Support.`,
   },
   {
