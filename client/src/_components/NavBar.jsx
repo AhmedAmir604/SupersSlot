@@ -12,7 +12,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="max-w-screen sticky top-0 border-b z-30 bg-white border-gray-200 py-7 px-4 md:px-20 flex justify-between items-center">
+    <nav className="max-w-screen sticky top-0 border-b z-30 bg-white border-gray-200 py-7 px-4 lg:px-20 flex justify-between items-center">
       {/* Menu Icon for Mobile */}
       <div className="flex md:hidden">
         <button
