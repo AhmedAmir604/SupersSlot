@@ -204,7 +204,7 @@ export default function Signup() {
             </button>
           </div>
           <div className="flex w-full">
-            <a className="mx-auto text-sm text-gray-500 hover:text-gray-700 cursor-pointer hover:underline pt-2 transition-all">
+            <a className="mx-auto text-sm text-[#3b82f6] hover:underline cursor-pointer hover:underline pt-2 transition-all">
               Already Have an account?
             </a>
           </div>
