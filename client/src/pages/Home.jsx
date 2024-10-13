@@ -2,6 +2,7 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import Categories from "@/_components/Categories";
+import ServicesCard from "@/_components/ServicesCard";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       </div>
 
       <Categories />
+      <ServicesCard />
     </section>
   );
 }
