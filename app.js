@@ -5,8 +5,25 @@ import { errorHandler } from "./controllers/errorController.js";
 import cookieParser from "cookie-parser";
 import bookingRoute from "./routes/bookingRoute.js";
 import reviewsRoute from "./routes/reviewsRoute.js";
+import cors from "cors";
 
 const app = express();
+
+//GLOBAL Middlewares
+
+//Enabling cors for specific domains
+
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:5173"
+        : // : "https://tt-pro.onrender.com",
+          "http://localhost:5173", //For now
+
+    credentials: true,
+  })
+);
 
 //Body parser reading data from body into req.body
 app.use(express.json({ limit: "10kb" }));

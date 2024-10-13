@@ -1,16 +1,22 @@
+import { login } from "@/handlers/authHandler";
 import React, { useState } from "react";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log({
-      email,
-      password,
-    });
+    try {
+      const res = await login({ email, password });
+      if (res) {
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message || "Something went wrong");
+    }
   };
 
   return (
