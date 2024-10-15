@@ -6,7 +6,7 @@ import ServicesCard from "@/_components/ServicesCard";
 
 export default function Home() {
   return (
-    <section className="bg-[#181313] h-[150vh] flex flex-col items-center px- py-6">
+    <section className="bg-[#181313] flex flex-col items-center px- py-6">
       <div className="mb-10 bg-gradient-to-r w-[90%] from-[#7f7362] to-[#52422b] px-4 md:px-14 py-20 rounded-2xl">
         <h1 className="text-2xl md:text-4xl font-semibold text-white mb-10">
           Book everything, now.
