@@ -22,8 +22,8 @@ const Categories = () => {
   };
 
   return (
-    <div className="max-w-[88vw] mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center">
+    <div className="max-w-[88vw]">
+      <div className="flex flex-col md:flex-row justify-between items-start">
         <h1 className="text-2xl text-white">Service Categories</h1>
         <div className="flex gap-4 items-center mt-4 md:mt-0">
           <a href="#" className="text-[#9d9a9a] text-sm">
