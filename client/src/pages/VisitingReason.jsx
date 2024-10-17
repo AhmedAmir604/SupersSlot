@@ -14,11 +14,11 @@ export default function VisitingReason() {
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl">
             {expand ? (
-              <h1 className="border border-green-500 font-bold text-green-500 py- rounded-full px-2 text-[17px]">
+              <h1 className="border border-green-500 font-bold text-green-500 py- rounded-full px-[10px] text-[14px]">
                 2
               </h1>
             ) : (
-              <MdOutlineDone className="bg-green-600 rounded-full" />
+              <MdOutlineDone className="bg-green-600 rounded-full p-1" />
             )}{" "}
           </div>
           <h1 className="font-bold text-lg capitalize">VISITING REASON</h1>
@@ -53,23 +53,21 @@ export default function VisitingReason() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="px-4 mt-4">
-        <h1 className="font-bold text-gray-700">Is this an Emergency Visit?</h1>
-        <label className="inline-flex items-center cursor-pointer">
-          <input type="radio" name="radio" className="peer hidden" value="1" />
-          <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex justify-center items-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
-            <div className="w-2 h-2 bg-transparent rounded-full peer-checked:bg-white"></div>
-          </div>
-          <span className="ml-2 text-gray-700">Yes</span>
-        </label>
-        <label className="inline-flex items-center cursor-pointer">
-          <input type="radio" name="radio" className="peer hidden" value="2" />
-          <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex justify-center items-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
-            <div className="w-2 h-2 bg-transparent rounded-full peer-checked:bg-white"></div>
-          </div>
-          <span className="ml-2 text-gray-700">No</span>
-        </label>
+        <div className=" mt-6">
+          <h1 className="font-bold text-gray-700 mb-1">
+            Is this an Emergency Visit?
+          </h1>
+          <label className="inline-flex mr-4 items-center cursor-pointer">
+            <input type="radio" name="radio" className="peer" value="1" />
+
+            <span className="ml-2 text-gray-700">Yes</span>
+          </label>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="radio" name="radio" className="peer" value="2" />
+
+            <span className="ml-2 text-gray-700">No</span>
+          </label>
+        </div>
       </div>
     </section>
   );
