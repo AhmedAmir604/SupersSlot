@@ -15,7 +15,7 @@ import Booking from "./pages/Booking.jsx";
 function App() {
   const location = useLocation();
   return (
-    <main className="h-[140vh]">
+    <main className="h-[140vh] font-noto">
       {location.pathname === "/" && <NavBar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />

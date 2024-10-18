@@ -1,6 +1,7 @@
 import ConfirmLocation from "@/_components/ConfirmLocation";
 import React from "react";
 import VisitingReason from "./VisitingReason";
+import SelectDateTime from "@/_components/SelectDateTime";
 
 export default function Booking() {
   return (
@@ -8,6 +9,7 @@ export default function Booking() {
       <div className="w-[60%] flex flex-col gap-4">
         <ConfirmLocation />
         <VisitingReason />
+        <SelectDateTime />
       </div>
       <img src="map.png" className="w-[25rem] h-[20rem]" />
     </section>
