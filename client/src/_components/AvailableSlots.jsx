@@ -23,7 +23,7 @@ export default function AvailableSlots() {
               date === slot && "bg-blue-600 text-white"
             }`}
             key={index}
-            onClick={() => console.log(date)}
+            onClick={() => setSlot(date)}
           >
             {date}
           </div>
