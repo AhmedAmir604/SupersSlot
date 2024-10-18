@@ -24,7 +24,13 @@ export default function SelectDateTime() {
         </div>
         <h1 className="text-lg text-blue-500 font-bold mr-12"></h1>
       </div>
-      <Calender />
+      <div
+        className={`${
+          expand ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6"
+        } transition-all duration-200 mt-0 flex gap-10 px-8`}
+      >
+        <Calender />
+      </div>
     </section>
   );
 }

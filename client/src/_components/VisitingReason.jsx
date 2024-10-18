@@ -6,7 +6,7 @@ export default function VisitingReason() {
   const [selection, setSelection] = useState();
 
   return (
-    <section>
+    <section className="">
       <div
         onClick={() => setExpand(!expand)}
         className="cursor-pointer w-full border flex justify-between items-center px-4 py-4"

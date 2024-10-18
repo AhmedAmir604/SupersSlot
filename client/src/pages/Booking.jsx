@@ -1,7 +1,7 @@
 import ConfirmLocation from "@/_components/ConfirmLocation";
 import React from "react";
-import VisitingReason from "./VisitingReason";
 import SelectDateTime from "@/_components/SelectDateTime";
+import VisitingReason from "@/_components/VisitingReason";
 
 export default function Booking() {
   return (

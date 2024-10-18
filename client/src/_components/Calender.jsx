@@ -1,78 +1,82 @@
+import dayjs from "dayjs";
 import React, { useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
-import ReactDatePicker from "react-datepicker";
-import { registerLocale } from "react-datepicker";
-import enGB from "date-fns/locale/en-GB";
-import "tailwindcss/tailwind.css";
+import { generateDate, months } from "../../utils/calender.js";
+import cn from "../../utils/cn.js";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
-const Calendar = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
+export default function Calendar() {
+  const days = ["S", "M", "T", "W", "T", "F", "S"];
+  const currentDate = dayjs();
+  const [today, setToday] = useState(currentDate);
+  const [selectDate, setSelectDate] = useState(currentDate);
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg">
-      <ReactDatePicker
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        inline
-        locale={enGB}
-        calendarClassName="rounded-sm shadow-md bg-white"
-        dayClassName={(date) =>
-          ` font-bold ${
-            date.getDate() === selectedDate.getDate()
-              ? "bg-blue-500 text-white font-bold rounded-full mx-1"
-              : "text-gray-900 hover:bg-blue-100 rounded-full mx-1"
-          }`
-        }
-        renderCustomHeader={({
-          monthDate,
-          customHeaderCount,
-          decreaseMonth,
-          increaseMonth,
-        }) => (
-          <div className="flex justify-between items-center mb-2">
-            <button onClick={decreaseMonth}>
-              <svg
-                className="w-6 h-6 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+    <div className="shadow-xl py-4 px-2 mt-10 gap-10  h-fit">
+      <div className=" flex justify-between items-center">
+        <div className="flex gap-10 items-center justify-between px-4 w-full">
+          <GrFormPrevious
+            className="w-5 h-5 text-gray-400 cursor-pointer hover:scale-105 transition-all"
+            onClick={() => {
+              setToday(today.month(today.month() - 1));
+            }}
+          />
+          <h1
+            className=" font-semibold  cursor-pointer hover:scale-105 transition-all"
+            onClick={() => {
+              setToday(currentDate);
+            }}
+          >
+            {months[today.month()]} {today.year()}
+          </h1>
+          <GrFormNext
+            className="w-5 h-5 text-gray-400 cursor-pointer hover:scale-105 transition-all"
+            onClick={() => {
+              setToday(today.month(today.month() + 1));
+            }}
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-7 ">
+        {days.map((day, index) => {
+          return (
+            <h1
+              key={index}
+              className="text-sm text-center h-14 w-14 font-bold grid place-content-center text-gray-800 select-none"
+            >
+              {day}
+            </h1>
+          );
+        })}
+      </div>
+
+      <div className=" grid grid-cols-7 ">
+        {generateDate(today.month(), today.year()).map(
+          ({ date, currentMonth, today }, index) => {
+            return (
+              <div
+                key={index}
+                className="p-2 text-center h-14 grid text-gray-600 place-content-center text-[13px] font-semibold border-t"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                ></path>
-              </svg>
-            </button>
-            <span className="text-lg font-semibold">
-              {monthDate.toLocaleString("en-GB", {
-                month: "long",
-                year: "numeric",
-              })}
-            </span>
-            <button onClick={increaseMonth}>
-              <svg
-                className="w-6 h-6 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
-                ></path>
-              </svg>
-            </button>
-          </div>
+                <h1
+                  className={cn(
+                    currentMonth ? "" : "text-gray-400",
+                    today ? "bg-red-600 text-white" : "",
+                    selectDate.toDate().toDateString() ===
+                      date.toDate().toDateString()
+                      ? "bg-blue-600 text-white"
+                      : "",
+                    "h-10 w-10 rounded-full grid place-content-center hover:bg-blue-600 hover:text-white transition-all cursor-pointer select-none"
+                  )}
+                  onClick={() => {
+                    setSelectDate(date);
+                  }}
+                >
+                  {date.date()}
+                </h1>
+              </div>
+            );
+          }
         )}
-      />
+      </div>
     </div>
   );
-};
-
-export default Calendar;
+}
