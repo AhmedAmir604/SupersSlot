@@ -4,13 +4,13 @@ import { generateDate, months } from "../../utils/calender.js";
 import cn from "../../utils/cn.js";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
-export default function Calendar() {
+export default function Calendar({ setDate }) {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
   return (
-    <div className="shadow-xl py-4 px-2 mt-10 gap-10  h-fit">
+    <div className="shadow-xl py-4 px-2 mt-10 gap-10 mb-10 border h-fit">
       <div className=" flex justify-between items-center">
         <div className="flex gap-10 items-center justify-between px-4 w-full">
           <GrFormPrevious
@@ -68,6 +68,7 @@ export default function Calendar() {
                   )}
                   onClick={() => {
                     setSelectDate(date);
+                    setDate(date);
                   }}
                 >
                   {date.date()}

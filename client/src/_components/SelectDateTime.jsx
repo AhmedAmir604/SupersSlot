@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
 import Calender from "./Calender";
+import AvailableSlots from "./AvailableSlots";
 
 export default function SelectDateTime() {
   const [expand, setExpand] = useState(false);
+  const [date, setDate] = useState();
   return (
     <section>
       <div
@@ -26,10 +28,13 @@ export default function SelectDateTime() {
       </div>
       <div
         className={`${
-          expand ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6"
-        } transition-all duration-200 mt-0 flex gap-10 px-8`}
+          expand
+            ? "opacity-100 max-h-[500px] translate-y-0"
+            : "opacity-0 max-h-0 -translate-y-6"
+        } transition-all overflow-hidden duration-200 flex gap-4 px-8`}
       >
-        <Calender />
+        <Calender setDate={setDate} />
+        <AvailableSlots />
       </div>
     </section>
   );
