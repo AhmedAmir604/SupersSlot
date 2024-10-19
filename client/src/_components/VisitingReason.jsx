@@ -23,7 +23,9 @@ export default function VisitingReason() {
           </div>
           <h1 className="font-bold text-lg capitalize">VISITING REASON</h1>
         </div>
-        <h1 className="text-lg text-blue-500 font-bold mr-12">Skokie, IIL</h1>
+        <h1 className="text-lg text-blue-500 font-bold mr-12">
+          {selection ? selection : ""}
+        </h1>
       </div>
 
       {/* Control height and visibility */}

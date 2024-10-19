@@ -5,7 +5,15 @@ import AvailableSlots from "./AvailableSlots";
 
 export default function SelectDateTime() {
   const [expand, setExpand] = useState(false);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(null); // Initially set to null
+  const [slot, setSlot] = useState();
+
+  const setDisplay = () => {
+    if (date) {
+      return date.$d.toString().split(" ").slice(0, 3).join(" ");
+    }
+  };
+
   return (
     <section>
       <div
@@ -13,18 +21,20 @@ export default function SelectDateTime() {
         className="cursor-pointer w-full border flex justify-between items-center px-4 py-4"
       >
         <div className="flex gap-4 items-center">
-          <div className="text-white text-xl">
+          <div className="text-white text-xl transition-all duration-200">
             {expand ? (
-              <h1 className="border border-green-500 font-bold text-green-500 rounded-full px-[10px] text-[14px]">
+              <h1 className=" border border-green-500 font-bold text-green-500 rounded-full h-6 w-6 flex items-center justify-center text-[13px]">
                 3
               </h1>
             ) : (
-              <MdOutlineDone className="bg-green-600 text-3xl rounded-full p-1" />
+              <MdOutlineDone className="bg-green-600 text-2xl rounded-full p-1" />
             )}{" "}
           </div>
           <h1 className="font-bold text-lg capitalize">SELECT DATE & TIME</h1>
         </div>
-        <h1 className="text-lg text-blue-500 font-bold mr-12"></h1>
+        <h1 className="text-lg text-blue-500 font-bold mr-12">
+          {date ? ` ${setDisplay()} : ${slot} ` : ""}
+        </h1>
       </div>
       <div
         className={`${
@@ -34,7 +44,7 @@ export default function SelectDateTime() {
         } transition-all overflow-hidden duration-200 flex gap-4 px-8`}
       >
         <Calender setDate={setDate} />
-        <AvailableSlots />
+        <AvailableSlots slot={slot} setSlot={setSlot} />
       </div>
     </section>
   );
