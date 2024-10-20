@@ -36,6 +36,7 @@ const NavItem = ({
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
+  const [extend, setExtend] = useState(false);
   const [user, setUser] = useState(null); // User info
   const navigate = useNavigate();
 
@@ -68,15 +69,36 @@ export default function NavBar() {
           <RxHamburgerMenu />
         </button>
         {user && (
-          <div className="flex items-center">
+          <div className="flex items-center relative">
             <img
+              onClick={() => setExtend(!extend)}
               src={`/users/${user.photo}`}
               alt="User"
-              className="w-12 h-12 rounded-full"
+              className="cursor-pointer w-12 h-12 rounded-full"
             />
             <span className="ml-2 text-gray-500 text-sm font-semibold">
               {user.name}
             </span>
+            <div
+              className={`absolute transition-all duration-200 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl py-6  ${
+                extend
+                  ? "opacity-100 translate-y-0"
+                  : " opacity-0 -translate-y-[20px]"
+              }`}
+            >
+              <Button
+                onClick={() => navigate("/login")}
+                className="bg-red-700 hover:bg-red-600"
+              >
+                Logout
+              </Button>
+              <Button
+                onClick={() => navigate("/login")}
+                className="bg-red-700 hover:bg-red-600"
+              >
+                Logout
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -86,7 +108,7 @@ export default function NavBar() {
 
       {/* Desktop Nav Links */}
       {user ? (
-        <div className="hidden md:flex gap-6 items-center">
+        <div className="hidden md:flex px-4 gap-6 items-center">
           <NavItem navigateTo="/home" icon={GoHome} label="HOME" />
           <NavItem
             navigateTo="/booking"
@@ -101,13 +123,34 @@ export default function NavBar() {
           {user && (
             <div className="flex items-center gap-2">
               <img
+                onClick={() => setExtend(!extend)}
                 src={`/users/${user.photo}`}
                 alt="User"
-                className="w-12 h-12 rounded-full"
+                className="w-12 h-12 rounded-full cursor-pointer"
               />
               <span className="text-sm text-gray-500 font-semibold">
                 {user.name}
               </span>
+              <div
+                className={`absolute transition-all duration-200 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl py-6  ${
+                  extend
+                    ? "opacity-100 translate-y-0"
+                    : " opacity-0 -translate-y-[20px]"
+                }`}
+              >
+                <Button
+                  onClick={() => navigate("/login")}
+                  className="bg-red-700 hover:bg-red-600"
+                >
+                  Logout
+                </Button>
+                <Button
+                  onClick={() => navigate("/login")}
+                  className="bg-red-700 hover:bg-red-600"
+                >
+                  Logout
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -116,26 +159,28 @@ export default function NavBar() {
           <Button onClick={() => navigate("/signup")} className="bg-blue-600">
             Signup
           </Button>
+          <Button onClick={() => navigate("/login")} className="bg-blue-600">
+            Login
+          </Button>
         </div>
       )}
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black bg-opacity-25"
-            onClick={toggleMenu}
-          />
-          <MobileMenu toggleMenu={toggleMenu} user={user} />
-        </>
-      )}
+
+      <>
+        <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} user={user} />
+      </>
     </nav>
   );
 }
 
 // Mobile Menu Component
-const MobileMenu = ({ toggleMenu, user }) => (
-  <div className="absolute top-0 left-0 h-screen w-full bg-white flex flex-col items-center justify-center pb-24 gap-8 transition-transform">
+const MobileMenu = ({ isOpen, toggleMenu, user }) => (
+  <div
+    className={`absolute top-0 left-0 h-screen w-full bg-white flex flex-col items-center justify-center pb-24 gap-8 transition-all duration-300
+      ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-full"}
+      ${isOpen ? "visible" : "invisible"}`}
+  >
     <button
       onClick={toggleMenu}
       className="text-gray-500 absolute top-10 right-10 hover:text-[#3ba4f5] text-5xl"
@@ -163,15 +208,5 @@ const MobileMenu = ({ toggleMenu, user }) => (
       toggleMenu={toggleMenu}
       iconStyle="text-2xl"
     />
-    {user && (
-      <div className="flex items-center gap-2">
-        <img
-          src={`/users/${user.photo}`}
-          alt="User"
-          className="w-14 h-14 rounded-full"
-        />
-        <span className="text-gray-500 text-sm font-semibold">{user.name}</span>
-      </div>
-    )}
   </div>
 );
