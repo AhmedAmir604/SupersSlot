@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { GoHome } from "react-icons/go";
 import { LuCalendar } from "react-icons/lu";
 import { IoLocationOutline } from "react-icons/io5";
+import { isLoggedIn, login } from "@/handlers/authHandler";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false); // State to manage mobile menu toggle
+  const [user, setUser] = useState();
+  const [name, setName] = useState();
+  const [photo, setPhoto] = useState();
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await isLoggedIn(); // Call the async function
+        if (res) {
+          console.log(res);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    checkLogin();
+  });
 
   const toggleMenu = () => {
     setIsOpen(!isOpen); // Toggle the menu state

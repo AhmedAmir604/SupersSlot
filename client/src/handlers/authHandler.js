@@ -22,6 +22,18 @@ export const login = async (data) => {
   }
 };
 
+export const isLoggedIn = async () => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/users`,
+    });
+    return res;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+
 export const signup = async (data) => {
   try {
     const res = await axios({

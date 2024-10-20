@@ -14,9 +14,16 @@ import Booking from "./pages/Booking.jsx";
 
 function App() {
   const location = useLocation();
+  const hideNavBarPaths = [
+    "/login",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+  ];
+
   return (
     <main className="h-[140vh] font-noto">
-      {location.pathname === "/" && <NavBar />}
+      {!hideNavBarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />

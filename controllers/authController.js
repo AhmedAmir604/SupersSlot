@@ -126,7 +126,7 @@ export const protect = catchAsync(async (req, res, next) => {
 export const isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    const user = await authService.findById(decode.id);
+    const user = await authService.getOne(decode.id);
 
     if (!user || authService.isPasswordChanged(user, decode.iat)) {
       return res.status(200).json({ status: "success NO" });

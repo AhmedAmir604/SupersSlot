@@ -1,21 +1,28 @@
 import { login } from "@/handlers/authHandler";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [button, setButton] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
+    setButton(true);
     try {
+      console.log({ email, password });
       const res = await login({ email, password });
       if (res) {
-        console.log(res);
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
       throw new Error(err.message || "Something went wrong");
+    } finally {
+      setButton(false);
     }
   };
 
@@ -106,9 +113,10 @@ export default function SignIn() {
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              disabled={button}
+              className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:bg-blue-400`}
             >
-              Sign In
+              {button ? "Loading..." : "Sign In"}
             </button>
           </div>
 
