@@ -13,12 +13,12 @@ export default function VisitingReason() {
       >
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl">
-            {expand ? (
-              <h1 className="border border-green-500 font-bold text-green-500 py- rounded-full px-[10px] text-[14px]">
+            {!expand && selection ? (
+              <MdOutlineDone className="bg-green-600 rounded-full p-1" />
+            ) : (
+              <h1 className="border border-green-500 font-bold text-green-500 rounded-full h-5 w-5 flex items-center justify-center text-[12px]">
                 2
               </h1>
-            ) : (
-              <MdOutlineDone className="bg-green-600 rounded-full p-1" />
             )}{" "}
           </div>
           <h1 className="font-bold text-lg capitalize">VISITING REASON</h1>

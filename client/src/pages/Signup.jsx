@@ -1,7 +1,9 @@
 import { signup } from "@/handlers/authHandler";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +16,7 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -21,7 +24,7 @@ export default function Signup() {
     // Handle the form submission logic here
     try {
       const res = await signup({ name, email, password, confirmPassword });
-      console.log(res);
+      navigate("/home");
     } catch (err) {
       console.log(err);
     }
@@ -41,15 +44,15 @@ export default function Signup() {
 
           <div className="flex items-center justify-center mt-6">
             <a
-              href="/login"
-              className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b dark:border-gray-400 dark:text-gray-300"
+              onClick={() => navigate("/login")}
+              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b dark:border-gray-400 dark:text-gray-300"
             >
               sign in
             </a>
 
             <a
-              href="#"
-              className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white"
+              onClick={() => navigate("/signup")}
+              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white"
             >
               sign up
             </a>

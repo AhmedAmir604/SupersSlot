@@ -7,6 +7,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { isLoggedIn } from "@/handlers/authHandler";
 import { IconsManifest } from "react-icons";
 import { IoIosClose } from "react-icons/io";
+import { Button } from "@/components/ui/button";
 
 // NavItem Component for both mobile and desktop
 const NavItem = ({
@@ -36,6 +37,7 @@ const NavItem = ({
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
   const [user, setUser] = useState(null); // User info
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -83,31 +85,39 @@ export default function NavBar() {
       <div className="hidden md:block text-2xl text-gray-500">MyBrand</div>
 
       {/* Desktop Nav Links */}
-      <div className="hidden md:flex gap-6 items-center">
-        <NavItem navigateTo="/home" icon={GoHome} label="HOME" />
-        <NavItem
-          navigateTo="/booking"
-          icon={LuCalendar}
-          label="SCHEDULE AN APPOINTMENT"
-        />
-        <NavItem
-          navigateTo="/location"
-          icon={IoLocationOutline}
-          label="FIND OFFICE"
-        />
-        {user && (
-          <div className="flex items-center gap-2">
-            <img
-              src={`/users/${user.photo}`}
-              alt="User"
-              className="w-12 h-12 rounded-full"
-            />
-            <span className="text-sm text-gray-500 font-semibold">
-              {user.name}
-            </span>
-          </div>
-        )}
-      </div>
+      {user ? (
+        <div className="hidden md:flex gap-6 items-center">
+          <NavItem navigateTo="/home" icon={GoHome} label="HOME" />
+          <NavItem
+            navigateTo="/booking"
+            icon={LuCalendar}
+            label="SCHEDULE AN APPOINTMENT"
+          />
+          <NavItem
+            navigateTo="/location"
+            icon={IoLocationOutline}
+            label="FIND OFFICE"
+          />
+          {user && (
+            <div className="flex items-center gap-2">
+              <img
+                src={`/users/${user.photo}`}
+                alt="User"
+                className="w-12 h-12 rounded-full"
+              />
+              <span className="text-sm text-gray-500 font-semibold">
+                {user.name}
+              </span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="">
+          <Button onClick={() => navigate("/signup")} className="bg-blue-600">
+            Signup
+          </Button>
+        </div>
+      )}
 
       {/* Mobile Menu */}
       {isOpen && (

@@ -22,16 +22,17 @@ export default function SelectDateTime() {
       >
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl transition-all duration-200">
-            {expand ? (
-              <h1 className=" border border-green-500 font-bold text-green-500 rounded-full h-6 w-6 flex items-center justify-center text-[13px]">
+            {!expand && date && slot ? (
+              <MdOutlineDone className="bg-green-600 rounded-full p-1" />
+            ) : (
+              <h1 className="border border-green-500 font-bold text-green-500 rounded-full h-5 w-5 flex items-center justify-center text-[12px]">
                 3
               </h1>
-            ) : (
-              <MdOutlineDone className="bg-green-600 text-2xl rounded-full p-1" />
             )}{" "}
           </div>
           <h1 className="font-bold text-lg capitalize">SELECT DATE & TIME</h1>
         </div>
+
         <h1 className="text-lg text-blue-500 font-bold mr-12">
           {date ? ` ${setDisplay()} : ${slot} ` : ""}
         </h1>
