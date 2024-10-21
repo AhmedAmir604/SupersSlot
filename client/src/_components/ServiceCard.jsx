@@ -1,8 +1,11 @@
 import React from "react";
 
-function ServiceCard({ service }) {
+function ServiceCard({ service, clickHandler }) {
   return (
-    <div className="md:w-[40%] w-[80%] min-h-[18rem] border-[5px] border-transparent hover:border-[#121212] flex flex-col lg:flex-row items-center bg-[#2c2c2c] shadow-lg rounded-lg p-4 mb-4 hover:shadow-xl transition-shadow duration-300">
+    <div
+      onClick={() => clickHandler(service._id)}
+      className="md:w-[40%] cursor-pointer hover:-translate-y-3 hover:translate-x-2 transition-all w-[80%] min-h-[18rem] border-[5px] border-transparent hover:border-[#121212] flex flex-col lg:flex-row items-center bg-[#2c2c2c] shadow-lg rounded-lg p-4 mb-4 hover:shadow-xl duration-300"
+    >
       <img
         className="w-16 h-16 rounded-full object-cover mr-4"
         src={

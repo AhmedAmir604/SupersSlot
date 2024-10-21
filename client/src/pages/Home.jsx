@@ -3,12 +3,18 @@ import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import Categories from "@/_components/Categories";
 import ServiceCard from "@/_components/ServiceCard";
-import { getAllServices } from "@/handlers/servicesHandlers";
+import { getAllServices, getService } from "@/handlers/servicesHandlers";
 import Filter from "@/_components/Filter";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [query, setQuery] = useState("");
   const [services, setServices] = useState([]);
+  const navigate = useNavigate();
+
+  const clickHandler = async (id) => {
+    navigate(`/services/${id}`);
+  };
 
   useEffect(() => {
     async function getAll() {
@@ -52,7 +58,11 @@ export default function Home() {
       {/* <ServicesCard /> */}
       <div className="flex flex-col md:flex-row  items-center md:justify-around gap-4 flex-wrap mt-10">
         {services.map((service, index) => (
-          <ServiceCard key={index} service={service} />
+          <ServiceCard
+            clickHandler={clickHandler}
+            key={index}
+            service={service}
+          />
         ))}
       </div>
     </section>

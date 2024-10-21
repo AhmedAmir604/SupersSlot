@@ -11,6 +11,7 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
 import Booking from "./pages/Booking.jsx";
+import ServiceDetails from "./pages/ServiceDetails.jsx";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/services/:id" element={<ServiceDetails />} />
       </Routes>
     </main>
   );
