@@ -21,7 +21,7 @@ function App() {
     "/forgot-password",
     "/reset-password",
   ];
-
+  //React spa
   return (
     <main className="h-[140vh] font-noto">
       {!hideNavBarPaths.includes(location.pathname) && <NavBar />}
