@@ -23,7 +23,7 @@ function App() {
   ];
   //React spa
   return (
-    <main className="h-[140vh] font-noto">
+    <main className="font-noto">
       {!hideNavBarPaths.includes(location.pathname) && <NavBar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />

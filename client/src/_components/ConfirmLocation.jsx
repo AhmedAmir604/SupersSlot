@@ -3,9 +3,13 @@ import { MdOutlineDone } from "react-icons/md";
 import LimitServices from "./LimitServices";
 import { Button } from "@/components/ui/button";
 
-export default function ConfirmLocation({ services, selectedService }) {
+export default function ConfirmLocation({
+  services,
+  selection,
+  setSelection,
+  service,
+}) {
   const [expand, setExpand] = useState(false);
-  const [selection, setSelection] = useState(selectedService.name);
 
   return (
     <section>
@@ -15,18 +19,18 @@ export default function ConfirmLocation({ services, selectedService }) {
       >
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl transition-all duration-200">
-            {!expand && selection ? (
+            {!expand && selection.name ? (
               <MdOutlineDone className="bg-green-600 rounded-full p-1" />
             ) : (
               <h1 className="border border-green-500 font-bold text-green-500 rounded-full h-5 w-5 flex items-center justify-center text-[12px]">
                 1
               </h1>
-            )}{" "}
+            )}
           </div>
           <h1 className="font-bold text-lg capitalize">Confirm Location</h1>
         </div>
         <h1 className="text-lg text-blue-500 font-bold mr-12">
-          {selection ? selection : ""}
+          {selection?.name ? selection?.name : ""}
         </h1>
       </div>
       <div
@@ -37,14 +41,14 @@ export default function ConfirmLocation({ services, selectedService }) {
         } transition-all overflow-hidden duration-200 flex flex-col px-8`}
       >
         <Button className="bg-blue-600 text-white w-fit ml-auto hover:bg-blue-500 mt-4">
-          {services[0].serviceType}
+          {services[0]?.serviceType}
         </Button>
 
         <LimitServices
           selection={selection}
           setSelection={setSelection}
           services={services}
-          selectedService={selectedService}
+          service={service}
         />
       </div>
     </section>
