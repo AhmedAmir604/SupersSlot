@@ -44,7 +44,7 @@ export default function NavBar() {
     const checkLogin = async () => {
       try {
         const res = await isLoggedIn();
-        if (res) {
+        if (res.data.user) {
           const { name, photo } = res.data.user;
           setUser({ name: name.split(" ")[0], photo });
         }
@@ -111,7 +111,7 @@ export default function NavBar() {
         <div className="hidden md:flex px-4 gap-6 items-center">
           <NavItem navigateTo="/home" icon={GoHome} label="HOME" />
           <NavItem
-            navigateTo="/booking"
+            navigateTo="/home"
             icon={LuCalendar}
             label="SCHEDULE AN APPOINTMENT"
           />

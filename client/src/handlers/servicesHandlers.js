@@ -41,3 +41,15 @@ export const getSomeServices = async (query) => {
     return err.response.data;
   }
 };
+
+export const getServicesForBooking = async (id) => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/bookings/${id}`,
+    });
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};

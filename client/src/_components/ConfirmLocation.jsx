@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
 import LimitServices from "./LimitServices";
+import { Button } from "@/components/ui/button";
 
-export default function ConfirmLocation() {
+export default function ConfirmLocation({ services, selectedService }) {
   const [expand, setExpand] = useState(false);
-  const [selection, setSelection] = useState();
+  const [selection, setSelection] = useState(selectedService.name);
 
   return (
     <section>
@@ -33,9 +34,18 @@ export default function ConfirmLocation() {
           expand
             ? "opacity-100 max-h-[500px] translate-y-0"
             : "opacity-0 max-h-0 -translate-y-6"
-        } transition-all overflow-hidden duration-200 flex gap-4 px-8`}
+        } transition-all overflow-hidden duration-200 flex flex-col px-8`}
       >
-        <LimitServices selection={selection} setSelection={setSelection} />
+        <Button className="bg-blue-600 text-white w-fit ml-auto hover:bg-blue-500 mt-4">
+          {services[0].serviceType}
+        </Button>
+
+        <LimitServices
+          selection={selection}
+          setSelection={setSelection}
+          services={services}
+          selectedService={selectedService}
+        />
       </div>
     </section>
   );

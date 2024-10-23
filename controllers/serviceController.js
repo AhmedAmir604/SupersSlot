@@ -88,3 +88,21 @@ export const deleteService = catchAsync(async (req, res, next) => {
     message: "Service deleted successfully",
   });
 });
+
+export const getServicesForBooking = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const service = await servicesService.getOne(id);
+  const services = await servicesService.find(
+    { serviceType: service.serviceType },
+    "name price ratingsAverage ratingsQuantity serviceType",
+    4
+  );
+  //THis one is filterd service type wihtout the service we get via getOne
+  const serviceTypes = services.filter((s) => s.id !== service.id);
+
+  res.status(200).json({
+    status: "success",
+    service,
+    serviceTypes,
+  });
+});

@@ -14,8 +14,8 @@ class Model {
   }
 
   //Changed this from findById to find only specifically
-  async find(filter, selections = "", populateOptions) {
-    let query = this.mongooseModel.find(filter).select(selections);
+  async find(filter, selections = "", limit = "", populateOptions) {
+    let query = this.mongooseModel.find(filter).select(selections).limit(limit);
     if (populateOptions) query = query.populate(populateOptions);
     return await query;
   }

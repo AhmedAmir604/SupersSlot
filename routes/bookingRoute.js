@@ -8,12 +8,14 @@ import {
   updateBooking,
 } from "../controllers/bookingController.js";
 import { protect, restrictTo } from "../controllers/authController.js";
+import { getServicesForBooking } from "../controllers/serviceController.js";
 
 const bookingRoute = express.Router();
 
 bookingRoute.use(protect);
 bookingRoute.route("/").post(createBooking).get(unavailableBookings);
 bookingRoute.route("/my-bookings").get(getMyBookings).patch(updateBooking);
+bookingRoute.route("/:id").get(getServicesForBooking);
 
 bookingRoute.use(restrictTo("admin", "service-provider"));
 bookingRoute.route("/").get(getAllBookings);

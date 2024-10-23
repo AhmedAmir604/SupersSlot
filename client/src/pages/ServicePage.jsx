@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button"; // Import shadcn Button
 import { getService } from "@/handlers/servicesHandlers";
 import { useParams } from "react-router-dom";
 
-export default function ServicePage({ service }) {
+export default function ServicePage({ service, clickHandler }) {
   // Memoizing the JSX for improved rendering efficiency
+
   const serviceInfo = useMemo(
     () => (
       <div className="flex flex-col gap-[4rem] pl-0 md:pl-[5rem]">
@@ -106,7 +107,7 @@ export default function ServicePage({ service }) {
       </div>
 
       <div className="flex flex-col md:flex-col md:items-center pb-[3rem] mx-auto w-[70vw] gap-20">
-        <Button onClick={() => alert("Booking confirmed!")}>Book Now</Button>
+        <Button onClick={() => clickHandler()}>Book Now</Button>
       </div>
     </section>
   );
