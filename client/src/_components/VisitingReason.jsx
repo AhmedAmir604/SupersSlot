@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
 
-export default function VisitingReason() {
+export default function VisitingReason({ category, setCategory, categories }) {
   const [expand, setExpand] = useState(false);
   const [selection, setSelection] = useState();
 
@@ -41,24 +41,18 @@ export default function VisitingReason() {
             What are you visiting for?
           </h1>
           <div className="flex flex-wrap gap-4">
-            {[
-              "ToothPain",
-              "Denturus",
-              "Broken Tooth",
-              "Check up",
-              "Cosmetic",
-              "Others",
-            ].map((item, index) => (
-              <div
-                onClick={() => setSelection(item)}
-                key={index}
-                className={`cursor-pointer text-md font-bold text-gray-600 border border-gray-200 px-6 py-2 shadow-md hover:shadow-lg transition-all duration-200 ${
-                  selection === item && "bg-blue-700 text-white"
-                } rounded-md`}
-              >
-                {item}
-              </div>
-            ))}
+            {categories &&
+              categories.map((item, index) => (
+                <div
+                  onClick={() => setSelection(item)}
+                  key={index}
+                  className={`cursor-pointer text-md font-bold text-gray-600 border border-gray-200 px-6 py-2 shadow-md hover:shadow-lg transition-all duration-200 ${
+                    selection === item && "bg-blue-700 text-white"
+                  } rounded-md`}
+                >
+                  {item}
+                </div>
+              ))}
           </div>
 
           <div className=" mt-6">

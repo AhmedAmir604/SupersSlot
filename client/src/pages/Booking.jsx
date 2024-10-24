@@ -15,6 +15,7 @@ export default function Booking() {
     name: "",
     id: "",
   });
+  const [category, setCategory] = useState();
 
   const [service, setService] = useState({
     services: [],
@@ -60,7 +61,11 @@ export default function Booking() {
           selection={selection}
           setSelection={setSelection}
         />
-        <VisitingReason />
+        <VisitingReason
+          categories={service.service.categories}
+          category={category}
+          setCategory={setCategory}
+        />
         <SelectDateTime />
         <PatientDetails />
       </div>

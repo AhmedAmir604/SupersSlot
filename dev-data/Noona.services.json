@@ -1,0 +1,212 @@
+[
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4ab"
+    },
+    "name": "Premium Haircut les go",
+    "shopName": "Elite Barber Shop",
+    "description": "A premium haircut experience with expert barbers.",
+    "serviceType": "barber",
+    "price": 50,
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "coordinates": [-73.935242, 40.73061]
+    },
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 150,
+    "phoneNumber": "(123) 456-7890",
+    "openingHours": "Mon-Fri: 9 AM - 7 PM",
+    "images": ["https://images.unsplash.com/photo-1512488505297-7ffe57fe622d"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834620"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.436Z"
+    },
+    "__v": 0,
+    "categories": ["Haircut", "Barber", "Men's Grooming"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4ae"
+    },
+    "name": "Full Body Massage",
+    "shopName": "Tranquil Spa",
+    "description": "Relax and unwind with our full-body massage.",
+    "serviceType": "massage",
+    "price": 100,
+    "address": {
+      "street": "321 Oak Street",
+      "city": "Miami",
+      "state": "FL",
+      "zipCode": "33101",
+      "coordinates": [-80.19179, 25.76168]
+    },
+    "ratingsAverage": 2.6,
+    "ratingsQuantity": 204,
+    "phoneNumber": "(321) 654-0987",
+    "openingHours": "Mon-Sun: 10 AM - 9 PM",
+    "images": ["https://images.unsplash.com/photo-1551742943-8a29d4ee3eec"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834623"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.443Z"
+    },
+    "__v": 0,
+    "categories": ["Massage", "Wellness", "Relaxation"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4af"
+    },
+    "name": "Relaxing Foot Massage",
+    "shopName": "Zen Massage Center",
+    "description": "Soothing foot massage to relieve stress and tension.",
+    "serviceType": "massage",
+    "price": 45,
+    "address": {
+      "street": "654 Maple Street",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60601",
+      "coordinates": [-87.623177, 41.881832]
+    },
+    "ratingsAverage": 4.5,
+    "ratingsQuantity": 75,
+    "phoneNumber": "(876) 543-2109",
+    "openingHours": "Tue-Sat: 11 AM - 7 PM",
+    "images": ["https://images.unsplash.com/photo-1574158622681-c295b5da56d2"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834624"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.443Z"
+    },
+    "__v": 0,
+    "categories": ["Massage", "Wellness", "Foot Care"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4b0"
+    },
+    "name": "Hair Coloring",
+    "shopName": "Color Me Salon",
+    "description": "Professional hair coloring with natural products.",
+    "serviceType": "salon",
+    "price": 120,
+    "address": {
+      "street": "987 Cedar Avenue",
+      "city": "Houston",
+      "state": "TX",
+      "zipCode": "77002",
+      "coordinates": [-95.369804, 29.760427]
+    },
+    "ratingsAverage": 4.4,
+    "ratingsQuantity": 90,
+    "phoneNumber": "(345) 678-9101",
+    "openingHours": "Wed-Sun: 10 AM - 6 PM",
+    "images": ["https://images.unsplash.com/photo-1600225056913-8c61f0070cb7"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834625"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.444Z"
+    },
+    "__v": 0,
+    "categories": ["Hair Coloring", "Salon", "Beauty"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4b1"
+    },
+    "name": "Swedish Massage",
+    "shopName": "Relaxation Spa",
+    "description": "A gentle full-body massage for relaxation.",
+    "serviceType": "massage",
+    "price": 90,
+    "address": {
+      "street": "111 Birch Road",
+      "city": "Dallas",
+      "state": "TX",
+      "zipCode": "75201",
+      "coordinates": [-96.797, 32.7767]
+    },
+    "ratingsAverage": 4.3,
+    "ratingsQuantity": 65,
+    "phoneNumber": "(231) 456-7890",
+    "openingHours": "Mon-Sat: 9 AM - 8 PM",
+    "images": ["https://images.unsplash.com/photo-1571459123036-b39f65e2b3b0"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834626"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.445Z"
+    },
+    "__v": 0,
+    "categories": ["Massage", "Wellness", "Relaxation"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4b2"
+    },
+    "name": "Manicure and Pedicure",
+    "shopName": "Nail Art Studio",
+    "description": "Get a stylish manicure and pedicure by our experts.",
+    "serviceType": "salon",
+    "price": 60,
+    "address": {
+      "street": "222 Willow Drive",
+      "city": "Phoenix",
+      "state": "AZ",
+      "zipCode": "85001",
+      "coordinates": [-112.074036, 33.448376]
+    },
+    "ratingsAverage": 4.6,
+    "ratingsQuantity": 85,
+    "phoneNumber": "(654) 321-9876",
+    "openingHours": "Mon-Fri: 10 AM - 7 PM",
+    "images": ["https://images.unsplash.com/photo-1584452957938-2ca69a5b7ae3"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834627"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.446Z"
+    },
+    "__v": 0,
+    "categories": ["Nail Care", "Salon", "Beauty"]
+  },
+  {
+    "_id": {
+      "$oid": "66f8bfa5c38ebc642bbac4ac"
+    },
+    "name": "Classic Shave",
+    "shopName": "Downtown Barber",
+    "description": "A relaxing shave with hot towel service.",
+    "serviceType": "barber",
+    "price": 40,
+    "address": {
+      "street": "456 Elm Street",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90001",
+      "coordinates": [-118.243683, 34.052235]
+    },
+    "ratingsAverage": 4.6,
+    "ratingsQuantity": 100,
+    "phoneNumber": "(987) 654-3210",
+    "openingHours": "Tue-Sat: 10 AM - 6 PM",
+    "images": ["https://images.unsplash.com/photo-1575999929661-4c87e3a8ec5d"],
+    "owner": {
+      "$oid": "60d5b2f25b3a4b5d9f834621"
+    },
+    "createdAt": {
+      "$date": "2024-09-29T02:47:01.446Z"
+    },
+    "__v": 0,
+    "categories": ["Barber", "Men's Grooming", "Shave"]
+  }
+]

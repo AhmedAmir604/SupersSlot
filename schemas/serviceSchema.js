@@ -11,6 +11,40 @@ const serviceSchema = new mongoose.Schema({
     enum: ["barber", "salon", "spa", "massage"],
     required: [true, "A service type must be specified"],
   },
+  address: {
+    street: {
+      type: String,
+      required: [true, "Must have an address"],
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    zipCode: Number,
+    coordinates: [Number],
+  },
+  description: {
+    type: String,
+    required: [true, "A service must have service"],
+    minLength: [10, "Min length should be 10"],
+    maxLength: [400, "Max length should be 400"],
+  },
+  phoneNumber: {
+    type: String,
+  },
+  openingHours: {
+    type: String,
+    required: [true, "A service must have Opening Hours!"],
+  },
+  images: {
+    type: [String],
+  },
+  categories: {
+    type: [String],
+    required: [true, "A service must have categories"],
+  },
   price: {
     type: Number,
     required: [true, "Price must be specified"],

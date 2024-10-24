@@ -91,15 +91,26 @@ export const deleteService = catchAsync(async (req, res, next) => {
 
 export const getServicesForBooking = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const service = await servicesService.getOne(id);
-  const services = await servicesService.find(
-    { serviceType: service.serviceType },
-    "name price ratingsAverage ratingsQuantity serviceType",
-    4
-  );
-  //THis one is filterd service type wihtout the service we get via getOne
-  const serviceTypes = services.filter((s) => s.id !== service.id);
 
+  // Fetch the main service
+  const service = await servicesService.getOne(id);
+
+  // Initialize serviceTypes as null
+  let serviceTypes = null;
+
+  // If service is found, fetch related services
+  if (service) {
+    const services = await servicesService.find(
+      { serviceType: service.serviceType },
+      "name price ratingsAverage ratingsQuantity serviceType",
+      4
+    );
+
+    // Filter out the current service from the results
+    serviceTypes = services.filter((s) => s.id !== service.id);
+  }
+
+  // Respond with the service and its types
   res.status(200).json({
     status: "success",
     service,
