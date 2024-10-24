@@ -20,8 +20,7 @@ bookingSchema.post("save", async function (doc) {
     { path: "service", select: "name serviceType price" },
   ]);
 });
-
-bookingSchema.post("find", async function (docs) {
+bookingSchema.post("find", function (docs) {
   docs.forEach((doc) => {
     const startTime = new Date(doc.startTime);
     const endTime = new Date(doc.endTime);
@@ -29,14 +28,17 @@ bookingSchema.post("find", async function (docs) {
     const options = {
       weekday: "short", // 'Tue'
       hour: "numeric", // '1'
+      minute: "numeric", // Add minute formatting if needed
       hour12: true, // Convert 24-hour time to 12-hour time
     };
 
+    // Format start and end times
     const formattedStart = startTime.toLocaleString("en-US", options);
     const formattedEnd = endTime.toLocaleString("en-US", options);
-    // Use `toLocaleString()` with options for weekday and time formatting
 
-    console.log(formattedEnd, formattedStart); // Output: 'Tue, 1 PM'
+    // Add formatted times to the document object
+    doc._doc.formattedStart = formattedStart;
+    doc._doc.formattedEnd = formattedEnd;
   });
 });
 
