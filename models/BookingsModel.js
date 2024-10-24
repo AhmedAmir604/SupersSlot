@@ -21,6 +21,25 @@ bookingSchema.post("save", async function (doc) {
   ]);
 });
 
+bookingSchema.post("find", async function (docs) {
+  docs.forEach((doc) => {
+    const startTime = new Date(doc.startTime);
+    const endTime = new Date(doc.endTime);
+
+    const options = {
+      weekday: "short", // 'Tue'
+      hour: "numeric", // '1'
+      hour12: true, // Convert 24-hour time to 12-hour time
+    };
+
+    const formattedStart = startTime.toLocaleString("en-US", options);
+    const formattedEnd = endTime.toLocaleString("en-US", options);
+    // Use `toLocaleString()` with options for weekday and time formatting
+
+    console.log(formattedEnd, formattedStart); // Output: 'Tue, 1 PM'
+  });
+});
+
 class BookingModel extends Model {
   constructor(mongooseModel) {
     super(mongooseModel);
