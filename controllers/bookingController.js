@@ -54,8 +54,9 @@ export const updateBooking = catchAsync(async (req, res, next) => {
 });
 
 export const unavailableBookings = catchAsync(async (req, res, next) => {
-  const { service } = req.body;
-  const bookings = await bookingService.unavailableBookings(service);
+  const { id } = req.params;
+  const { date } = req.query;
+  const bookings = await bookingService.unavailableBookings(id, date);
   res.status(200).json({
     status: "success",
     count: bookings.length,

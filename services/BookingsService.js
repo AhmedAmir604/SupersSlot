@@ -119,10 +119,11 @@ class BookingService extends Service {
   //   return await this.model.unavailableBookings(service);
   // }
 
-  async unavailableBookings(service) {
-    const startOfDay = new Date();
+  async unavailableBookings(service, date) {
+    const startOfDay = new Date(date);
     startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date();
+    console.log(startOfDay);
+    const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
     return await this.model.find({
       service,

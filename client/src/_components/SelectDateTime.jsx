@@ -3,36 +3,44 @@ import { MdOutlineDone } from "react-icons/md";
 import Calender from "./Calender";
 import AvailableSlots from "./AvailableSlots";
 import dayjs from "dayjs";
+import { getBookedSlots } from "@/handlers/servicesHandlers"; // Import your API call
 
-export default function SelectDateTime() {
+export default function SelectDateTime({
+  id, // Accept id as a prop
+  bookedSlots,
+  setBookedSlots,
+  date,
+  setDate,
+  time,
+}) {
   const [expand, setExpand] = useState(false);
-  const [date, setDate] = useState(null); // Initially set to null
   const [slot, setSlot] = useState();
-  const [bookedSlots, setBookedSlots] = useState([]);
 
   const setDisplay = () => {
     if (date) {
-      return date.$d.toString().split(" ").slice(0, 3).join(" ");
+      return dayjs(date).format("ddd, MMM D"); // Format as e.g., "Wed, Oct 25"
     }
+    return ""; // Return empty string if no date is set
   };
 
   // Fetch booked slots when the date changes
   useEffect(() => {
     if (date) {
-      // Example of fetching booked slots from an API (or use a static array)
-      const formattedDate = dayjs(date.$d).format("YYYY-MM-DD"); // Format date to match your backend
+      const formattedDate = dayjs(date).format("YYYY-MM-DD"); // Format date to match your backend
       fetchBookedSlots(formattedDate);
     }
-  }, [date]);
+    setSlot(null);
+  }, [date, id]); // Add id as a dependency to ensure it works when id changes
 
-  const fetchBookedSlots = (formattedDate) => {
-    // Replace this with an API call to fetch booked slots for the selected date
-    const dummyBookedSlots = {
-      "2024-10-24": ["09:00", "14:00"], // Example: these slots are booked for 2024-10-24
-      "2024-10-25": ["10:00", "15:00"], // Booked slots for another date
-    };
-
-    setBookedSlots(dummyBookedSlots[formattedDate] || []);
+  const fetchBookedSlots = async (formattedDate) => {
+    setBookedSlots([]); // Reset bookedSlots before fetching new slots
+    try {
+      const res = await getBookedSlots(id, formattedDate);
+      const slots = res.data.bookings || [];
+      setBookedSlots(slots);
+    } catch (err) {
+      console.error("Error fetching booked slots:", err);
+    }
   };
 
   return (
@@ -55,13 +63,13 @@ export default function SelectDateTime() {
         </div>
 
         <h1 className="text-lg text-blue-500 font-bold mr-12">
-          {date ? ` ${setDisplay()} : ${slot} ` : ""}
+          {date ? ` ${setDisplay()} : ${slot || "Select Time"}` : "Select Date"}
         </h1>
       </div>
       <div
         className={`${
           expand
-            ? "opacity-100 max-h-[500px] translate-y-0"
+            ? "opacity-100 max-h-full translate-y-0"
             : "opacity-0 max-h-0 -translate-y-6"
         } transition-all overflow-hidden duration-200 flex gap-4 px-8`}
       >
@@ -71,6 +79,7 @@ export default function SelectDateTime() {
           setSlot={setSlot}
           date={date}
           bookedSlots={bookedSlots}
+          time={time}
         />
       </div>
     </section>

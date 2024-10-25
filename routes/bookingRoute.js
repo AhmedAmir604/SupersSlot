@@ -14,7 +14,7 @@ const bookingRoute = express.Router();
 
 bookingRoute.use(protect);
 bookingRoute.route("/").post(createBooking);
-bookingRoute.route("/unavailable-bookings").get(unavailableBookings);
+bookingRoute.route("/unavailable-bookings/:id").get(unavailableBookings);
 bookingRoute.route("/my-bookings").get(getMyBookings).patch(updateBooking);
 bookingRoute.route("/:id").get(getServicesForBooking);
 

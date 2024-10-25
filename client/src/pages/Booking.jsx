@@ -4,40 +4,40 @@ import SelectDateTime from "@/_components/SelectDateTime";
 import VisitingReason from "@/_components/VisitingReason";
 import PatientDetails from "@/_components/PatientDetails";
 import { useParams, useNavigate } from "react-router-dom";
-import { getServicesForBooking } from "@/handlers/servicesHandlers";
+import {
+  getBookedSlots,
+  getServicesForBooking,
+} from "@/handlers/servicesHandlers";
 
 export default function Booking() {
-  const params = useParams();
-  const { id } = params;
+  const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [selection, setSelection] = useState({
-    name: "",
-    id: "",
-  });
+  const [selection, setSelection] = useState({ name: "", id: "" });
   const [category, setCategory] = useState();
-
-  const [service, setService] = useState({
-    services: [],
-    service: null,
-  });
+  const [service, setService] = useState({ services: [], service: null });
+  const [bookedSlots, setBookedSlots] = useState([]);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // Initially set to today
+  const [time, setTime] = useState();
 
   useEffect(() => {
     (async () => {
       try {
+        // Fetch services for booking
         const res = await getServicesForBooking(id);
-        if (res && res.data.service) {
+        if (res?.data?.service) {
           setService({
-            services: res.data.serviceTypes,
+            services: res.data.serviceTypes || [],
             service: res.data.service,
           });
           setSelection({
-            name: res.data.service.name,
-            id: res.data.service._id,
+            name: res.data.service.name || "",
+            id: res.data.service._id || "",
           });
+          setTime(res.data.service.time);
         }
       } catch (err) {
-        if (err?.data?.error?.statusCode === 401) {
+        if (err?.response?.status === 401) {
           navigate("/login");
         }
       } finally {
@@ -50,26 +50,33 @@ export default function Booking() {
     return <div>Loading...</div>;
   }
 
-  // Add a null check before accessing service.service
-
   return (
     <section className="w-full px-20 mt-10 flex justify-around">
-      <div className="w-[60%] flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         <ConfirmLocation
           services={service.services}
-          service={service.service} // Use the local variable to avoid accessing `service.service` before it's set
+          service={service.service}
           selection={selection}
           setSelection={setSelection}
         />
-        <VisitingReason
-          categories={service.service.categories}
-          category={category}
-          setCategory={setCategory}
+        {service.service?.categories && (
+          <VisitingReason
+            categories={service.service.categories}
+            category={category}
+            setCategory={setCategory}
+          />
+        )}
+        <SelectDateTime
+          id={id} // Pass the id to SelectDateTime
+          bookedSlots={bookedSlots}
+          setBookedSlots={setBookedSlots}
+          date={date}
+          setDate={setDate}
+          time={time}
         />
-        <SelectDateTime />
         <PatientDetails />
       </div>
-      <img src="map.png" className="w-[25rem] h-[20rem]" alt="Map" />
+      {/* <img src="map.png" className="w-[25rem] h-[20rem]" alt="Map" /> */}
     </section>
   );
 }

@@ -53,3 +53,15 @@ export const getServicesForBooking = async (id) => {
     throw err.response;
   }
 };
+
+export const getBookedSlots = async (id, date) => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/bookings/unavailable-bookings/${id}?date=${date}`,
+    });
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};
