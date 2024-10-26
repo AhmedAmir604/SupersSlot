@@ -12,6 +12,7 @@ import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
 import Booking from "./pages/Booking.jsx";
 import ServiceDetails from "./pages/ServiceDetails.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/services/:id" element={<ServiceDetails />} />
         <Route path="/bookings/:id" element={<Booking />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </main>
   );

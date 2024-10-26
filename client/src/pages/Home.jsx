@@ -3,7 +3,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
 import Categories from "@/_components/Categories";
 import ServiceCard from "@/_components/ServiceCard";
-import { getAllServices, getService } from "@/handlers/servicesHandlers";
+import { getAllServices } from "@/handlers/servicesHandlers";
 import Filter from "@/_components/Filter";
 import { useNavigate } from "react-router-dom";
 
@@ -22,41 +22,44 @@ export default function Home() {
         const res = await getAllServices(query);
         if (res) setServices(res.data.services);
       } catch (err) {
-        console.error("Failed to fetch services:", err); // Log the error to the console
+        console.error("Failed to fetch services:", err);
       }
     }
     getAll();
   }, [query]);
 
   return (
-    <section className="bg-[#181313] flex flex-col items-center px- py-6">
-      <div className="mb-10 bg-gradient-to-r w-[90%] from-[#7f7362] to-[#52422b] px-4 md:px-14 py-20 rounded-2xl">
-        <h1 className="text-2xl md:text-4xl font-semibold text-white mb-10">
-          Book everything, now.
+    <section className="bg-white flex flex-col items-center px-4 py-6 ">
+      <div className="mb-10 w-full max-w-3xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-12 rounded-xl shadow-lg">
+        <h1 className="text-3xl font-semibold text-white mb-8 text-center">
+          Discover Services
         </h1>
-        <label className="relative">
+        <label className="relative block">
           <input
-            className="w-[70%] lg:w-1/2 py-2 placeholder:text-gray-700 rounded-full px-8"
-            placeholder="Search"
+            className="w-full py-2 rounded-full pl-10 pr-4 text-gray-700 placeholder:text-gray-500 focus:outline-none"
+            placeholder="Search services"
             id="search"
             name="search"
             type="text"
             inputMode="search"
-          ></input>
-          <IoSearchOutline className="absolute text-xl top-0.5 left-2" />
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <IoSearchOutline className="absolute text-2xl top-2 left-3 text-gray-500" />
         </label>
-        <div className="text-sm flex items-center gap-2 text-white mt-2">
-          <CiLocationOn className="text-xl " />
-          <span className=""> New York City, United States</span>
+        <div className="text-xs flex items-center gap-1 text-white mt-2 justify-center">
+          <CiLocationOn className="text-lg" />
+          <span>New York City, United States</span>
         </div>
       </div>
+
       <Categories />
-      <div className="w-full px-16 flex justify-end mt-6">
+
+      <div className="w-full max-w-3xl mt-6">
         <Filter query={query} setQuery={setQuery} />
       </div>
 
-      {/* <ServicesCard /> */}
-      <div className="flex flex-col md:flex-row  items-center md:justify-around gap-4 flex-wrap mt-10">
+      {/* Gradient Background for Card Section */}
+      <div className="flex flex-wrap gap-8 mt-8 justify-center w-full max-w-4xl bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-6 rounded-lg shadow-lg">
         {services.map((service, index) => (
           <ServiceCard
             clickHandler={clickHandler}

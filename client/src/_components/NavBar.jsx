@@ -71,12 +71,16 @@ export default function NavBar() {
   return (
     <nav className="sticky top-0 z-30 bg-white border-b border-gray-200 py-2 px-4 lg:px-20 flex justify-between items-center">
       <div className="md:hidden flex justify-between w-full px-4 items-center">
-        <button
-          onClick={toggleMenu}
-          className="text-2xl text-gray-500 hover:text-[#3ba4f5]"
-        >
-          <RxHamburgerMenu />
-        </button>
+        {user && (
+          <button
+            onClick={toggleMenu}
+            className={` text-2xl text-gray-500 hover:text-[#3ba4f5] ${
+              !user && "hidden"
+            }`}
+          >
+            <RxHamburgerMenu />
+          </button>
+        )}
         {user && (
           <div className="flex items-center relative">
             <img
@@ -154,17 +158,24 @@ export default function NavBar() {
           </div>
         </div>
       ) : (
-        <div>
-          <Button onClick={() => navigate("/signup")} className="bg-blue-600">
+        <div className="flex md:justify-end gap-4">
+          <Button
+            onClick={() => navigate("/signup")}
+            className="bg-blue-600 hover:bg-blue-500"
+          >
             Signup
           </Button>
-          <Button onClick={() => navigate("/login")} className="bg-blue-600">
+          <Button
+            onClick={() => navigate("/login")}
+            className="bg-blue-600 hover:bg-blue-500"
+          >
             Login
           </Button>
         </div>
       )}
-
-      <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} user={user} />
+      {user && (
+        <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} user={user} />
+      )}
     </nav>
   );
 }
