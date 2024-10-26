@@ -12,6 +12,7 @@ export default function SelectDateTime({
   date,
   setDate,
   time,
+  openingHours,
 }) {
   const [expand, setExpand] = useState(false);
   const [slot, setSlot] = useState();
@@ -70,10 +71,14 @@ export default function SelectDateTime({
         className={`${
           expand
             ? "opacity-100 max-h-full translate-y-0"
-            : "opacity-0 max-h-0 -translate-y-6"
-        } transition-all overflow-hidden duration-200 flex gap-4 px-8`}
+            : "opacity-0 max-h-0 -translate-y-1"
+        } transition-all overflow-hidden duration-200 flex items-center gap-4 px-8`}
       >
-        <Calender setDate={setDate} />
+        <Calender
+          open={openingHours.open}
+          close={openingHours.close}
+          setDate={setDate}
+        />
         <AvailableSlots
           slot={slot}
           setSlot={setSlot}

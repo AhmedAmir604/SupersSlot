@@ -19,6 +19,10 @@ export default function Booking() {
   const [bookedSlots, setBookedSlots] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // Initially set to today
   const [time, setTime] = useState();
+  const [openingHours, setOpeningHours] = useState({
+    open: "",
+    close: "",
+  });
 
   useEffect(() => {
     (async () => {
@@ -35,6 +39,12 @@ export default function Booking() {
             id: res.data.service._id || "",
           });
           setTime(res.data.service.time);
+          const day = res.data.service.openingHours.split(":")[0].split("-");
+          setOpeningHours({
+            open: day[0],
+            close: day[1],
+          });
+          console.log(day);
         }
       } catch (err) {
         if (err?.response?.status === 401) {
@@ -73,6 +83,7 @@ export default function Booking() {
           date={date}
           setDate={setDate}
           time={time}
+          openingHours={openingHours}
         />
         <PatientDetails />
       </div>
