@@ -2,12 +2,15 @@ import ConfirmLocation from "@/_components/ConfirmLocation";
 import React, { useEffect, useState } from "react";
 import SelectDateTime from "@/_components/SelectDateTime";
 import VisitingReason from "@/_components/VisitingReason";
-import PatientDetails from "@/_components/PatientDetails";
+import BookingNotForYou from "@/_components/BookingNotForYou";
 import { useParams, useNavigate } from "react-router-dom";
 import {
+  bookSlot,
   getBookedSlots,
   getServicesForBooking,
 } from "@/handlers/servicesHandlers";
+import { Button } from "@/components/ui/button";
+import dayjs from "dayjs";
 
 export default function Booking() {
   const { id } = useParams();
@@ -17,12 +20,54 @@ export default function Booking() {
   const [category, setCategory] = useState();
   const [service, setService] = useState({ services: [], service: null });
   const [bookedSlots, setBookedSlots] = useState([]);
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // Initially set to today
+  const [date, setDate] = useState(); // Initially set to today
   const [time, setTime] = useState();
+  const [slot, setSlot] = useState();
+  const [loader, setLoader] = useState(false);
   const [openingHours, setOpeningHours] = useState({
     open: "",
     close: "",
   });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const clickHandler = async () => {
+    // Extract hour and minute from slot
+    setLoader(true);
+
+    const hour = parseInt(slot.split(":")[0], 10);
+    const minute = parseInt(slot.split(":")[1] || 0, 10);
+
+    // Use the date object and then set hour and minute
+    const formattedDate = dayjs(date).hour(hour).minute(minute);
+    const endTime = formattedDate.add("1", "hour");
+    const data = {
+      service: id,
+      startTime: formattedDate.format("YYYY-MM-DD HH:mm"),
+      endTime: endTime.format("YYYY-MM-DD HH:mm"),
+      categories: category,
+      price: service.service.price,
+      bookingFor: {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+      },
+    };
+
+    try {
+      const res = await bookSlot(data);
+      if (res) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -83,8 +128,22 @@ export default function Booking() {
           setDate={setDate}
           time={time}
           openingHours={openingHours}
+          slot={slot}
+          setSlot={setSlot}
         />
-        <PatientDetails />
+        <BookingNotForYou form={form} setForm={setForm} />
+        <div className="flex gap-4 items-center">
+          <Button
+            disabled={loader}
+            onClick={() => clickHandler()}
+            className={`w-fit px-7 bg-blue-600 hover:bg-blue-500 mt-4 `}
+          >
+            {!loader ? "Book" : "Loading..."}
+          </Button>
+          <span className="mt-4 text-sm px-3 py-1 border-[2px] border-blue-400 rounded-lg">
+            ${service.service.price}/Hr
+          </span>
+        </div>
       </div>
       {/* <img src="map.png" className="w-[25rem] h-[20rem]" alt="Map" /> */}
     </section>

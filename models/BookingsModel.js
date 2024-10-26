@@ -4,9 +4,29 @@ import mongoose from "mongoose";
 import serviceModel from "./ServicesModel.js";
 
 bookingSchema.pre("save", async function (next) {
-  this.startTime = new Date(this.startTime).toISOString();
-  this.endTime = new Date(this.endTime).toISOString();
+  this.startTime = new Date(this.startTime);
+  this.endTime = new Date(this.endTime);
+  const currentTime = new Date();
+
+  if (this.startTime < currentTime) {
+    return next(new Error("Cannot make bookings for past!")); // Properly pass the error to next
+  }
+  //After checking the current status parsing the times into iso
+  this.startTime = this.startTime.toISOString();
+  this.endTime = this.endTime.toISOString();
+  next(); // Call next if the time is valid
+});
+
+bookingSchema.pre("save", async function (next) {
   next();
+});
+
+bookingSchema.pre("save", async function (next) {
+  const doc = await serviceModel.find({ _id: this.service }, "categories");
+  if (doc[0].categories.includes(this.categories)) {
+    next();
+  }
+  throw new Error("Such service is not offered by the Shop");
 });
 
 bookingSchema.pre("save", async function (next) {

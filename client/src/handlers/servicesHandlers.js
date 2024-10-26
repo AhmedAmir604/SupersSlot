@@ -65,3 +65,16 @@ export const getBookedSlots = async (id, date) => {
     throw err.response;
   }
 };
+
+export const bookSlot = async (data) => {
+  try {
+    const res = await axios({
+      method: "POST",
+      url: `${url}/bookings`,
+      data,
+    });
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};

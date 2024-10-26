@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
 
-export default function PatientDetails() {
+export default function BookingNotForYou({ form, setForm }) {
   const [expand, setExpand] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
   const [display, setDisplay] = useState();
   const [submitted, setSubmitted] = useState(false); // To track submission
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+    setForm((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page reload
-    setDisplay(formData.name);
+    setDisplay(form?.name);
     setSubmitted(true); // Track that form has been submitted
   };
 
@@ -38,7 +33,7 @@ export default function PatientDetails() {
               </h1>
             )}
           </div>
-          <h1 className="font-bold text-md capitalize">PATIENT DETAILS</h1>
+          <h1 className="font-bold text-md capitalize">Booking not for You?</h1>
         </div>
         <h1 className="text-md text-blue-500 font-bold mr-12">{display}</h1>
       </div>
@@ -62,7 +57,7 @@ export default function PatientDetails() {
                 required
                 id="name"
                 type="text"
-                value={formData.name}
+                value={form?.name}
                 onChange={handleChange}
                 className="border rounded-md p-2"
               />
@@ -75,7 +70,7 @@ export default function PatientDetails() {
                 required
                 id="phone"
                 type="tel"
-                value={formData.phone}
+                value={form?.phone}
                 onChange={handleChange}
                 className="border rounded-md p-2"
               />
@@ -90,7 +85,7 @@ export default function PatientDetails() {
               required
               id="email"
               type="email"
-              value={formData.email}
+              value={form?.email}
               onChange={handleChange}
               className="border rounded-md p-2 w-1/2"
             />

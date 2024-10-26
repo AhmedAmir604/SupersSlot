@@ -13,9 +13,10 @@ export default function SelectDateTime({
   setDate,
   time,
   openingHours,
+  slot,
+  setSlot,
 }) {
   const [expand, setExpand] = useState(false);
-  const [slot, setSlot] = useState();
 
   const setDisplay = () => {
     if (date) {
@@ -60,10 +61,10 @@ export default function SelectDateTime({
               </h1>
             )}
           </div>
-          <h1 className="font-bold text-lg capitalize">SELECT DATE & TIME</h1>
+          <h1 className="font-bold text-md capitalize">select date & time</h1>
         </div>
 
-        <h1 className="text-lg text-blue-500 font-bold mr-12">
+        <h1 className=" text-md capitalize text-blue-500 font-bold mr-12">
           {date ? ` ${setDisplay()} : ${slot || "Select Time"}` : "Select Date"}
         </h1>
       </div>

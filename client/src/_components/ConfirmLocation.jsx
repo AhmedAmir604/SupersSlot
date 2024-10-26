@@ -27,9 +27,11 @@ export default function ConfirmLocation({
               </h1>
             )}
           </div>
-          <h1 className="font-bold text-lg capitalize">Confirm Location</h1>
+          <h1 className="font-bold text-md capitalize capitalize">
+            Confirm Location
+          </h1>
         </div>
-        <h1 className="text-lg text-blue-500 font-bold mr-12">
+        <h1 className="font-bold text-md capitalize text-blue-500 mr-12">
           {selection?.name ? selection?.name : ""}
         </h1>
       </div>
