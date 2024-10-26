@@ -105,8 +105,8 @@ export default function Booking() {
   }
 
   return (
-    <section className="w-full px-20 mt-10 flex justify-around">
-      <div className="flex flex-col gap-4">
+    <section className=" mt-10 px-8 flex justify-center">
+      <div className="flex flex-col items-center gap-4 sm:w-[90vw] md:w-1/2">
         <ConfirmLocation
           services={service.services}
           service={service.service}
@@ -132,13 +132,13 @@ export default function Booking() {
           setSlot={setSlot}
         />
         <BookingNotForYou form={form} setForm={setForm} />
-        <div className="flex gap-4 items-center">
+        <div className="flex flex-col sm:flex-row gap-0 sm:gap-4 items-center">
           <Button
             disabled={loader}
             onClick={() => clickHandler()}
             className={`w-fit px-7 bg-blue-600 hover:bg-blue-500 mt-4 `}
           >
-            {!loader ? "Book" : "Loading..."}
+            {!loader ? "Confirm Booking" : "Loading..."}
           </Button>
           <span className="mt-4 text-sm px-3 py-1 border-[2px] border-blue-400 rounded-lg">
             ${service.service.price}/Hr

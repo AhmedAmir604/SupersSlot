@@ -29,7 +29,7 @@ export default function Home() {
   }, [query]);
 
   return (
-    <section className="bg-white flex flex-col items-center px-4 py-6 ">
+    <section className="bg-white flex flex-col items-center px-0 md:px-4 py-6  ">
       <div className="mb-10 w-full max-w-3xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-12 rounded-xl shadow-lg">
         <h1 className="text-3xl font-semibold text-white mb-8 text-center">
           Discover Services
@@ -59,7 +59,7 @@ export default function Home() {
       </div>
 
       {/* Gradient Background for Card Section */}
-      <div className="flex flex-wrap gap-8 mt-8 justify-center w-full max-w-4xl bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-6 rounded-lg shadow-lg">
+      <div className="flex flex-wrap gap-8 mt-8 justify-center  w-full max-w-4xl bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-3 md:p-6 py-4 rounded-lg shadow-lg">
         {services.map((service, index) => (
           <ServiceCard
             clickHandler={clickHandler}

@@ -4,7 +4,7 @@ function ServiceCard({ service, clickHandler }) {
   return (
     <div
       onClick={() => clickHandler(service._id)}
-      className="w-[80%] md:w-[40%] cursor-pointer hover:-translate-y-1.5 transition-all border border-transparent hover:border-blue-500 rounded-lg p-4 shadow-md bg-white flex flex-col items-start gap-3 duration-200"
+      className="w-full  md:w-[40%] cursor-pointer hover:-translate-y-1.5 transition-all border border-transparent hover:border-blue-500 rounded-lg p-4 shadow-md bg-white flex flex-col items-start gap-3 duration-200"
     >
       <img
         className="w-14 h-14 rounded-full object-cover"

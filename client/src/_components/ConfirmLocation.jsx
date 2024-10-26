@@ -15,7 +15,7 @@ export default function ConfirmLocation({
     <section>
       <div
         onClick={() => setExpand(!expand)}
-        className="cursor-pointer w-full border flex justify-between items-center px-4 py-4"
+        className="cursor-pointer rounded-xl hover:shadow-lg transition-all duration-200 w-[90vw] mx-auto border flex justify-between items-center px-4 py-4"
       >
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl transition-all duration-200">
@@ -27,11 +27,11 @@ export default function ConfirmLocation({
               </h1>
             )}
           </div>
-          <h1 className="font-bold text-md capitalize capitalize">
+          <h1 className="font-bold text-sm md:text-md capitalize">
             Confirm Location
           </h1>
         </div>
-        <h1 className="font-bold text-md capitalize text-blue-500 mr-12">
+        <h1 className="font-bold text-sm md:text-md capitalize text-blue-500 mr-0 md:mr-12">
           {selection?.name ? selection?.name : ""}
         </h1>
       </div>
@@ -40,7 +40,7 @@ export default function ConfirmLocation({
           expand
             ? "opacity-100 max-h-[500px] translate-y-0"
             : "opacity-0 max-h-0 -translate-y-6"
-        } transition-all overflow-hidden duration-200 flex flex-col px-8`}
+        } transition-all overflow-hidden max-w-[90vw] duration-200 flex flex-col px-0 md:px-8 `}
       >
         <Button className="bg-blue-600 text-white w-fit ml-auto hover:bg-blue-500 mt-4">
           {services[0]?.serviceType}

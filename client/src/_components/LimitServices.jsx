@@ -20,14 +20,20 @@ export default function LimitServices({
             selection.name === service.name ? "shadow-xl !border-blue-600" : ""
           }`}
         >
-          <div className="text-blue-600 font-semibold text-lg">
+          <div className="text-blue-600 font-semibold text-sm md:text-lg">
             {service.name}
           </div>
-          <div className="text-gray-500">
-            Price: <span className="font-bold">${service.price}</span>
-          </div>
-          <div className="text-sm text-gray-400">
-            {service.ratingsAverage} ★ ({service.ratingsQuantity} reviews)
+
+          <div className="text-[13px] md:text-sm text-gray-400 flex gap-4">
+            <div className="text-gray-500 text-sm md:text-md">
+              Price:{" "}
+              <span className="font-bold text-sm md:text-md">
+                ${service.price}
+              </span>
+            </div>
+            <span className="hidden sm:block">
+              {service.ratingsAverage} ★ ({service.ratingsQuantity} reviews)
+            </span>
           </div>
         </li>
         {services.map((service) => (
@@ -40,14 +46,20 @@ export default function LimitServices({
                 : ""
             }`}
           >
-            <div className="text-blue-600 font-semibold text-lg">
+            <div className="text-blue-600 font-semibold text-sm md:text-lg">
               {service.name}
             </div>
-            <div className="text-gray-500">
-              Price: <span className="font-bold">${service.price}</span>
-            </div>
-            <div className="text-sm text-gray-400">
-              {service.ratingsAverage} ★ ({service.ratingsQuantity} reviews)
+
+            <div className="text-[13px] md:text-sm text-gray-400 flex gap-4">
+              <div className="text-gray-500 text-sm md:text-md">
+                Price:{" "}
+                <span className="font-bold text-sm md:text-md">
+                  ${service.price}
+                </span>
+              </div>
+              <span className="hidden sm:block">
+                {service.ratingsAverage} ★ ({service.ratingsQuantity} reviews)
+              </span>
             </div>
           </li>
         ))}

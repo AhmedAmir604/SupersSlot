@@ -3,10 +3,10 @@ import { MdOutlineDone } from "react-icons/md";
 import Calender from "./Calender";
 import AvailableSlots from "./AvailableSlots";
 import dayjs from "dayjs";
-import { getBookedSlots } from "@/handlers/servicesHandlers"; // Import your API call
+import { getBookedSlots } from "@/handlers/servicesHandlers";
 
 export default function SelectDateTime({
-  id, // Accept id as a prop
+  id,
   bookedSlots,
   setBookedSlots,
   date,
@@ -20,22 +20,21 @@ export default function SelectDateTime({
 
   const setDisplay = () => {
     if (date) {
-      return dayjs(date).format("ddd, MMM D"); // Format as e.g., "Wed, Oct 25"
+      return dayjs(date).format("ddd, MMM D");
     }
-    return ""; // Return empty string if no date is set
+    return "";
   };
 
-  // Fetch booked slots when the date changes
   useEffect(() => {
     if (date) {
-      const formattedDate = dayjs(date).format("YYYY-MM-DD"); // Format date to match your backend
+      const formattedDate = dayjs(date).format("YYYY-MM-DD");
       fetchBookedSlots(formattedDate);
     }
     setSlot(null);
-  }, [date, id]); // Add id as a dependency to ensure it works when id changes
+  }, [date, id]);
 
   const fetchBookedSlots = async (formattedDate) => {
-    setBookedSlots([]); // Reset bookedSlots before fetching new slots
+    setBookedSlots([]);
     try {
       const res = await getBookedSlots(id, formattedDate);
       const slots = res.data.bookings || [];
@@ -46,10 +45,10 @@ export default function SelectDateTime({
   };
 
   return (
-    <section>
+    <section className="">
       <div
         onClick={() => setExpand(!expand)}
-        className="cursor-pointer w-full border flex justify-between items-center px-4 py-4"
+        className=" cursor-pointer rounded-xl hover:shadow-lg transition-all duration-200 w-[90vw] mx-auto border flex justify-between items-center px-4 py-4"
       >
         <div className="flex gap-4 items-center">
           <div className="text-white text-xl transition-all duration-200">
@@ -61,10 +60,12 @@ export default function SelectDateTime({
               </h1>
             )}
           </div>
-          <h1 className="font-bold text-md capitalize">select date & time</h1>
+          <h1 className="font-bold text-sm md:text-md capitalize">
+            Select Date & Time
+          </h1>
         </div>
 
-        <h1 className=" text-md capitalize text-blue-500 font-bold mr-12">
+        <h1 className="text-sm md:text-md capitalize text-blue-500 font-bold mr-0 md:mr-12">
           {date ? ` ${setDisplay()} : ${slot || "Select Time"}` : "Select Date"}
         </h1>
       </div>
@@ -73,7 +74,7 @@ export default function SelectDateTime({
           expand
             ? "opacity-100 max-h-full translate-y-0"
             : "opacity-0 max-h-0 -translate-y-1"
-        } transition-all overflow-hidden duration-200 flex items-center gap-4 px-8`}
+        } transition-all max-w-[90vw] overflow-hidden duration-200 flex flex-col md:flex-row gap-0 md:gap-4 px-0 sm:px-4 md:px-8`}
       >
         <Calender
           open={openingHours.open}

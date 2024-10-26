@@ -29,63 +29,55 @@ export default function Calendar({
   // Function to check if a day is within the working days
   const isWorkingDay = (dayIndex) => {
     if (closeDayIndex < openDayIndex) {
-      // This accounts for when the range wraps around the week (e.g., Sunday to Thursday)
       return dayIndex >= openDayIndex || dayIndex <= closeDayIndex;
     }
     return dayIndex >= openDayIndex && dayIndex <= closeDayIndex;
   };
 
   return (
-    <div className="shadow-xl py-4 px-2 mt-10 gap-10 mb-10 border h-fit">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-10 items-center justify-between px-4 w-full">
+    <div className="shadow-xl py-4 px-2 mt-10 gap-10 mb-10 max-w-[85vw] mx-auto border h-fit">
+      <div className="flex justify-between items-center mb-2">
+        <div className="flex gap-5 items-center justify-between px-4 w-full">
           <GrFormPrevious
-            className="w-5 h-5 text-gray-400 cursor-pointer hover:scale-105 transition-all"
-            onClick={() => {
-              setToday(today.month(today.month() - 1));
-            }}
+            className="w-4 h-4 text-gray-400 cursor-pointer hover:scale-105 transition-all"
+            onClick={() => setToday(today.month(today.month() - 1))}
           />
           <h1
-            className="font-semibold cursor-pointer hover:scale-105 transition-all"
-            onClick={() => {
-              setToday(currentDate);
-            }}
+            className="font-semibold cursor-pointer text-[12px] md:text-md hover:scale-105 transition-all"
+            onClick={() => setToday(currentDate)}
           >
             {months[today.month()]} {today.year()}
           </h1>
           <GrFormNext
-            className="w-5 h-5 text-gray-400 cursor-pointer hover:scale-105 transition-all"
-            onClick={() => {
-              setToday(today.month(today.month() + 1));
-            }}
+            className="w-4 h-4 text-gray-400 cursor-pointer hover:scale-105 transition-all"
+            onClick={() => setToday(today.month(today.month() + 1))}
           />
         </div>
       </div>
-      <div className="grid grid-cols-7">
-        {days.map((day, index) => {
-          return (
-            <h1
-              key={index}
-              className="text-sm text-center h-14 w-14 font-bold grid place-content-center text-gray-800 select-none"
-            >
-              {day}
-            </h1>
-          );
-        })}
+
+      <div className="grid grid-cols-7 text-[12px] md:text-sm text-gray-800 font-bold mb-2">
+        {days.map((day, index) => (
+          <h1
+            key={index}
+            className="text-center h-8 w-8 md:h-10 md:w-10 grid place-content-center select-none"
+          >
+            {day}
+          </h1>
+        ))}
       </div>
 
-      <div className="grid grid-cols-7">
+      <div className="grid grid-cols-7 gap-1">
         {generateDate(today.month(), today.year()).map(
           ({ date, currentMonth, today }, index) => {
-            const dayIndex = date.day(); // Get the index of the day (0-6)
-            const isDayWorking = isWorkingDay(dayIndex); // Check if it’s a working day
+            const dayIndex = date.day();
+            const isDayWorking = isWorkingDay(dayIndex);
 
             return (
               <div
                 key={index}
                 className={cn(
-                  "p-2 text-center h-14 grid text-gray-600 place-content-center text-[13px] font-semibold border-t",
-                  !isDayWorking && "cursor-not-allowed opacity-50" // Blurs non-working days
+                  "p-1 md:p-2 text-center grid text-gray-600 place-content-center text-[12px] font-semibold border-t",
+                  !isDayWorking && "cursor-not-allowed opacity-50"
                 )}
               >
                 <h1
@@ -96,10 +88,10 @@ export default function Calendar({
                       date.toDate().toDateString()
                       ? "bg-blue-600 text-white"
                       : "",
-                    "h-10 w-10 rounded-full grid place-content-center hover:bg-blue-600 hover:text-white transition-all select-none",
+                    "h-7 w-7 md:h-10 md:w-10 rounded-full grid place-content-center hover:bg-blue-600 hover:text-white transition-all select-none",
                     !isDayWorking
                       ? "cursor-not-allowed opacity-50 pointer-events-none"
-                      : "cursor-pointer" // Apply classes based on isDayWorking
+                      : "cursor-pointer"
                   )}
                   onClick={() => {
                     if (isDayWorking) {

@@ -37,7 +37,7 @@ export default function AvailableSlots({
   );
 
   return (
-    <div className="flex flex-col flex-wrap gap-2 h-[50vh]">
+    <div className="flex flex-col flex-wrap gap-2 h-[40vh] px-2 mt-0 md:mt-10">
       {slots.map((time, index) => {
         const isBooked = formattedBookedSlots.includes(time);
         const isSelected = slot === time;
