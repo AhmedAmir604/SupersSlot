@@ -44,7 +44,6 @@ export default function Booking() {
             open: day[0],
             close: day[1],
           });
-          console.log(day);
         }
       } catch (err) {
         if (err?.response?.status === 401) {

@@ -13,7 +13,6 @@ export default function SignIn() {
     // Handle form submission logic here
     setButton(true);
     try {
-      console.log({ email, password });
       const res = await login({ email, password });
       if (res) {
         navigate("/");

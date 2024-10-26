@@ -22,6 +22,19 @@ export const login = async (data) => {
   }
 };
 
+export const logout = async () => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/users/logout`,
+    });
+    console.log("res");
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
 export const isLoggedIn = async () => {
   try {
     const res = await axios({

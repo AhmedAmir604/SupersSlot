@@ -3,6 +3,7 @@ import {
   forgotPassword,
   isLoggedIn,
   login,
+  logout,
   protect,
   resetPassword,
   signUp,
@@ -13,6 +14,7 @@ const userRoute = express.Router();
 userRoute.get("/", isLoggedIn);
 userRoute.post("/signup", signUp);
 userRoute.post("/login", login);
+userRoute.get("/logout", logout);
 userRoute.post("/forgotPassword", forgotPassword);
 userRoute.post("/resetPassword/:id", resetPassword);
 

@@ -4,7 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
 import { LuCalendar } from "react-icons/lu";
 import { IoLocationOutline } from "react-icons/io5";
-import { isLoggedIn } from "@/handlers/authHandler";
+import { isLoggedIn, logout } from "@/handlers/authHandler";
 import { IconsManifest } from "react-icons";
 import { IoIosClose } from "react-icons/io";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,16 @@ export default function NavBar() {
   const [extend, setExtend] = useState(false);
   const [user, setUser] = useState(null); // User info
   const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -87,13 +97,13 @@ export default function NavBar() {
               }`}
             >
               <Button
-                onClick={() => navigate("/login")}
+                onClick={() => logoutHandler()}
                 className="bg-red-700 hover:bg-red-600"
               >
                 Logout
               </Button>
               <Button
-                onClick={() => navigate("/login")}
+                onClick={() => logoutHandler()}
                 className="bg-red-700 hover:bg-red-600"
               >
                 Logout
@@ -139,13 +149,13 @@ export default function NavBar() {
                 }`}
               >
                 <Button
-                  onClick={() => navigate("/login")}
+                  onClick={() => logoutHandler()}
                   className="bg-red-700 hover:bg-red-600"
                 >
                   Logout
                 </Button>
                 <Button
-                  onClick={() => navigate("/login")}
+                  onClick={() => logoutHandler()}
                   className="bg-red-700 hover:bg-red-600"
                 >
                   Logout
