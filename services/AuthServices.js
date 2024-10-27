@@ -3,7 +3,7 @@ import userModel from "../models/UsersModel.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import ErrorHandler from "../utils/appError.js";
-import Email from "../utils/email.js";
+import Email from "../utils/Email.js";
 
 class AuthService extends Service {
   constructor(userModel) {

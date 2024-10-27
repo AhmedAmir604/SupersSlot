@@ -2,7 +2,7 @@ import Service from "./Service.js";
 import bookingModel from "../models/BookingsModel.js";
 import cron from "node-cron";
 import moment from "moment-timezone";
-import Email from "../utils/email.js";
+import Email from "../utils/Email.js";
 
 class BookingService extends Service {
   constructor(model) {
