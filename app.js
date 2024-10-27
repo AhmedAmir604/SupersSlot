@@ -31,7 +31,7 @@ app.use(
       process.env.NODE_ENV === "development"
         ? "http://localhost:5173"
         : // : "https://tt-pro.onrender.com",
-          "http://localhost:5173", //For now
+          "https://supersslot.onrender.com", //For now
 
     credentials: true,
   })
@@ -56,18 +56,18 @@ app.use(mongoSanitize());
 app.use(xss());
 
 //it remove parameters pollutants
-app.use(
-  hpp({
-    whitelist: [
-      "price",
-      "duration",
-      "ratingsAverage",
-      "difficulty",
-      "maxGroupSize",
-      "ratingsQuantity",
-    ],
-  })
-);
+// app.use(
+//   hpp({
+//     whitelist: [
+//       "price",
+//       "duration",
+//       "ratingsAverage",
+//       "difficulty",
+//       "maxGroupSize",
+//       "ratingsQuantity",
+//     ],
+//   })
+// );
 
 //Set HTTP headers
 app.use(
@@ -77,7 +77,7 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://js.stripe.com"],
         frameSrc: ["'self'", "https://js.stripe.com"], // Add this line
-        connectSrc: ["'self'", "https://tt-pro.onrender.com"], // Add this line
+        connectSrc: ["'self'", "https://supersslot.onrender.com"], // Add this line
       },
     },
   })
