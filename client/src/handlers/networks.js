@@ -2,6 +2,6 @@ let url;
 if (import.meta.env.VITE_ENV === "development") {
   url = "http://localhost:8000/api/v1";
 } else {
-  url = "https://supersslot.onrender.com";
+  url = "https://supersslot.onrender.com/api/v1";
 }
 export { url };

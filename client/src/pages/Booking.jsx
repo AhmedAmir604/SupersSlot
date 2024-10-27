@@ -36,8 +36,11 @@ export default function Booking() {
 
   const clickHandler = async () => {
     // Extract hour and minute from slot
+    if (!selection || !form || !slot) {
+      alert("please confirm details");
+      return;
+    }
     setLoader(true);
-
     const hour = parseInt(slot.split(":")[0], 10);
     const minute = parseInt(slot.split(":")[1] || 0, 10);
 

@@ -30,7 +30,7 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:5173"
+        ? "http://localhost:8000"
         : "https://supersslot.onrender.com", //For now
 
     credentials: true,
