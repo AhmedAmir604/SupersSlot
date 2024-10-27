@@ -31,13 +31,12 @@ app.use(
     origin:
       process.env.NODE_ENV === "development"
         ? "http://localhost:5173"
-        : // : "https://tt-pro.onrender.com",
-          "https://supersslot.onrender.com", //For now
+        : "https://supersslot.onrender.com", //For now
 
     credentials: true,
   })
 );
-
+console.log(process.env.NODE_ENV);
 //Body parser reading data from body into req.body
 app.use(express.json({ limit: "10kb" }));
 
