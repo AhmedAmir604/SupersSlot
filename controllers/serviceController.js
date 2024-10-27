@@ -1,7 +1,7 @@
 import ErrorHandler from "../utils/appError.js";
 import { catchAsync } from "./errorController.js";
 import servicesService from "../services/ServicesService.js";
-import userService from "../services/userServices.js";
+import userService from "../services/UserServices.js";
 
 //Middlewares
 export const aliasTop5Services = (req, res, next) => {
