@@ -78,6 +78,7 @@ app.use(
         scriptSrc: ["'self'", "https://js.stripe.com"],
         frameSrc: ["'self'", "https://js.stripe.com"], // Add this line
         connectSrc: ["'self'", "https://supersslot.onrender.com"], // Add this line
+        imgSrc: ["'self'", "data:", "https://images.pexels.com"], // Add this line
       },
     },
   })
