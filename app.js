@@ -9,6 +9,12 @@ import cors from "cors";
 import path from "path";
 import * as url from "url";
 import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
+import hpp from "hpp";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
+import xss from "xss-clean";
+
 dotenv.config({ path: "./config.env" });
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
@@ -33,6 +39,52 @@ app.use(
 
 //Body parser reading data from body into req.body
 app.use(express.json({ limit: "10kb" }));
+
+//RateLimiter rates the amount of requests per ip
+const limit = rateLimit({
+  limit: 200,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many requests from this IP try again after 1 hour",
+});
+
+app.use("/api", limit);
+
+//Use this for data sanitization fight noSQL injections :(
+app.use(mongoSanitize());
+
+//Remove XSS attempt removing html tags :D
+app.use(xss());
+
+//it remove parameters pollutants
+app.use(
+  hpp({
+    whitelist: [
+      "price",
+      "duration",
+      "ratingsAverage",
+      "difficulty",
+      "maxGroupSize",
+      "ratingsQuantity",
+    ],
+  })
+);
+
+//Set HTTP headers
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://js.stripe.com"],
+        frameSrc: ["'self'", "https://js.stripe.com"], // Add this line
+        connectSrc: ["'self'", "https://tt-pro.onrender.com"], // Add this line
+      },
+    },
+  })
+);
+
+//This is used to compress the response
+app.use(compression());
 
 //Testing middlewares
 app.use((req, res, next) => {
