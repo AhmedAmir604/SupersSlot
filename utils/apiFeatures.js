@@ -18,7 +18,7 @@ class APIFeatures {
   }
 
   name() {
-    // Search by name (product)
+    // Search by name or service type
     if (this.queryString.name) {
       const queryStr = {
         $or: [
