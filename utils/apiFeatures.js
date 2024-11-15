@@ -18,12 +18,13 @@ class APIFeatures {
   }
 
   name() {
-    // Search by name or service type
+    // Search by name or service type or locations
     if (this.queryString.name) {
       const queryStr = {
         $or: [
           { name: { $regex: this.queryString.name, $options: "i" } },
           { serviceType: { $regex: this.queryString.name, $options: "i" } },
+          { city: { $regex: this.queryString.name, $options: "i" } },
         ],
       };
 
