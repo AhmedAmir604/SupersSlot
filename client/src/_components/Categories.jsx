@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { serviceCategories } from "@/lib/data";
 
-const Categories = () => {
+const Categories = ({ setFilter }) => {
   const categoryRef = useRef(null);
 
   // Scroll to the right
@@ -26,7 +26,10 @@ const Categories = () => {
       <div className="flex flex-col md:flex-row justify-between items-end">
         <h1 className="text-2xl text-white mx-auto">Service Categories</h1>
         <div className="flex gap-4 items-center mt-4 md:mt-0">
-          <a href="#" className="text-[#9d9a9a] text-sm">
+          <a
+            onClick={() => setFilter(undefined)}
+            className="text-[#9d9a9a] text-md hover:text-lg cursor-pointer hover:text-black transition-all duration-200 hover:font-bold underline"
+          >
             See all
           </a>
           <div>
@@ -54,11 +57,17 @@ const Categories = () => {
         // }} // Custom scrollbar for better UX
       >
         {serviceCategories.map((item, index) => (
-          <a href="#" key={index} className="flex flex-col items-center gap-1">
+          <a
+            onClick={() => setFilter(item.name)}
+            href="#"
+            key={index}
+            className="flex flex-col items-center gap-1"
+          >
             <img
+              loading="lazy"
               src={item.image}
               alt={item.name}
-              className="min-w-20 h-20 object-cover rounded-full"
+              className="max-w-20 h-20 object-cover rounded-full"
             />
             <p className="text-white text-[12px] md:text-[13px]">{item.name}</p>
           </a>

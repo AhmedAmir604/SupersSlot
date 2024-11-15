@@ -14,14 +14,21 @@ class APIFeatures {
       /\b(lt|lte|gt|gte)\b/g,
       (m) => `$${m}`
     );
+    return this;
+  }
 
+  name() {
     // Search by name (product)
     if (this.queryString.name) {
-      reqQ.name = { $regex: this.queryString.name, $options: "i" };
+      const queryStr = {
+        $or: [
+          { name: { $regex: this.queryString.name, $options: "i" } },
+          { serviceType: { $regex: this.queryString.name, $options: "i" } },
+        ],
+      };
+
+      this.query = this.query.find(queryStr);
     }
-
-    this.query = this.query.find(JSON.parse(queryStr));
-
     return this;
   }
 

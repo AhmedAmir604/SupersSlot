@@ -13,7 +13,8 @@ class Service {
       .filter()
       .sort()
       .fields()
-      .limit();
+      .limit()
+      .name();
     return await this.model.getAll(query);
   }
 

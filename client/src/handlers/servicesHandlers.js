@@ -78,3 +78,15 @@ export const bookSlot = async (data) => {
     throw err.response;
   }
 };
+
+export const searchHandler = async (query) => {
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/services?name=${query}`,
+    });
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};

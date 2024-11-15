@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
@@ -38,6 +38,7 @@ export default function NavBar() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   const logoutHandler = async () => {
     setLoading(true); // Start loading state
@@ -66,6 +67,17 @@ export default function NavBar() {
     checkLogin();
   }, []);
 
+  useEffect(() => {
+    const clickHandler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setExtend(false);
+      }
+    };
+
+    document.addEventListener("mousedown", clickHandler);
+    return () => document.removeEventListener("mousedown", clickHandler);
+  }, [menuRef]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
@@ -87,7 +99,7 @@ export default function NavBar() {
               onClick={() => setExtend(!extend)}
               src={`/users/${user.photo}`}
               alt="User"
-              className="cursor-pointer w-12 h-12 rounded-full"
+              className=" cursor-pointer w-12 h-12 rounded-full"
             />
             <span className="ml-2 text-gray-500 text-sm font-semibold">
               {user.name}
@@ -130,10 +142,11 @@ export default function NavBar() {
           />
           <div className="flex items-center gap-2">
             <img
+              ref={menuRef}
               onClick={() => setExtend(!extend)}
               src={`/users/${user.photo}`}
               alt="User"
-              className="w-12 h-12 rounded-full cursor-pointer"
+              className=" w-12 h-12 rounded-full cursor-pointer"
             />
             <span className="text-sm text-gray-500 font-semibold">
               {user.name}

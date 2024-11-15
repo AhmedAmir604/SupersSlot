@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
-const Filter = ({ query, setQuery }) => {
+const Filter = ({ setSort, sort }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selection, setSelection] = useState("");
 
   const handleOptionSelect = (option) => {
-    setQuery(`sort=${option}`);
-    setSelection(option);
+    setSort(option);
     setIsOpen(false); // Close dropdown after selection
   };
 
@@ -17,7 +15,7 @@ const Filter = ({ query, setQuery }) => {
       className="cursor-pointer w-fit relative"
     >
       <div className="bg-blue-500 text-white p-2 px-4 rounded flex items-center justify-between gap-2 transition duration-300 hover:bg-blue-600">
-        <span className="text-md">{selection ? selection : "Filter"}</span>
+        <span className="text-md">{sort ? sort : "Filter"}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="14px"
@@ -44,7 +42,7 @@ const Filter = ({ query, setQuery }) => {
                   id={option}
                   name="option"
                   type="radio"
-                  checked={query === option}
+                  checked={sort === option}
                   className="hidden"
                   onChange={() => handleOptionSelect(option)}
                 />

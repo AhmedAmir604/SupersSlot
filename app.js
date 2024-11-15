@@ -26,11 +26,13 @@ const app = express();
 
 //Enabling cors for specific domains
 
+//Remeber to use 5173 as it is on diff server when working locally
+//and 8000 when deploying as it is using build on render.com :D
 app.use(
   cors({
     origin:
       process.env.NODE_ENV === "development"
-        ? "http://localhost:8000"
+        ? "http://localhost:5173"
         : "https://supersslot.onrender.com", //For now
 
     credentials: true,
