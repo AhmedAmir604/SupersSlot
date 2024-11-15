@@ -19,12 +19,15 @@ class APIFeatures {
 
   name() {
     // Search by name or service type or city names :D
+    //Btw for objects we can just use nested strings as objects in mongoose query :D
     if (this.queryString.name) {
       const queryStr = {
         $or: [
           { name: { $regex: this.queryString.name, $options: "i" } },
           { serviceType: { $regex: this.queryString.name, $options: "i" } },
-          { city: { $regex: this.queryString.name, $options: "i" } },
+          {
+            "address.city": { $regex: this.queryString.name, $options: "i" },
+          },
         ],
       };
 
