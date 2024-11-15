@@ -18,7 +18,7 @@ class APIFeatures {
   }
 
   name() {
-    // Search by name or service type or locations
+    // Search by name or service type or city names :D
     if (this.queryString.name) {
       const queryStr = {
         $or: [
