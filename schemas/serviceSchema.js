@@ -80,5 +80,6 @@ const serviceSchema = new mongoose.Schema(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+serviceSchema.index({ "address.coordinates": "2dsphere" });
 
 export default serviceSchema;

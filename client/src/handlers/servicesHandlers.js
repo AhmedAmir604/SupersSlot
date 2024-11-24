@@ -90,3 +90,16 @@ export const searchHandler = async (query) => {
     throw err.response;
   }
 };
+
+export const discover = async (query, range) => {
+  console.log(query);
+  try {
+    const res = await axios({
+      method: "GET",
+      url: `${url}/services?coord=${query}&range=${range}`,
+    });
+    return res;
+  } catch (err) {
+    throw err.response;
+  }
+};

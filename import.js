@@ -24,13 +24,13 @@ mongoose.connect(DB).then(() => {
 //   fs.readFileSync(`${__dirname}/dev-data/users.json`, "utf-8")
 // );
 
-const reviews = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/reviews.json`, "utf-8")
-);
+// const reviews = JSON.parse(
+//   fs.readFileSync(`${__dirname}/dev-data/reviews.json`, "utf-8")
+// );
 
-const services = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/Noona.services.json`, "utf-8")
-);
+// const services = JSON.parse(
+//   fs.readFileSync(`${__dirname}/dev-data/Noona.services.json`, "utf-8")
+// );
 
 //added suitable roles for noona app using tourtales users :D
 // const fixedUsers = users.map((el, index) => {
@@ -71,44 +71,46 @@ const services = JSON.parse(
 // };
 // console.log(services);
 
-const users = await User.find();
+// // Filter users to get only those with the role "employee"
+// const employees = users.filter((user) => user.role === "employee");
 
-// Filter users to get only those with the role "employee"
-const employees = users.filter((user) => user.role === "employee");
+// const fixedServices = services.map((service) => {
+//   // Handle cases where owner might not have a $oid field
+//   const ownerId =
+//     service.owner && service.owner.$oid ? service.owner.$oid : service.owner;
 
-const fixedServices = services.map((service) => {
-  // Handle cases where owner might not have a $oid field
-  const ownerId =
-    service.owner && service.owner.$oid ? service.owner.$oid : service.owner;
+//   // Return the modified object, excluding _id and createdAt if they exist
+//   const { _id, createdAt, ...rest } = service;
 
-  // Return the modified object, excluding _id and createdAt if they exist
-  const { _id, createdAt, ...rest } = service;
+//   // Shuffle the employees array to randomize selection
+//   const shuffledEmployees = employees.sort(() => 0.5 - Math.random());
 
-  // Shuffle the employees array to randomize selection
-  const shuffledEmployees = employees.sort(() => 0.5 - Math.random());
+//   // Take the first 3 employees
+//   const selectedEmployees = shuffledEmployees.slice(0, 3).map((emp) => emp.id);
 
-  // Take the first 3 employees
-  const selectedEmployees = shuffledEmployees.slice(0, 3).map((emp) => emp.id);
+//   return {
+//     ...rest,
+//     _id: undefined,
+//     createdAt: undefined,
+//     owner: ownerId,
+//     employees: selectedEmployees,
+//   };
+// });
 
-  return {
-    ...rest,
-    _id: undefined,
-    createdAt: undefined,
-    owner: ownerId,
-    employees: selectedEmployees,
-  };
-});
-
-fixedServices.forEach((el) => {
-  console.log(el);
-});
+// fixedServices.forEach((el) => {
+//   console.log(el);
+// });
 
 const importData = async () => {
   try {
-    // await Services();
+    const services = await Service.find();
+
     // await Review.create(fixedReviews, { validationBeforeSave: false });
-    await Service.create(fixedServices, { validationBeforeSave: false });
+    // await Service.create(fixedServices, { validationBeforeSave: false });
     // await User.create(fixedUsers, { validationBeforeSave: false });
+    for (let i = 0; i < services.length; i++) {
+      console.log(services[i].address);
+    }
     console.log("Imported!");
   } catch (err) {
     console.log(err);

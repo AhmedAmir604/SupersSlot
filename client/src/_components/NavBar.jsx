@@ -136,7 +136,7 @@ export default function NavBar() {
             label="SCHEDULE AN APPOINTMENT"
           />
           <NavItem
-            navigateTo="/location"
+            navigateTo="/discover"
             icon={IoLocationOutline}
             label="FIND OFFICE"
           />

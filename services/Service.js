@@ -14,7 +14,8 @@ class Service {
       .sort()
       .fields()
       .limit()
-      .name();
+      .name()
+      .coord();
     return await this.model.getAll(query);
   }
 
