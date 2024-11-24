@@ -19,34 +19,36 @@ class APIFeatures {
 
   //Get near services using coordinates :D query is built using aggregate and spherical :D
   coord() {
-    const [long, lat] = this.queryString.coord.split(",");
-    const range = this.queryString.range; // here 5000 is = 5km
-    console.log(range);
-    //no need for miles as we are not angrez just use km as defulat in mul :D
-    // const mul = unit === "mi" ? 0.000621371 : 0.001;
+    if (this.queryString.coord) {
+      const [long, lat] = this.queryString.coord.split(",");
+      const range = this.queryString.range; // here 5000 is = 5km
+      console.log(range);
+      //no need for miles as we are not angrez just use km as defulat in mul :D
+      // const mul = unit === "mi" ? 0.000621371 : 0.001;
 
-    this.query = this.query.model.aggregate([
-      {
-        $geoNear: {
-          near: {
-            type: "Point",
-            coordinates: [long * 1, lat * 1],
+      this.query = this.query.model.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: "Point",
+              coordinates: [long * 1, lat * 1],
+            },
+            distanceField: "distance", // Field where computed distance is stored
+            distanceMultiplier: 0.001, // Convert to kilometers
+            spherical: true, // Use spherical calculations
+            maxDistance: range * 1, // Range in meters (5000 meters = 5 km)
           },
-          distanceField: "distance", // Field where computed distance is stored
-          distanceMultiplier: 0.001, // Convert to kilometers
-          spherical: true, // Use spherical calculations
-          maxDistance: range * 1, // Range in meters (5000 meters = 5 km)
         },
-      },
-      {
-        $project: {
-          distance: 1,
-          name: 1,
-          serviceType: 1,
-          address: 1,
+        {
+          $project: {
+            distance: 1,
+            name: 1,
+            serviceType: 1,
+            address: 1,
+          },
         },
-      },
-    ]);
+      ]);
+    }
     return this;
   }
 

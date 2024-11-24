@@ -92,7 +92,6 @@ export const searchHandler = async (query) => {
 };
 
 export const discover = async (query, range) => {
-  console.log(query);
   try {
     const res = await axios({
       method: "GET",

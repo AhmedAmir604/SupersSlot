@@ -1,8 +1,7 @@
 import { discover } from "@/handlers/servicesHandlers";
 import React, { useEffect, useState } from "react";
 
-const GetLocation = () => {
-  const [location, setLocation] = useState({ latitude: null, longitude: null });
+const GetLocation = ({ setServices, location, setLocation }) => {
   const [range, setRange] = useState(5000); // Default range in meters
   const [error, setError] = useState(null);
 
@@ -31,7 +30,9 @@ const GetLocation = () => {
         try {
           const coordinates = [location.longitude, location.latitude];
           const res = await discover(coordinates, range);
-          console.log(res);
+          if (res) {
+            setServices(res.data.services);
+          }
         } catch (err) {
           console.error("Error fetching data:", err);
         }
@@ -45,7 +46,7 @@ const GetLocation = () => {
       <input
         type="number"
         onChange={(e) => setRange(e.target.value * 1000)} // Convert km to meters
-        placeholder="Enter range in km"
+        placeholder="Enter range in km (Default 5km)"
         className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring focus:ring-blue-300"
       />
       <button
