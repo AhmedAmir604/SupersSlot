@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const GetLocation = () => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
-  const [range, setRange] = useState(5000);
+  const [range, setRange] = useState(5000); // Default range in meters
   const [error, setError] = useState(null);
 
   const fetchLocation = () => {
@@ -14,48 +14,53 @@ const GetLocation = () => {
           setLocation({ latitude, longitude });
           setError(null);
         },
-        (error) => {
-          setError("sorry something went wrong!", error);
+        () => {
+          setError(
+            "Unable to fetch your location. Please enable location services."
+          );
         }
       );
+    } else {
+      setError("Geolocation is not supported by your browser.");
     }
-    console.log(location);
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const coordinates = [location.longitude, location.latitude];
-        const res = await discover(coordinates, range);
-
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [location]);
+    if (location.latitude && location.longitude) {
+      (async () => {
+        try {
+          const coordinates = [location.longitude, location.latitude];
+          const res = await discover(coordinates, range);
+          console.log(res);
+        } catch (err) {
+          console.error("Error fetching data:", err);
+        }
+      })();
+    }
+  }, [location, range]);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Range</h1>
+    <div className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg p-6 text-center">
+      <h1 className="text-2xl font-bold text-blue-600 mb-4">Location Finder</h1>
       <input
-        onChange={(e) => setRange(e.target.value * 1000)}
-        placeholder="Enter Km range!"
+        type="number"
+        onChange={(e) => setRange(e.target.value * 1000)} // Convert km to meters
+        placeholder="Enter range in km"
+        className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring focus:ring-blue-300"
       />
-      <h1>Get Your Location</h1>
       <button
-        className="border border-black"
         onClick={fetchLocation}
-        style={{ padding: "10px 20px", fontSize: "16px" }}
+        className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300"
       >
-        Get Location
+        Get My Location
       </button>
       {location.latitude && location.longitude && (
-        <p>
-          Latitude: {location.latitude}, Longitude: {location.longitude}
+        <p className="mt-4 text-gray-700">
+          <strong>Latitude:</strong> {location.latitude},{" "}
+          <strong>Longitude:</strong> {location.longitude}
         </p>
       )}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="mt-4 text-red-600">{error}</p>}
     </div>
   );
 };
