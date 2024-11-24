@@ -17,7 +17,7 @@ class APIFeatures {
     return this;
   }
 
-  //Get near services using coordinates :D query is built using aggregate and spherical :D
+  //Imp read this if you want to understand that Get near services using coordinates :D query is built using aggregate and spherical :D
   coord() {
     if (this.queryString.coord) {
       const [long, lat] = this.queryString.coord.split(",");
