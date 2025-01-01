@@ -78,6 +78,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://js.stripe.com"],
+        "worker-src": ["'self'", "blob:"],
         frameSrc: ["'self'", "https://js.stripe.com"], // Add this line
         connectSrc: ["'self'", "https://supersslot.onrender.com"], // Add this line
         imgSrc: ["'self'", "data:", "https://images.pexels.com"], // Add this line

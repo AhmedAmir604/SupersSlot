@@ -28,7 +28,6 @@ export const logout = async () => {
       method: "GET",
       url: `${url}/users/logout`,
     });
-    console.log(url);
     return res;
   } catch (err) {
     throw err.response;
