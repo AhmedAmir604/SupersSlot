@@ -76,31 +76,6 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: [
-            "'self'",
-            "https://api.mapbox.com",
-            "https://cdnjs.cloudflare.com",
-          ],
-          styleSrc: [
-            "'self'",
-            "https://api.mapbox.com",
-            "https://fonts.googleapis.com",
-          ],
-          fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          connectSrc: [
-            "'self'",
-            "https://api.mapbox.com",
-            "https://events.mapbox.com",
-          ],
-          imgSrc: ["'self'", "data:", "https://api.mapbox.com"],
-          workerSrc: ["'self'", "blob:"],
-          objectSrc: ["'none'"],
-          mediaSrc: ["'self'"],
-          frameSrc: ["'self'"],
-        },
-
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://js.stripe.com"],
         "worker-src": ["'self'", "blob:"],
@@ -108,6 +83,27 @@ app.use(
         connectSrc: ["'self'", "https://supersslot.onrender.com"], // Add this line
         imgSrc: ["'self'", "data:", "https://images.pexels.com"], // Add this line
         imgSrc: ["'self'", "data:", "https://merakiui.com"], // Add this line
+        scriptSrc: [
+          "'self'",
+          "https://api.mapbox.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "https://api.mapbox.com",
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        connectSrc: [
+          "'self'",
+          "https://api.mapbox.com",
+          "https://events.mapbox.com",
+        ],
+        imgSrc: ["'self'", "data:", "https://api.mapbox.com"],
+        workerSrc: ["'self'", "blob:"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'"],
       },
     },
   })
