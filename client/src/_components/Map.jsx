@@ -17,7 +17,6 @@ const Map = ({ longitude, latitude }) => {
       style: "mapbox://styles/mapbox/light-v10",
       center: [longitude, latitude],
       zoom: 12,
-      interactive: false,
     });
 
     // Add navigation controls
