@@ -28,7 +28,7 @@ const Map = ({ longitude, latitude }) => {
   return (
     <div
       ref={mapContainer}
-      style={{ width: "100%", height: "500px" }} // Customize map size
+      style={{ width: "100%", height: "300px" }} // Customize map size
     />
   );
 };
