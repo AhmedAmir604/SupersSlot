@@ -1,51 +1,37 @@
 import React, { useRef, useEffect } from "react";
-import * as maptilersdk from "@maptiler/sdk";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css"; // Import Mapbox styles
 
-//Nothing is workign righ here try using google maps api
-//Map tiler is more  then just shit
-export default function Map({ services, userLocation }) {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+const Map = ({ longitude, latitude }) => {
+  const mapContainer = useRef(null); // Ref for the map container
+  const map = useRef(null); // Ref for the Mapbox instance
+
+  // Set your Mapbox access token
+  mapboxgl.accessToken = `pk.eyJ1IjoiYWhtZWRhbWlyNjA0IiwiYSI6ImNtNWhiczhtZzBpNDkyaXM3b3V4cjkxMGoifQ.M92nmv99pZYJ0R0MRjjiQg`;
 
   useEffect(() => {
-    // Initialize the map only once
     if (map.current) return;
 
-    // Create a new map instance
-    map.current = new maptilersdk.Map({
+    map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style:
-        "https://api.maptiler.com/maps/streets/style.json?key=vQ0RSFI0VXVBNmSRpu3k", // Use MapTiler style
-      center: [userLocation.longitude, userLocation.latitude], // Initial center of the map
-      zoom: 14, // Initial zoom level
+      style: "mapbox://styles/mapbox/light-v10",
+      center: [longitude, latitude],
+      zoom: 12,
+      interactive: false,
     });
 
-    // Add a marker for the user's location
-    new maptilersdk.Marker({ color: "#FF0000" })
-      .setLngLat([userLocation.longitude, userLocation.latitude])
-      .addTo(map.current);
+    // Add navigation controls
+    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    // Add markers for services if they exist
-    console.log(services);
-    if (services && services.length > 0) {
-      services.forEach((service) => {
-        const coordinates = service.address?.coordinates; // Optional chaining to avoid errors
-        if (coordinates && coordinates.length === 2) {
-          new maptilersdk.Marker({ color: "#FFF000" })
-            .setLngLat([coordinates[0], coordinates[1]]) // Position of the marker
-            .addTo(map.current);
-        }
-      });
-    }
-  }, [userLocation, services]); // Dependencies array includes userLocation and services
+    new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map.current);
+  }, [longitude, latitude]);
 
   return (
-    <div className="map-wrap">
-      <div
-        ref={mapContainer}
-        className="map"
-        style={{ height: "500px", width: "100%" }}
-      />
-    </div>
+    <div
+      ref={mapContainer}
+      style={{ width: "100%", height: "500px" }} // Customize map size
+    />
   );
-}
+};
+
+export default Map;

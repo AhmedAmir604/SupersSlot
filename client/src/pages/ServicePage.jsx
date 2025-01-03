@@ -8,6 +8,7 @@ import { IoIosTrendingUp } from "react-icons/io";
 import { Button } from "@/components/ui/button"; // Import shadcn Button
 import { getService } from "@/handlers/servicesHandlers";
 import { useParams } from "react-router-dom";
+import Map from "@/_components/Map";
 
 export default function ServicePage({ service, clickHandler }) {
   // Memoizing the JSX for improved rendering efficiency
@@ -83,11 +84,18 @@ export default function ServicePage({ service, clickHandler }) {
 
       <div className="flex flex-col md:flex-row gap-8 p-8 md:p-16 justify-center items-start md:justify-between max-w-6xl mx-auto">
         {serviceInfo}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
           <h1 className="text-xl font-semibold text-blue-600 underline">
             About {service?.name?.toUpperCase()}
           </h1>
+
           <p className="text-gray-600">{service?.description}</p>
+          <div className=" w-full mx-auto">
+            <Map
+              longitude={service.address?.coordinates[0]}
+              latitude={service.address?.coordinates[1]}
+            />
+          </div>
         </div>
       </div>
 

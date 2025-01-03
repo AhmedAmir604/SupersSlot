@@ -27,6 +27,7 @@
     "dotenv": "^16.4.5",
     "image-minimizer-webpack-plugin": "^4.1.0",
     "lucide-react": "^0.447.0",
+    "mapbox-gl": "^3.9.2",
     "nodejs": "file:..",
     "postcss-loader": "^8.1.1",
     "react": "^18.3.1",
