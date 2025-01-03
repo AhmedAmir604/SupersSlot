@@ -77,14 +77,9 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://js.stripe.com"],
-        "worker-src": ["'self'", "blob:"],
-        frameSrc: ["'self'", "https://js.stripe.com"], // Add this line
-        connectSrc: ["'self'", "https://supersslot.onrender.com"], // Add this line
-        imgSrc: ["'self'", "data:", "https://images.pexels.com"], // Add this line
-        imgSrc: ["'self'", "data:", "https://merakiui.com"], // Add this line
         scriptSrc: [
           "'self'",
+          "https://js.stripe.com",
           "https://api.mapbox.com",
           "https://cdnjs.cloudflare.com",
         ],
@@ -96,14 +91,21 @@ app.use(
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         connectSrc: [
           "'self'",
+          "https://supersslot.onrender.com",
           "https://api.mapbox.com",
           "https://events.mapbox.com",
         ],
-        imgSrc: ["'self'", "data:", "https://api.mapbox.com"],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://images.pexels.com",
+          "https://merakiui.com",
+          "https://api.mapbox.com",
+        ],
         workerSrc: ["'self'", "blob:"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
-        frameSrc: ["'self'"],
+        frameSrc: ["'self'", "https://js.stripe.com"],
       },
     },
   })
