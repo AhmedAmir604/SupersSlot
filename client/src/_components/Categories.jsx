@@ -50,7 +50,7 @@ const Categories = ({ setFilter }) => {
       </div>
       <div
         ref={categoryRef}
-        className="flex overflow-x-hidden mt-4 gap-5 md:gap-10"
+        className="flex overflow-x-hidden mt-4 gap-5 md:gap-8"
         // style={{
         //   scrollbarWidth: "thin",
         //   scrollbarColor: "#514a4a transparent",
@@ -61,13 +61,13 @@ const Categories = ({ setFilter }) => {
             onClick={() => setFilter(item.name)}
             href="#"
             key={index}
-            className="flex flex-col items-center gap-1"
+            className="flex flex-col items-center p-1"
           >
             <img
               loading="lazy"
               src={item.image}
               alt={item.name}
-              className="max-w-20 h-20 object-cover rounded-full"
+              className="max-w-20 h-20 object-cover rounded-full border border-transparent hover:border-black transition-all duration-100 hover:scale-105"
             />
             <p className="text-white text-[12px] md:text-[13px]">{item.name}</p>
           </a>

@@ -2,7 +2,6 @@ import GetLocation from "@/_components/GetLocation";
 import MemoizedServiceCard from "@/_components/ServiceCard";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Map from "../_components/Map";
 
 export default function Discover() {
   const [services, setServices] = useState([]);

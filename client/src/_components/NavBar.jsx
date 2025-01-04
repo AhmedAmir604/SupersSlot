@@ -214,7 +214,7 @@ const MobileMenu = ({ isOpen, toggleMenu, user }) => (
       iconStyle="text-2xl"
     />
     <NavItem
-      navigateTo="/booking"
+      navigateTo="/home"
       icon={LuCalendar}
       label="SCHEDULE AN APPOINTMENT"
       toggleMenu={toggleMenu}

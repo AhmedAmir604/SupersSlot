@@ -83,7 +83,7 @@ export const searchHandler = async (query) => {
   try {
     const res = await axios({
       method: "GET",
-      url: `${url}/services?name=${query}`,
+      url: `${url}/services?name=${query}&limit=3`,
     });
     return res;
   } catch (err) {
