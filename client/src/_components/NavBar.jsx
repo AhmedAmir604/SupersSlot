@@ -47,6 +47,7 @@ export default function NavBar() {
     } catch (err) {
       console.error(err);
     } finally {
+      setLoading(false);
       navigate("/login");
     }
   };
@@ -105,18 +106,18 @@ export default function NavBar() {
               {user.name}
             </span>
             <div
-              className={`absolute transition-all duration-300 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl py-6 ${
+              className={`absolute border transition-all duration-300 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl py-6 ${
                 extend
-                  ? "opacity-100 max-h-fit translate-y-0"
-                  : "opacity-0 max-h-0 select-none -translate-y-[20px]"
+                  ? "opacity-100 max-h-fit translate-y-0 "
+                  : "opacity-0 max-h-0 -translate-y-[20px]"
               }`}
             >
               <Button
                 onClick={logoutHandler}
-                className={`bg-red-700 hover:bg-red-600 transition-opacity duration-300 my-2 mx-auto ${
+                className={`bg-red-700 z-50 hover:bg-red-600 transition-opacity duration-300 my-2 mx-auto ${
                   loading ? "opacity-50" : "opacity-100"
                 }`}
-                disabled={!extend || loading}
+                disabled={loading}
               >
                 {loading ? "Logging out..." : "Logout"}
               </Button>
@@ -159,7 +160,7 @@ export default function NavBar() {
               }`}
             >
               <Button
-                disabled={!extend || loading}
+                disabled={loading}
                 onClick={logoutHandler}
                 className={`bg-red-700 hover:bg-red-600 transition-opacity duration-300 my-2 mx-auto ${
                   loading ? "opacity-50 " : "opacity-100"
