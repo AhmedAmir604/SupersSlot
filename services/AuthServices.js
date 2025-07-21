@@ -47,10 +47,11 @@ class AuthService extends Service {
   }
 
   async resetPassword(user, newPassword) {
-    user.password = newPassword; // you may want to hash it here
+    user.password = newPassword;
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpiry = undefined;
-    await user.save();
+    user.passwordChangeTime = Date.now();
+    await user.save({ validateBeforeSave: false });
   }
 
   //   async findAndVerify(email, candidatePassword) {

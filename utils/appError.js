@@ -6,7 +6,7 @@ class ErrorHandler extends Error {
     this.statusCode = statusCode;
     this.operational = true;
     this.status = `${
-      toString(this.statusCode).startsWith("4") ? "Fail" : "Error"
+      this.statusCode.toString().startsWith("4") ? "Fail" : "Error"
     }`;
     Error.captureStackTrace(this, this.constructor);
 

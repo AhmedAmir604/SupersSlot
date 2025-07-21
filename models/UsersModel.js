@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 import { userSchema } from "../schemas/userSchema.js";
 import Model from "./Models.js";
 

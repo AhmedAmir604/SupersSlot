@@ -44,7 +44,7 @@ app.use(express.json({ limit: "10kb" }));
 
 //RateLimiter rates the amount of requests per ip
 const limit = rateLimit({
-  limit: 200,
+  limit: 500,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP try again after 1 hour",
 });
@@ -133,15 +133,17 @@ app.use("/api/v1/reviews", reviewsRoute);
 //Use for listening error all error even made by my class ErrorHandler provided by default express js
 app.use(errorHandler);
 
-//For serving static files from bundeld
+//TO handle 404 for API routes only
+app.all("/api/*", (req, res, next) => {
+  next(new ErrorHandler(`Cannot find ${req.originalUrl} Route!`, 404));
+});
+
+//For serving static files from bundled client
 app.use(express.static(path.join(__dirname, "/client/dist")));
+
+//Catch all handler for client-side routing
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/client/dist/index.html"))
 );
-
-//TO handle 404 for all routes :D
-app.all("*", (req, res, next) => {
-  next(new ErrorHandler(`Cannt find ${req.originalUrl} Route!`, 404));
-});
 
 export default app;

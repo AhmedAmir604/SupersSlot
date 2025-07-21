@@ -19,16 +19,17 @@ const NavItem = ({
   const navigate = useNavigate();
 
   return (
-    <a
+    <button
       onClick={() => {
         navigate(navigateTo);
         if (toggleMenu) toggleMenu();
       }}
-      className={`cursor-pointer flex items-center text-gray-500 text-sm font-semibold hover:text-[#3ba4f5] ${className}`}
+      className={`cursor-pointer flex items-center text-gray-600 text-sm font-medium hover:text-blue-600 
+                 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-blue-50 ${className}`}
     >
-      <Icon className={`${iconStyle} mr-1`} />
+      <Icon className={`${iconStyle} mr-2`} />
       {label}
-    </a>
+    </button>
   );
 };
 
@@ -41,9 +42,10 @@ export default function NavBar() {
   const menuRef = useRef(null);
 
   const logoutHandler = async () => {
-    setLoading(true); // Start loading state
+    setLoading(true);
     try {
       await logout();
+      setUser(null);
     } catch (err) {
       console.error(err);
     } finally {
@@ -56,12 +58,17 @@ export default function NavBar() {
     const checkLogin = async () => {
       try {
         const res = await isLoggedIn();
-        if (res.data.user) {
+
+        if (res.data.loggedIn && res.data.user) {
+          // console.log(res);
           const { name, photo } = res.data.user;
           setUser({ name: name.split(" ")[0], photo });
+        } else {
+          setUser(null);
         }
       } catch (err) {
         console.error(err);
+        setUser(null);
       }
     };
 
@@ -82,150 +89,193 @@ export default function NavBar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="sticky top-0 z-30 bg-white border-b border-gray-200 py-2 px-4 lg:px-20 flex justify-between items-center">
-      <div className="md:hidden flex justify-between w-full px-4 items-center">
-        {user && (
-          <button
-            onClick={toggleMenu}
-            className={` text-2xl text-gray-500 hover:text-[#3ba4f5] ${
-              !user && "hidden"
-            }`}
-          >
-            <RxHamburgerMenu />
-          </button>
-        )}
-        {user && (
-          <div className="flex items-center relative">
-            <img
-              onClick={() => setExtend(!extend)}
-              src={`/users/${user.photo}`}
-              alt="User"
-              className=" cursor-pointer w-12 h-12 rounded-full"
-            />
-            <span className="ml-2 text-gray-500 text-sm font-semibold">
-              {user.name}
-            </span>
-            <div
-              className={`absolute border transition-all duration-300 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl py-6 ${
-                extend
-                  ? "opacity-100 max-h-fit translate-y-0 "
-                  : "opacity-0 max-h-0 -translate-y-[20px]"
-              }`}
-            >
-              <Button
-                onClick={logoutHandler}
-                className={`bg-red-700 z-50 hover:bg-red-600 transition-opacity duration-300 my-2 mx-auto ${
-                  loading ? "opacity-50" : "opacity-100"
-                }`}
-                disabled={loading}
+    <nav className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-blue-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            {user && (
+              <button
+                onClick={toggleMenu}
+                className="text-2xl text-gray-600 hover:text-blue-600 transition-colors duration-200"
               >
-                {loading ? "Logging out..." : "Logout"}
-              </Button>
+                <RxHamburgerMenu />
+              </button>
+            )}
+          </div>
+
+          {/* Logo */}
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center cursor-pointer"
+          >
+            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              BookIt
             </div>
           </div>
-        )}
+
+          {/* Desktop Navigation */}
+          {user ? (
+            <div className="hidden md:flex items-center space-x-1">
+              <NavItem navigateTo="/home" icon={GoHome} label="Home" />
+              <NavItem
+                navigateTo="/services"
+                icon={LuCalendar}
+                label="Book Service"
+              />
+              <NavItem
+                navigateTo="/discover"
+                icon={IoLocationOutline}
+                label="Discover"
+              />
+
+              {/* User Profile Dropdown */}
+              <div className="relative ml-4" ref={menuRef}>
+                <button
+                  onClick={() => setExtend(!extend)}
+                  className="flex items-center space-x-3 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+                >
+                  <img
+                    src={`/users/${user.photo}`}
+                    alt="User"
+                    className="w-8 h-8 rounded-full border-2 border-blue-200"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    {user.name}
+                  </span>
+                </button>
+
+                {extend && (
+                  <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                      <p className="text-xs text-gray-500">Manage your account</p>
+                    </div>
+                    <button
+                      onClick={logoutHandler}
+                      disabled={loading}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 
+                               transition-colors duration-200 disabled:opacity-50"
+                    >
+                      {loading ? "Logging out..." : "Sign out"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-3">
+              <Button
+                onClick={() => navigate("/login")}
+                variant="ghost"
+                className="text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => navigate("/signup")}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
+                         text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                Get Started
+              </Button>
+            </div>
+          )}
+
+          {/* Mobile User Profile */}
+          <div className="md:hidden">
+            {user && (
+              <button
+                onClick={() => setExtend(!extend)}
+                className="flex items-center space-x-2"
+              >
+                <img
+                  src={`/users/${user.photo}`}
+                  alt="User"
+                  className="w-8 h-8 rounded-full border-2 border-blue-200"
+                />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="hidden md:block text-2xl text-gray-500">MyBrand</div>
-
-      {user ? (
-        <div className="hidden md:flex px-4 gap-6 items-center">
-          <NavItem navigateTo="/home" icon={GoHome} label="HOME" />
-          <NavItem
-            navigateTo="/home"
-            icon={LuCalendar}
-            label="SCHEDULE AN APPOINTMENT"
-          />
-          <NavItem
-            navigateTo="/discover"
-            icon={IoLocationOutline}
-            label="FIND OFFICE"
-          />
-          <div className="flex items-center gap-2">
-            <img
-              ref={menuRef}
-              onClick={() => setExtend(!extend)}
-              src={`/users/${user.photo}`}
-              alt="User"
-              className=" w-12 h-12 rounded-full cursor-pointer"
-            />
-            <span className="text-sm text-gray-500 font-semibold">
-              {user.name}
-            </span>
-            <div
-              className={`absolute  transition-all duration-300 flex flex-col gap-6 top-16 bg-white/20 px-4 rounded-xl ${
-                extend
-                  ? "opacity-100 max-h-full translate-y-0"
-                  : "opacity-0 max-h-full -translate-y-[20px]"
-              }`}
-            >
-              <Button
-                disabled={loading}
-                onClick={logoutHandler}
-                className={`bg-red-700 hover:bg-red-600 transition-opacity duration-300 my-2 mx-auto ${
-                  loading ? "opacity-50 " : "opacity-100"
-                }`}
-              >
-                {loading ? "Logging out..." : "Logout"}
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="flex md:justify-end gap-4">
-          <Button
-            onClick={() => navigate("/signup")}
-            className="bg-blue-600 hover:bg-blue-500"
-          >
-            Signup
-          </Button>
-          <Button
-            onClick={() => navigate("/login")}
-            className="bg-blue-600 hover:bg-blue-500"
-          >
-            Login
-          </Button>
-        </div>
-      )}
+      {/* Mobile Menu */}
       {user && (
-        <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} user={user} />
+        <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
+      )}
+
+      {/* Mobile User Dropdown */}
+      {user && extend && (
+        <div className="md:hidden absolute top-16 right-4 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+          <div className="px-4 py-2 border-b border-gray-100">
+            <p className="text-sm font-medium text-gray-900">{user.name}</p>
+            <p className="text-xs text-gray-500">Manage your account</p>
+          </div>
+          <button
+            onClick={logoutHandler}
+            disabled={loading}
+            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 
+                     transition-colors duration-200 disabled:opacity-50"
+          >
+            {loading ? "Logging out..." : "Sign out"}
+          </button>
+        </div>
       )}
     </nav>
   );
 }
 
-const MobileMenu = ({ isOpen, toggleMenu, user }) => (
+const MobileMenu = ({ isOpen, toggleMenu }) => (
   <div
-    className={`absolute top-0 left-0 h-screen w-full bg-white flex flex-col items-center justify-center pb-24 gap-8 transition-all duration-300
-      ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-full"}
-      ${isOpen ? "visible" : "invisible"}`}
+    className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      }`}
   >
-    <button
-      onClick={toggleMenu}
-      className="text-gray-500 absolute top-10 right-10 hover:text-[#3ba4f5] text-5xl"
+    <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={toggleMenu} />
+    <div
+      className={`absolute top-0 left-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
     >
-      <IoIosClose />
-    </button>
-    <NavItem
-      navigateTo="/home"
-      icon={GoHome}
-      label="HOME"
-      toggleMenu={toggleMenu}
-      iconStyle="text-2xl"
-    />
-    <NavItem
-      navigateTo="/home"
-      icon={LuCalendar}
-      label="SCHEDULE AN APPOINTMENT"
-      toggleMenu={toggleMenu}
-      iconStyle="text-2xl"
-    />
-    <NavItem
-      navigateTo="/location"
-      icon={IoLocationOutline}
-      label="FIND OFFICE"
-      toggleMenu={toggleMenu}
-      iconStyle="text-2xl"
-    />
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-8">
+          <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            BookIt
+          </div>
+          <button
+            onClick={toggleMenu}
+            className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+          >
+            <IoIosClose className="text-3xl" />
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          <NavItem
+            navigateTo="/home"
+            icon={GoHome}
+            label="Home"
+            toggleMenu={toggleMenu}
+            className="w-full justify-start text-base py-3"
+            iconStyle="text-xl"
+          />
+          <NavItem
+            navigateTo="/services"
+            icon={LuCalendar}
+            label="Book Service"
+            toggleMenu={toggleMenu}
+            className="w-full justify-start text-base py-3"
+            iconStyle="text-xl"
+          />
+          <NavItem
+            navigateTo="/discover"
+            icon={IoLocationOutline}
+            label="Discover"
+            toggleMenu={toggleMenu}
+            className="w-full justify-start text-base py-3"
+            iconStyle="text-xl"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 );

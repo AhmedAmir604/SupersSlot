@@ -1,6 +1,7 @@
 import { signup } from "@/handlers/authHandler";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -8,212 +9,184 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState(null);
-
-  const handlePhotoChange = (e) => {
-    setProfilePhoto(e.target.files[0]);
-  };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
+      setLoading(false);
       return;
     }
-    // Handle the form submission logic here
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await signup({ name, email, password, confirmPassword });
-      navigate("/home");
+      if (res) {
+        // Force a full page reload to ensure cookie is properly recognized
+        window.location.href = "/home";
+      }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setError(err.message || "Something went wrong. Please try again.");
+      setLoading(false);
     }
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-        <form className="w-full max-w-md" onSubmit={handleSubmit}>
-          <div className="flex justify-center mx-auto">
-            <img
-              className="w-auto h-7 sm:h-8"
-              src="https://merakiui.com/images/logo.svg"
-              alt=""
-            />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        {/* Header */}
+        <div className="text-center">
+          <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            BookIt
           </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Create your account
+          </h2>
+          <p className="text-gray-600">
+            Join thousands of users booking their perfect services
+          </p>
+        </div>
 
-          <div className="flex items-center justify-center mt-6">
-            <a
-              onClick={() => navigate("/login")}
-              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b dark:border-gray-400 dark:text-gray-300"
-            >
-              sign in
-            </a>
+        {/* Form */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
-            <a
-              onClick={() => navigate("/signup")}
-              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white"
-            >
-              sign up
-            </a>
-          </div>
-
-          <div className="relative flex items-center mt-8">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </span>
-
-            <input
-              type="text"
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Username"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <label
-            htmlFor="dropzone-file"
-            className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 text-gray-300 dark:text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                Full Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                minLength={8}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-            </svg>
+              <p className="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
+            </div>
 
-            <h2 className="mx-3 text-gray-400">Profile Photo</h2>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-            <input
-              id="dropzone-file"
-              type="file"
-              className="hidden"
-              onChange={handlePhotoChange}
-            />
-          </label>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                minLength={8}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <p className="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
+            </div>
 
-          <div className="relative flex items-center mt-6">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="terms"
+                  name="terms"
+                  type="checkbox"
+                  required
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-              </svg>
-            </span>
+              </div>
+              <div className="ml-3 text-sm">
+                <label htmlFor="terms" className="text-gray-700">
+                  I agree to the{" "}
+                  <button type="button" className="text-blue-600 hover:text-blue-500 font-medium">
+                    Terms of Service
+                  </button>{" "}
+                  and{" "}
+                  <button type="button" className="text-blue-600 hover:text-blue-500 font-medium">
+                    Privacy Policy
+                  </button>
+                </label>
+              </div>
+            </div>
 
-            <input
-              type="email"
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="relative flex items-center mt-4">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </span>
-
-            <input
-              type="password"
-              className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="relative flex items-center mt-4">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </span>
-
-            <input
-              type="password"
-              className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mt-6">
-            <button
+            <Button
               type="submit"
-              className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
+                       text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg
+                       disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign Up
-            </button>
+              {loading ? "Creating account..." : "Create account"}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-gray-600">
+              Already have an account?{" "}
+              <button
+                onClick={() => navigate("/login")}
+                className="text-blue-600 hover:text-blue-500 font-medium"
+              >
+                Sign in
+              </button>
+            </p>
           </div>
-          <div className="flex w-full">
-            <a className="mx-auto text-sm text-[#3b82f6] hover:underline cursor-pointer hover:underline pt-2 transition-all">
-              Already Have an account?
-            </a>
-          </div>
-        </form>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

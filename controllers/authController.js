@@ -35,10 +35,9 @@ export const signUp = catchAsync(async (req, res, next) => {
     password,
     confirmPassword,
   });
-  res.status(201).json({
-    status: "success",
-    data: doc,
-  });
+  
+  // Set JWT cookie after successful signup
+  createSendToken(doc, 201, req, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -61,9 +60,7 @@ export const login = catchAsync(async (req, res, next) => {
 
 export const logout = catchAsync(async (req, res) => {
   res.cookie("jwt", "LoggedOut", {
-    expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + 10 * 1000), // Expire in 10 seconds
     httpOnly: true,
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
@@ -89,9 +86,9 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 export const resetPassword = catchAsync(async (req, res, next) => {
   const user = await authService.findByToken(req.params.id);
 
-  if (!user) {
+  if (!user || user.passwordResetTokenExpiry < Date.now()) {
     return next(
-      new ErrorHandler("Token Invalid or Expired, try again later!", 500)
+      new ErrorHandler("Token Invalid or Expired, try again later!", 400)
     );
   }
 
@@ -100,15 +97,30 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   }
 
   await authService.resetPassword(user, req.body.password);
-  res.status(202).json({
-    status: "success",
-  });
+  createSendToken(user, 200, req, res);
 });
 
 export const protect = catchAsync(async (req, res, next) => {
-  if (req.cookies.jwt) {
-    const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  let token;
+  
+  // Check for token in cookies or Authorization header
+  if (req.cookies.jwt && req.cookies.jwt !== "LoggedOut") {
+    token = req.cookies.jwt;
+  } else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    return next(new ErrorHandler("Please log in to access this route.", 401));
+  }
+
+  try {
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
     const user = await authService.getOne(decode.id);
+
+    if (!user) {
+      return next(new ErrorHandler("User no longer exists.", 401));
+    }
 
     if (authService.isPasswordChanged(user, decode.iat)) {
       return next(
@@ -118,24 +130,29 @@ export const protect = catchAsync(async (req, res, next) => {
 
     req.user = user;
     next();
-  } else {
-    return next(new ErrorHandler("Please log in to access this route.", 401));
+  } catch (error) {
+    return next(new ErrorHandler("Invalid token. Please log in again.", 401));
   }
 });
 
 export const isLoggedIn = catchAsync(async (req, res, next) => {
-  if (req.cookies.jwt) {
-    const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-    const user = await authService.getOne(decode.id);
+  console.log("req", req.cookies);
+  if (req.cookies.jwt && req.cookies.jwt !== "LoggedOut") {
+    try {
+      const decode = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+      const user = await authService.getOne(decode.id);
 
-    if (!user || authService.isPasswordChanged(user, decode.iat)) {
-      return res.status(200).json({ status: "success NO" });
+      if (!user || authService.isPasswordChanged(user, decode.iat)) {
+        return res.status(200).json({ status: "success", loggedIn: false });
+      }
+
+      req.user = user;
+      return res.status(200).json({ status: "success", loggedIn: true, user });
+    } catch (error) {
+      return res.status(200).json({ status: "success", loggedIn: false });
     }
-
-    req.user = user;
-    return res.status(200).json({ status: "success", user });
   } else {
-    return res.status(200).json({ status: "success" });
+    return res.status(200).json({ status: "success", loggedIn: false });
   }
 });
 

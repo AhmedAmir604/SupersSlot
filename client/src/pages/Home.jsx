@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { CiLocationOn } from "react-icons/ci";
+import { MdStar } from "react-icons/md";
+import { BiDollar } from "react-icons/bi";
 import Categories from "@/_components/Categories";
 import ServiceCard from "@/_components/ServiceCard";
 import { getAllServices, searchHandler } from "@/handlers/servicesHandlers";
@@ -22,27 +24,14 @@ export default function Home() {
     navigate(`/services/${id}`);
   };
 
-  //This is kind of a method for auto search like for search suggestion and this method is working with debouncing
   const setSearch = (value) => {
     clearTimeout(window.debounceTimeout);
     window.debounceTimeout = setTimeout(() => {
       fetchForInput(value);
-    }, 2500);
+    }, 500);
   };
 
-  // const fetchResults = async (value) => {
-  //   try {
-  //     const res = await searchHandler(value);
-  //     if (res) {
-  //       setFilteredServices(res.data.services);
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   const fetchForInput = async (value) => {
-    // Reset the results if the input is empty
     if (value.trim() === "") {
       setResults([]);
       return;
@@ -90,20 +79,18 @@ export default function Home() {
     const filterAndSortServices = () => {
       let updatedServices = [...services];
 
-      // Apply Filter
       if (filter) {
         updatedServices = updatedServices.filter(
           (service) => service.serviceType === filter
         );
       }
 
-      // Apply Sort
       if (sort) {
         updatedServices.sort((a, b) => {
-          if (sort === "price") return a.price - b.price; // Ascending price
-          if (sort === "rating") return b.rating - a.rating; // Descending rating
-          if (sort === "name") return a.name.localeCompare(b.name); // Alphabetical
-          return 0; // Default
+          if (sort === "price") return a.price - b.price;
+          if (sort === "rating") return b.rating - a.rating;
+          if (sort === "name") return a.name.localeCompare(b.name);
+          return 0;
         });
       }
 
@@ -114,109 +101,165 @@ export default function Home() {
   }, [filter, sort, services]);
 
   return (
-    <section className="bg-white flex flex-col items-center md:px-4 py-6 px-4">
-      <div className="mb-10 w-full max-w-3xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-12 rounded-xl shadow-lg">
-        <h1 className="text-3xl font-semibold text-white mb-8 text-center">
-          Discover Services
-        </h1>
-        <label className="relative block">
-          <input
-            className="w-full py-2 rounded-full pl-10 pr-4 text-gray-700 placeholder:text-gray-500 focus:outline-none"
-            placeholder="Search Services..."
-            ref={searchBoxRef}
-            autoComplete="off"
-            id="search"
-            name="search"
-            type="text"
-            inputMode="search"
-            onFocus={() => setExpand(true)}
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-          />
-          <IoSearchOutline className="absolute text-2xl top-2 left-3 text-gray-500" />
-        </label>
-        <div className="text-xs flex items-center gap-1 text-white mt-2 justify-center">
-          <CiLocationOn className="text-lg" />
-          <span>New York City, United States</span>
-        </div>
-        {expand && results.length > 0 && (
-          <div className="absolute z-50">
-            <ul className="relative bg-white py-4 px-1 sm:px-4 border border-gray-200 shadow-lg rounded-xl flex flex-col gap-4">
-              {results.map((service, index) => {
-                return (
-                  <a
-                    key={index}
-                    href="#"
-                    target="#"
-                    className="border hover:border-gray-400 rounded-xl hover:shadow-xl transition-all duration-200 hover:-translate-y-1"
-                  >
-                    <li
-                      key={index}
-                      className="relative flex flex-col items-start gap-3 justify-center sm:px-4 py-4 border border-transparent hover:bg-gray-100 transition-all duration-200 rounded-xl"
-                    >
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-black opacity-0 hover:opacity-5 transition-all duration-200 rounded-xl"></div>
-
-                      {/* Title */}
-                      <h1 className="text-xs sm:text-sm md:text-base font-bold border py-1 px-4 sm:px-8 lg:px-20 rounded-full bg-gray-300 text-center">
-                        {service.name}
-                      </h1>
-
-                      {/* Description */}
-                      <h3 className="bg-blue-500 text-white px-4 sm:px-6 md:px-8 lg:px-10 py-1 rounded-full text-xs sm:text-sm md:text-base text-center">
-                        {service.description}{" "}
-                      </h3>
-
-                      {/* Contact Details */}
-                      <div className="flex flex-wrap gap-4">
-                        <h3 className="text-xs sm:text-sm font-semibold py-1 text-center rounded-full bg-gray-200 px-6 sm:px-8">
-                          ${service.phoneNumber}
-                        </h3>
-                        <h3 className="text-xs sm:text-sm font-semibold px-6 sm:px-8 py-1 text-center rounded-full bg-gray-200">
-                          {`${service.address?.city} ${service.address?.street} `}
-                        </h3>
-                      </div>
-
-                      {/* Additional Info */}
-                      <div className="flex flex-wrap gap-3 font-bold">
-                        <h3 className="text-[10px] sm:text-[12px] border-[3px] border-blue-500 px-2 sm:px-4 rounded-xl max-w-[4rem] sm:max-w-[6rem]">
-                          {service.price}
-                        </h3>
-                        <h3 className="text-[10px] sm:text-[12px] border-[3px] border-blue-500 px-2 sm:px-4 rounded-xl max-w-[4rem] sm:max-w-[6rem]">
-                          ⭐ {service.ratingsAverage}
-                        </h3>
-                        <h3 className="text-[10px] sm:text-[12px] border-[3px] border-blue-500 px-2 sm:px-4 rounded-xl max-w-[4rem] sm:max-w-[6rem]">
-                          {service.serviceType}
-                        </h3>
-                      </div>
-                    </li>
-                  </a>
-                );
-              })}
-            </ul>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Book Your Perfect
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
+                Service Experience
+              </span>
+            </h1>
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              Discover and book premium beauty, wellness, and lifestyle services near you
+            </p>
           </div>
-        )}
-      </div>
 
-      <Categories setFilter={setFilter} />
-
-      <div className="w-full max-w-3xl mt-6">
-        <Filter setSort={setSort} sort={sort} />
-      </div>
-
-      {/* Gradient Background for Card Section */}
-      <div className="flex flex-wrap gap-8 mt-8 justify-center w-full max-w-4xl bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 p-3 md:p-6 py-4 rounded-lg shadow-lg">
-        {filteredServices.length > 0
-          ? filteredServices.map((service, index) => (
-              <ServiceCard
-                clickHandler={clickHandler}
-                key={index}
-                service={service}
+          {/* Enhanced Search Section */}
+          <div className="max-w-2xl mx-auto relative z-30" ref={searchBoxRef}>
+            <div className="relative">
+              <input
+                className="w-full h-16 rounded-2xl pl-16 pr-6 text-lg text-gray-800 placeholder:text-gray-500 
+                         bg-white/95 backdrop-blur-sm border-2 border-white/20 
+                         focus:outline-none focus:ring-4 focus:ring-yellow-400/30 focus:border-yellow-400/50
+                         shadow-2xl transition-all duration-300"
+                placeholder="Search for salons, spas, barbers..."
+                autoComplete="off"
+                id="search"
+                name="search"
+                type="text"
+                inputMode="search"
+                onFocus={() => setExpand(true)}
+                onChange={(e) => setSearch(e.target.value)}
               />
-            ))
-          : "Sorry, no such service is available."}
-      </div>
-    </section>
+              <IoSearchOutline className="absolute text-3xl top-1/2 left-5 transform -translate-y-1/2 text-blue-600" />
+            </div>
+            
+            <div className="flex items-center justify-center gap-2 text-blue-100 mt-4">
+              <CiLocationOn className="text-xl" />
+              <span className="text-sm font-medium">New York City, United States</span>
+            </div>
+
+            {/* Enhanced Search Results */}
+            {expand && results.length > 0 && (
+              <div className="fixed inset-0 bg-black/30 z-40" onClick={() => setExpand(false)}>
+                <div 
+                  className="absolute top-[calc(16rem)] left-1/2 transform -translate-x-1/2 w-full max-w-2xl z-50"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden max-h-[60vh] overflow-y-auto">
+                    {results.slice(0, 8).map((service, index) => (
+                      <div
+                        key={index}
+                        onClick={() => clickHandler(service._id)}
+                        className="p-6 border-b border-gray-100 last:border-b-0 hover:bg-blue-50 
+                                cursor-pointer transition-all duration-200 group"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 text-lg mb-2 group-hover:text-blue-700">
+                              {service.name}
+                            </h3>
+                            <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                              {service.description}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-4 text-sm">
+                              <div className="flex items-center gap-1 text-yellow-600">
+                                <MdStar className="text-base" />
+                                <span className="font-medium">{service.ratingsAverage || 'N/A'}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-green-600">
+                                <BiDollar className="text-base" />
+                                <span className="font-medium">${service.price}</span>
+                              </div>
+                              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                                {service.serviceType}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {results.length > 8 && (
+                      <div className="p-4 text-center border-t border-gray-100">
+                        <button 
+                          onClick={() => {
+                            setQuery(searchBoxRef.current.querySelector('input').value);
+                            setExpand(false);
+                            window.scrollTo({
+                              top: document.querySelector('.services-grid').offsetTop - 100,
+                              behavior: 'smooth'
+                            });
+                          }}
+                          className="text-blue-600 font-medium hover:text-blue-800"
+                        >
+                          View all {results.length} results
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Categories Section */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Browse by Category
+          </h2>
+          <Categories setFilter={setFilter} />
+        </div>
+
+        {/* Filter Section */}
+        <div className="mb-8">
+          <Filter setSort={setSort} sort={sort} />
+        </div>
+
+        {/* Services Grid */}
+        <div className="mb-8 services-grid">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {filter ? `${filter} Services` : 'All Services'}
+            </h2>
+            <span className="text-gray-600 text-sm">
+              {filteredServices.length} services found
+            </span>
+          </div>
+          
+          {filteredServices.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredServices.map((service, index) => (
+                <ServiceCard
+                  clickHandler={clickHandler}
+                  key={service._id || index}
+                  service={service}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <IoSearchOutline className="text-4xl text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No services found
+              </h3>
+              <p className="text-gray-600 max-w-md mx-auto">
+                We couldn't find any services matching your criteria. Try adjusting your filters or search terms.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
 export const userSchema = new mongoose.Schema(
@@ -49,7 +49,7 @@ export const userSchema = new mongoose.Schema(
     },
     passwordChangeTime: Date,
     passwordResetToken: String,
-    passwordResetTokenExpiry: String,
+    passwordResetTokenExpiry: Date,
     active: {
       type: Boolean,
       default: true,
@@ -98,7 +98,7 @@ userSchema.methods.verifyPassword = async function (
 userSchema.methods.passwordChangeToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   //added 10 min expiry for reset Token
-  this.passwordResetTokenExpiry = new Date() + 600000;
+  this.passwordResetTokenExpiry = Date.now() + 600000;
   this.passwordResetToken = crypto
     .createHash("sha256")
     .update(resetToken)

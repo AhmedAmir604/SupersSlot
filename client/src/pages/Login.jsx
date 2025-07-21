@@ -1,134 +1,137 @@
 import { login } from "@/handlers/authHandler";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [button, setButton] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    setButton(true);
+    setLoading(true);
+    setError("");
+
     try {
       const res = await login({ email, password });
       if (res) {
-        navigate("/");
+        // Force immediate check of login status
+        window.location.href = "/home"; // Use window.location for a full page refresh
       }
     } catch (err) {
-      console.log(err);
-      throw new Error(err.message || "Something went wrong");
-    } finally {
-      setButton(false);
+      console.error(err);
+      setError(err.message || "Invalid email or password");
+      setLoading(false);
     }
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-        <form className="w-full max-w-md" onSubmit={handleSubmit}>
-          <div className="flex justify-center mx-auto">
-            <img
-              className="w-auto h-7 sm:h-8"
-              src="https://merakiui.com/images/logo.svg"
-              alt="Logo"
-            />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        {/* Header */}
+        <div className="text-center">
+          <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            BookIt
           </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Welcome back
+          </h2>
+          <p className="text-gray-600">
+            Sign in to your account to continue
+          </p>
+        </div>
 
-          <div className="flex items-center justify-center mt-6">
-            <a
-              onClick={() => navigate("/login")}
-              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white"
-            >
-              Sign In
-            </a>
+        {/* Form */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
-            <a
-              onClick={() => navigate("/signup")}
-              className="cursor-pointer w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b dark:border-gray-400 dark:text-gray-300"
-            >
-              Sign Up
-            </a>
-          </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-          <div className="relative flex items-center mt-8">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-              </svg>
-            </span>
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                  Remember me
+                </label>
+              </div>
 
-            <input
-              type="email"
-              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="relative flex items-center mt-4">
-            <span className="absolute">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
+              <button
+                type="button"
+                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </span>
+                Forgot password?
+              </button>
+            </div>
 
-            <input
-              type="password"
-              className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mt-6">
-            <button
+            <Button
               type="submit"
-              disabled={button}
-              className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:bg-blue-400`}
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
+                       text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg
+                       disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {button ? "Loading..." : "Sign In"}
-            </button>
-          </div>
+              {loading ? "Signing in..." : "Sign in"}
+            </Button>
+          </form>
 
           <div className="mt-6 text-center">
-            <a
-              href="#"
-              className="text-sm text-blue-500 hover:underline dark:text-blue-400"
-            >
-              Forgot your password?
-            </a>
+            <p className="text-gray-600">
+              Don't have an account?{" "}
+              <button
+                onClick={() => navigate("/signup")}
+                className="text-blue-600 hover:text-blue-500 font-medium"
+              >
+                Sign up
+              </button>
+            </p>
           </div>
-        </form>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

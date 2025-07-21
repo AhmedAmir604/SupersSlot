@@ -5,72 +5,83 @@ import { serviceCategories } from "@/lib/data";
 const Categories = ({ setFilter }) => {
   const categoryRef = useRef(null);
 
-  // Scroll to the right
   const scrollRight = () => {
     if (categoryRef.current) {
-      const scrollAmount = window.innerWidth < 640 ? 200 : 800; // Adjust scroll amount based on screen size
+      const scrollAmount = window.innerWidth < 640 ? 200 : 300;
       categoryRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
-  // Scroll to the left
   const scrollLeft = () => {
     if (categoryRef.current) {
-      const scrollAmount = window.innerWidth < 640 ? 200 : 800; // Adjust scroll amount based on screen size
+      const scrollAmount = window.innerWidth < 640 ? 200 : 300;
       categoryRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="max-w-[88vw]">
-      <div className="flex flex-col md:flex-row justify-between items-end">
-        <h1 className="text-2xl text-white mx-auto">Service Categories</h1>
-        <div className="flex gap-4 items-center mt-4 md:mt-0">
-          <a
+    <div className="w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <div className="text-center sm:text-left mb-4 sm:mb-0">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Popular Categories</h2>
+          <p className="text-gray-600">Find the perfect service for your needs</p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <button
             onClick={() => setFilter(undefined)}
-            className="text-[#9d9a9a] text-md hover:text-lg cursor-pointer hover:text-black transition-all duration-200 hover:font-bold underline"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm px-4 py-2 
+                     hover:bg-blue-50 rounded-lg transition-all duration-200"
           >
-            See all
-          </a>
-          <div>
+            View All
+          </button>
+          <div className="flex gap-2">
             <button
               onClick={scrollLeft}
-              className="bg-[#302b2b] p-2 rounded-md mr-2 hover:bg-[#514a4a]"
+              className="p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-300 
+                       hover:bg-blue-50 transition-all duration-200 shadow-sm"
             >
-              <FaArrowLeft className="text-gray-100 text-sm" />
+              <FaArrowLeft className="text-gray-600 text-sm" />
             </button>
             <button
               onClick={scrollRight}
-              className="bg-[#302b2b] p-2 rounded-md hover:bg-[#514a4a]"
+              className="p-2 rounded-lg bg-white border border-gray-200 hover:border-blue-300 
+                       hover:bg-blue-50 transition-all duration-200 shadow-sm"
             >
-              <FaArrowRight className="text-gray-100 text-sm" />
+              <FaArrowRight className="text-gray-600 text-sm" />
             </button>
           </div>
         </div>
       </div>
+
       <div
         ref={categoryRef}
-        className="flex overflow-x-hidden mt-4 gap-5 md:gap-8"
-        // style={{
-        //   scrollbarWidth: "thin",
-        //   scrollbarColor: "#514a4a transparent",
-        // }} // Custom scrollbar for better UX
+        className="flex overflow-x-auto scrollbar-hide gap-4 pb-4"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {serviceCategories.map((item, index) => (
-          <a
-            onClick={() => setFilter(item.name)}
-            href="#"
+          <button
             key={index}
-            className="flex flex-col items-center p-1"
+            onClick={() => setFilter(item.name)}
+            className="flex-shrink-0 flex flex-col items-center p-4 bg-white rounded-2xl 
+                     border border-gray-100 hover:border-blue-200 hover:shadow-lg 
+                     transition-all duration-300 hover:-translate-y-1 group min-w-[120px]"
           >
-            <img
-              loading="lazy"
-              src={item.image}
-              alt={item.name}
-              className="max-w-20 h-20 object-cover rounded-full border border-transparent hover:border-black transition-all duration-100 hover:scale-105"
-            />
-            <p className="text-white text-[12px] md:text-[13px]">{item.name}</p>
-          </a>
+            <div className="w-16 h-16 mb-3 rounded-full overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 
+                          flex items-center justify-center group-hover:from-blue-100 group-hover:to-indigo-100 
+                          transition-all duration-300">
+              <img
+                loading="lazy"
+                src={item.image}
+                alt={item.name}
+                className="w-12 h-12 object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 
+                           transition-colors duration-200 text-center leading-tight">
+              {item.name}
+            </span>
+          </button>
         ))}
       </div>
     </div>
